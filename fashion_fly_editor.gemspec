@@ -7,8 +7,8 @@ require "fashion_fly_editor/version"
 Gem::Specification.new do |s|
   s.name        = "fashion_fly_editor"
   s.version     = FashionFlyEditor::VERSION
-  s.authors     = ["Ferhat Ziba"]
-  s.email       = ["ferhat@hansehype.de"]
+  s.authors     = ["Bernd Suenkel", "Ferhat Ziba"]
+  s.email       = ["bernd@bnerd.de", "ferhat@hansehype.de"]
   s.homepage    = "fashionfly.de"
   s.summary     = "An editor plugin."
   s.description = "An editor plugin"
@@ -17,6 +17,10 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 4.0.9"
+  s.add_dependency "haml"
+  s.add_dependency "coffee-rails", "~> 4.0.0"
+  s.add_dependency "sass-rails", "~> 4.0.0"
+  s.add_dependency "jquery-ui-rails", '~> 4.0.0'
 
   s.add_development_dependency "sqlite3"
 end

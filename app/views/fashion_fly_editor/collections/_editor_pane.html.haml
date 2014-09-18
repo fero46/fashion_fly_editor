@@ -1,0 +1,12 @@
+.editor__pane{ 'ng-controller' => 'SidebarsController'}
+  %h4.clear Categories
+  %ul.categories
+    %li.category{ 'ng-repeat' => 'category in categories' }
+      %img{ src: "{{category.image_url}}", class: 'category__thumbnail', 'ng-click' => 'selectCategory(category.id)' }
+      .category__name {{ category.name }}
+
+  %h4.clear Products
+  %ul.products
+    %li.product{ 'draggable' => true, 'ng-repeat' => 'product in products', data: { item: "{{product}}" } }
+      %img{ src: "{{product.image_url}}", class: 'product__thumbnail', 'ng-click' => 'selectProduct(product.id)' }
+      .product__name {{ product.name }}

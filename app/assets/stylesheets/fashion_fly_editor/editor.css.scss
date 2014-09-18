@@ -1,0 +1,17 @@
+.editor{
+  position: relative;
+}
+
+.editor__canvas{
+  width: 60%;
+  float: left;
+  border: 1px solid #dbdbdb;
+  min-height: 800px;
+  overflow: hidden;
+}
+
+.editor__pane{
+  width: 30%;
+  float: right;
+  border: 1px solid #dbdbdb;
+}
