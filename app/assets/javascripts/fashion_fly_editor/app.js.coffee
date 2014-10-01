@@ -75,6 +75,7 @@ app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
       hoverClass: "drop-hover",
       drop: (e, ui) ->
         # check if newly added item
+        console.log ui
         if $(ui.draggable[0]).data('item')?
           item       = $(ui.draggable[0]).data('item')
           position_x = ui.offset.left - $(this).offset().left
@@ -90,11 +91,11 @@ app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
               item['position_x'] = ui.position.left
               item['position_y'] = ui.position.top
               items.update key, item
-              console.log item
 
           el.rotatable
             stop: (e, ui) ->
-              item['rotation'] = ui.angle.stop
+              deg = ui.angle.stop * (180/3.14159265) # convert radian to degrees
+              item['rotation'] = deg
               items.update key, item
 
           el.resizable
