@@ -18,6 +18,23 @@ class SidebarsController
 
 app = angular.module('demo', ['ngResource'])
 
+app.factory 'Item', ($resource) ->
+  class Item
+    constructor: () ->
+      @items = []
+      @service = $resource('/combine/api/v1/collection_items/:id',
+        { id: '@id'})
+
+    add: (key, item) ->
+      @items[key] = item
+
+    update: (key, item) ->
+      @items[key] = item
+
+    all: ->
+      #@service.query()
+      @items
+
 app.factory 'Search', ($resource) ->
   class Search
     constructor: () ->
@@ -43,15 +60,16 @@ app.factory 'Category', ($resource) ->
 
 app.controller("SidebarsController", ["$scope", "Search", "Category", SidebarsController])
 
+### DIRECTIVES ###
+
 app.directive 'draggable', ->
   restrict:'A'
   link: (scope, element, attrs) ->
     element.draggable
       revert: true
-      start: ->
-        console.log "bar"
 
-app.directive 'droppable', ($compile) ->
+app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
+  items = new Item()
   link: (scope, element, attrs) ->
     element.droppable
       hoverClass: "drop-hover",
@@ -62,13 +80,39 @@ app.directive 'droppable', ($compile) ->
           position_x = ui.offset.left - $(this).offset().left
           position_y = ui.offset.top - $(this).offset().top
 
+          # random key for element
+          key = Math.random().toString(36).replace(/[^a-z]+/g, '')
+
           # create item on canvas
-          el = angular.element "<div style='display: inline-block; top:#{position_y}px;left:#{position_x}px'><img src='#{item.image_url}' style='width:100%;height:100%' /></div>"
-          el.draggable()
-          el.rotatable()
+          el = angular.element "<div id='item_#{item['key']}' style='display: inline-block; top:#{position_y}px;left:#{position_x}px'><img src='#{item.image_url}' style='width:100%;height:100%' /></div>"
+          el.draggable
+            stop: (e, ui) ->
+              item['position_x'] = ui.position.left
+              item['position_y'] = ui.position.top
+              items.update key, item
+              console.log item
+
+          el.rotatable
+            stop: (e, ui) ->
+              item['rotation'] = ui.angle.stop
+              items.update key, item
+
           el.resizable
             aspectRatio: true
+            stop: (e, ui) ->
+              item['width']  = ui.size.width
+              item['height'] = ui.size.height
+              items.update key, item
+
           element.append(el)
+
+          # set initial values for item and add to collection
+          item['position_x'] = position_x
+          item['position_y'] = position_y
+          item['rotation']   = 0
+          item['width']      = el.width()
+          item['height']      = el.height()
+          items.add key, item
 
         else
           console.log "move me around"
@@ -77,6 +121,9 @@ app.directive 'droppable', ($compile) ->
 
         # debug info
         console.log position_x, position_y
+]
+
+### CONFIG ###
 
 app.config ($httpProvider) ->
   authToken = $("meta[name=\"csrf-token\"]").attr("content")
