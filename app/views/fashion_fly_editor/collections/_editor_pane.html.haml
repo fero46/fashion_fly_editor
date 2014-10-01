@@ -5,7 +5,18 @@
       %img{ src: "{{category.image_url}}", class: 'category__thumbnail', 'ng-click' => 'selectCategory(category.id)' }
       .category__name {{ category.name }}
 
-  %h4.clear Products
+  .filters.clear
+    %h4 Filter
+    %select{ ng: { model: 'filter_subcategory', options: 'subcategory for subcategory in subcategories', change: 'updateItems()' } }
+      %option{ value: ''} -- Unterkategorie --
+    %select{ ng: { model: 'filter_brands', options: 'brand for brand in brands', change: 'updateItems()' } }
+      %option{ value: ''} -- Marke --
+    %select{ ng: { model: 'filter_color', options: 'color for color in colors', change: 'updateItems()' } }
+      %option{ value: ''} -- Farbe --
+    %select{ ng: { model: 'filter_priceRange', options: 'price for price in priceRange', change: 'updateItems()' } }
+      %option{ value: ''} -- Preis --
+
+  %h4.clear Items
   %ul.products
     %li.product{ 'draggable' => true, 'ng-repeat' => 'product in products', data: { item: "{{product}}" } }
       %img{ src: "{{product.image_url}}", class: 'product__thumbnail', 'ng-click' => 'selectProduct(product.id)' }

@@ -10,11 +10,24 @@ class SidebarsController
     search = new Search()
     $scope.products = search.all()
 
+    # dummy filters, remove me
+    $scope.subcategories = ["Sub 1", "Sub 2"]
+    $scope.brands        = ["Nike", "Puma"]
+    $scope.colors        = ["#000", "#ff0000"]
+    $scope.priceRange    = ["0-50", "50-150", "150-250"]
+
     $scope.selectCategory = (id) ->
+      console.log $scope.filter_color
+      console.log $scope.filter_subcategory
+      console.log $scope.filter_priceRange
       console.log "selecting category #{id}"
 
     $scope.selectProduct = (id) ->
       console.log "selecting product #{id}"
+
+    $scope.updateItems = ->
+      # use search service
+      console.log "updating items based on filter"
 
 app = angular.module('demo', ['ngResource'])
 
@@ -89,7 +102,7 @@ app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
           key = Math.random().toString(36).replace(/[^a-z]+/g, '')
 
           # create item on canvas
-          el = angular.element "<div id='item_#{key}' style='display: inline-block; top:#{position_y}px;left:#{position_x}px'><div class='item__remove'>x</div><img src='#{item.image_url}' style='width:100%;height:100%' /></div>"
+          el = angular.element "<div id='item_#{key}' style='display: inline-block; position: absolute; top:#{position_y}px;left:#{position_x}px'><div class='item__remove'>x</div><img src='#{item.image_url}' style='width:100%;height:100%' /></div>"
           el.draggable
             stop: (e, ui) ->
               item['position_x'] = ui.position.left
