@@ -62,11 +62,13 @@ app.directive 'droppable', ($compile) ->
           position_x = ui.offset.left - $(this).offset().left
           position_y = ui.offset.top - $(this).offset().top
 
-          # create item
-          img = angular.element "<img src='#{item.image_url}' style='position:absolute; top: #{position_y}px; left: #{position_x}px' />"
-          img.draggable
-            containment: '.editor__canvas'
-          element.append(img)
+          # create item on canvas, wrap in div, make div draggable, add to canvas
+          # select element and make img resizable
+          el = angular.element "<div style='display: inline-block;'><img src='#{item.image_url}' style='position:absolute; top: #{position_y}px; left: #{position_x}px' /></div>"
+          el.draggable()
+          element.append(el)
+          el.find('img').resizable
+            aspectRatio: true
 
         else
           console.log "move me around"
