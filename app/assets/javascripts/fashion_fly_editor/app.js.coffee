@@ -21,7 +21,7 @@ app = angular.module('demo', ['ngResource'])
 app.factory 'Item', ($resource) ->
   class Item
     constructor: () ->
-      @items = []
+      @items = {}
       @service = $resource('/combine/api/v1/collection_items/:id',
         { id: '@id'})
 
@@ -30,6 +30,9 @@ app.factory 'Item', ($resource) ->
 
     update: (key, item) ->
       @items[key] = item
+
+    delete: (key) ->
+      delete @items[key]
 
     all: ->
       #@service.query()
@@ -74,8 +77,9 @@ app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
     element.droppable
       hoverClass: "drop-hover",
       drop: (e, ui) ->
+        self = @
+
         # check if newly added item
-        console.log ui
         if $(ui.draggable[0]).data('item')?
           item       = $(ui.draggable[0]).data('item')
           position_x = ui.offset.left - $(this).offset().left
@@ -85,7 +89,7 @@ app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
           key = Math.random().toString(36).replace(/[^a-z]+/g, '')
 
           # create item on canvas
-          el = angular.element "<div id='item_#{item['key']}' style='display: inline-block; top:#{position_y}px;left:#{position_x}px'><img src='#{item.image_url}' style='width:100%;height:100%' /></div>"
+          el = angular.element "<div id='item_#{key}' style='display: inline-block; top:#{position_y}px;left:#{position_x}px'><div class='item__remove'>x</div><img src='#{item.image_url}' style='width:100%;height:100%' /></div>"
           el.draggable
             stop: (e, ui) ->
               item['position_x'] = ui.position.left
@@ -115,12 +119,20 @@ app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
           item['height']      = el.height()
           items.add key, item
 
+          # add remove item
+          element.find('.item__remove').on 'click', (e) =>
+            console.log 'remove item'
+            $el = $(e.currentTarget).parent()
+            items.delete $el.attr('id').split('_')[1]
+            $el.remove()
+
         else
           console.log "move me around"
           position_x = ui.offset.left - $(this).offset().left
           position_y = ui.offset.top - $(this).offset().top
 
         # debug info
+        console.log items.all()
         console.log position_x, position_y
 ]
 

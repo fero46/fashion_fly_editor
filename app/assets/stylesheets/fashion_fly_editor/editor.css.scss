@@ -15,3 +15,10 @@
   float: right;
   border: 1px solid #dbdbdb;
 }
+
+.item__remove{
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
