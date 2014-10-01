@@ -11,16 +11,24 @@ class SidebarsController
     $scope.products = search.all()
 
     # dummy filters, remove me
+    $scope.category_id   = 1
     $scope.subcategories = ["Sub 1", "Sub 2"]
     $scope.brands        = ["Nike", "Puma"]
     $scope.colors        = ["#000", "#ff0000"]
-    $scope.priceRange    = ["0-50", "50-150", "150-250"]
+    $scope.priceRanges    = ["0-50", "50-150", "150-250"]
+
+    $scope.resetFilters = ->
+      console.log "resetting filters"
+      $scope.filter_subcategory = {}
+      $scope.filter_brand       = {}
+      $scope.filter_color       = {}
+      $scope.filter_priceRange  = {}
 
     $scope.selectCategory = (id) ->
-      console.log $scope.filter_color
-      console.log $scope.filter_subcategory
-      console.log $scope.filter_priceRange
       console.log "selecting category #{id}"
+      $scope.category_id = id
+      $scope.updateItems()
+      $scope.resetFilters() # maybe move into cb of updateItems
 
     $scope.selectProduct = (id) ->
       console.log "selecting product #{id}"
@@ -129,12 +137,11 @@ app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
           item['position_y'] = position_y
           item['rotation']   = 0
           item['width']      = el.width()
-          item['height']      = el.height()
+          item['height']     = el.height()
           items.add key, item
 
           # add remove item
           element.find('.item__remove').on 'click', (e) =>
-            console.log 'remove item'
             $el = $(e.currentTarget).parent()
             items.delete $el.attr('id').split('_')[1]
             $el.remove()
