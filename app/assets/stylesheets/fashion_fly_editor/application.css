@@ -1,6 +1,7 @@
 /*
  *= require_self
  *= require jquery.ui.all
+ *= require fashion_fly_editor/vendor/jquery.ui.rotatable
  *= require fashion_fly_editor/common
  *= require fashion_fly_editor/editor
  *= require_tree .
