@@ -1,4 +1,8 @@
 .editor.clear
-  .editor__canvas{ 'droppable' => true }
+  .editor__wrapper
+    .editor__canvas{ 'droppable' => true }
 
   = render 'editor_pane'
+
+  .editor__actions.clear{ ng: {controller: 'ActionsController'} }
+    = link_to "Kollektion speichern", '#', class: 'btn btn-save', 'ng-click' => 'saveCollection()'

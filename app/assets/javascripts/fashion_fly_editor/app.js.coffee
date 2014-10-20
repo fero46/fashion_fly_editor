@@ -1,5 +1,14 @@
 'use strict';
 
+class ActionsController
+  constructor: ($scope, Item) ->
+    self = @
+
+    $scope.saveCollection = ->
+      console.log "saveCollection"
+      Item.create()
+
+
 class SidebarsController
   constructor: ($scope, Search, Category) ->
     self = @
@@ -39,25 +48,56 @@ class SidebarsController
 
 app = angular.module('demo', ['ngResource'])
 
-app.factory 'Item', ($resource) ->
-  class Item
-    constructor: () ->
-      @items = {}
-      @service = $resource('/combine/api/v1/collection_items/:id',
-        { id: '@id'})
+app.factory 'Item', ($http) ->
+  items: {}
 
-    add: (key, item) ->
-      @items[key] = item
+  #helper
+  itemsAsArray: ->
+    self = @
+    allItems = []
+    $.each @items, (key, value) ->
+      # prepare Data
+      self.items[key]['image'] = self.items[key]['image_url']
+      self.items[key]['item_id'] = self.items[key]['id']
 
-    update: (key, item) ->
-      @items[key] = item
+      delete self.items[key]['name']
+      delete self.items[key]['id']
+      delete self.items[key]['image_url']
 
-    delete: (key) ->
-      delete @items[key]
+      allItems.push self.items[key]
+    allItems
 
-    all: ->
-      #@service.query()
-      @items
+  create: ->
+    console.log "create collection"
+
+    url = window.location.origin + window.location.pathname + '/collections'
+    data = {
+      collection: {
+        collection_items_attributes: @itemsAsArray()
+      }
+    }
+
+    $http(
+      method: 'POST'
+      url: url
+      data: data
+      dataType: 'JSON'
+    ).success (data, status, headers, config) ->
+      console.log "success"
+    .error (data, status, headers, config) ->
+      console.log "error"
+
+  add: (key, item) ->
+    @update key, item
+
+  update: (key, item) ->
+    @items[key] = item
+
+  delete: (key) ->
+    delete @items[key]
+
+  all: ->
+    @items
 
 app.factory 'Search', ($resource) ->
   class Search
@@ -83,6 +123,7 @@ app.factory 'Category', ($resource) ->
       @service.query()
 
 app.controller("SidebarsController", ["$scope", "Search", "Category", SidebarsController])
+app.controller("ActionsController", ["$scope", "Item", ActionsController])
 
 ### DIRECTIVES ###
 
@@ -93,7 +134,7 @@ app.directive 'draggable', ->
       revert: true
 
 app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
-  items = new Item()
+  items = Item
   link: (scope, element, attrs) ->
     element.droppable
       hoverClass: "drop-hover",

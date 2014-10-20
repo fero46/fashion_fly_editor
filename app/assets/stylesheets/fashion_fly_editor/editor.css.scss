@@ -2,18 +2,28 @@
   position: relative;
 }
 
-.editor__canvas{
-  width: 60%;
+.editor__wrapper{
+  width: 70%;
   float: left;
   border: 1px solid #dbdbdb;
-  min-height: 800px;
   overflow: hidden;
+  padding: 2em;
+}
+
+.editor__canvas{
+  /*position: relative;*/
+  margin: auto;
+  width: 545px;
+  height: 430px;
+  border: 1px solid #dbdbdb;
 }
 
 .editor__pane{
-  width: 30%;
+  background-color: #fff;
+  width: 24%;
   float: right;
   border: 1px solid #dbdbdb;
+  z-index: 9999;
 }
 
 .item__remove{

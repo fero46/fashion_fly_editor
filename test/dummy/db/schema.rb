@@ -11,15 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140918085306) do
+ActiveRecord::Schema.define(version: 20141009153927) do
 
   create_table "fashion_fly_editor_collection_items", force: true do |t|
     t.integer  "collection_id"
     t.integer  "item_id"
-    t.integer  "x_coordinate"
-    t.integer  "y_coordinate"
-    t.float    "scale_x"
-    t.float    "scale_y"
+    t.integer  "position_x"
+    t.integer  "position_y"
+    t.float    "width"
+    t.float    "height"
     t.float    "rotation"
     t.datetime "created_at"
     t.datetime "updated_at"
