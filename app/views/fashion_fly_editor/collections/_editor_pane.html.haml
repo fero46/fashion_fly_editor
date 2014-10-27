@@ -1,13 +1,13 @@
 .editor__pane{ 'ng-controller' => 'SidebarsController'}
   %h4.clear Categories
   %ul.categories
-    %li.category{ 'ng-repeat' => 'category in categories' }
-      %img{ src: "{{category.image_url}}", class: 'category__thumbnail', 'ng-click' => 'selectCategory(category.id)' }
-      .category__name {{ category.name }}
+    %li.category{ 'ng-repeat' => 'category in categories.categories' }
+      %img{ src: "{{category.image}}", class: 'category__thumbnail', 'ng-click' => 'selectCategory(category.id)' }
+      .category__name{'ng-click' => 'selectCategory(category.id)' } {{ category.name }}
 
   .filters.clear
     %h4 Filter
-    %select{ ng: { model: 'filter_subcategory', options: 'subcategory for subcategory in subcategories', change: 'updateItems()' } }
+    %select{ ng: { model: 'filter_subcategory', options: 'subcategory.name for subcategory in subcategories.categories', change: 'updateItems()' } }
       %option{ value: ''} -- Unterkategorie --
     %select{ ng: { model: 'filter_brand', options: 'brand for brand in brands', change: 'updateItems()' } }
       %option{ value: ''} -- Marke --

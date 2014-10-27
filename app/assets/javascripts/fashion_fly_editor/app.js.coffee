@@ -1,5 +1,16 @@
 'use strict';
 
+
+class HeadersController
+  constructor: ($scope, $rootScope, Category) ->
+    self = @
+
+    category = new Category()
+    $scope.categories = category.all()
+
+    $scope.updateCategories = (id) ->
+      $rootScope.$broadcast("update_category", id: id)
+
 class ActionsController
   constructor: ($scope, Item) ->
     self = @
@@ -13,8 +24,15 @@ class SidebarsController
   constructor: ($scope, Search, Category) ->
     self = @
 
+    $scope.$on "update_category", (event, args) ->
+      console.log "event: foo"
+      $scope.selectCategory(args.id)
+
     categories = new Category()
-    $scope.categories = categories.all()
+    $scope.categories = categories.all()[0]
+
+    sub_categories = new Category()
+    $scope.sub_categories = {}
 
     search = new Search()
     $scope.products = search.all()
@@ -45,6 +63,8 @@ class SidebarsController
     $scope.updateItems = ->
       # use search service
       console.log "updating items based on filter"
+      $scope.categories     = categories.get($scope.category_id)
+      $scope.subcategories  = categories.get($scope.category_id)
 
 app = angular.module('demo', ['ngResource'])
 
@@ -68,8 +88,6 @@ app.factory 'Item', ($http) ->
     allItems
 
   create: ->
-    console.log "create collection"
-
     url = window.location.origin + window.location.pathname + '/collections'
     data = {
       collection: {
@@ -111,19 +129,26 @@ app.factory 'Search', ($resource) ->
 app.factory 'Category', ($resource) ->
   class Category
     constructor: (categoryId) ->
-      @service = $resource('/combine/api/v1/categories/:id',
-        { id: '@id'})
+      #@service = $resource('/combine/api/v1/categories/:id',
+      @service = $resource('http://localhost:3000/de/api/categories/:id'
+        { id: '@id' },
+        { query: { method: "GET", isArray: false,  } })
 
     create: (attrs) ->
       new @service(category: attrs).$save (category) ->
         attrs.id = category.id
       attrs
 
+    get: (id) ->
+      console.log id
+      @service.get(id: id)
+
     all: ->
       @service.query()
 
 app.controller("SidebarsController", ["$scope", "Search", "Category", SidebarsController])
 app.controller("ActionsController", ["$scope", "Item", ActionsController])
+app.controller("HeadersController", ["$scope", "$rootScope", "Category", HeadersController])
 
 ### DIRECTIVES ###
 
@@ -200,5 +225,6 @@ app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
 ### CONFIG ###
 
 app.config ($httpProvider) ->
-  authToken = $("meta[name=\"csrf-token\"]").attr("content")
-  $httpProvider.defaults.headers.common["X-CSRF-TOKEN"] = authToken
+  #authToken = $("meta[name=\"csrf-token\"]").attr("content")
+  #$httpProvider.defaults.headers.common["X-CSRF-TOKEN"] = authToken
+  $httpProvider.defaults.headers.common["Accept"] = 'application/json'
