@@ -1,5 +1,7 @@
 .editor{
-  position: relative;
+}
+
+.editor__canvas{
 }
 
 .editor__wrapper{
@@ -8,13 +10,14 @@
   border: 1px solid #dbdbdb;
   overflow: hidden;
   padding: 2em;
+  position: relative;
 }
 
 .editor__canvas{
   /*position: relative;*/
   margin: auto;
-  width: 545px;
-  height: 430px;
+  width: 566px;
+  height: 442px;
   border: 1px solid #dbdbdb;
 }
 

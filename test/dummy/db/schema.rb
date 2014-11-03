@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141009153927) do
+ActiveRecord::Schema.define(version: 20141103111820) do
 
   create_table "fashion_fly_editor_collection_items", force: true do |t|
     t.integer  "collection_id"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20141009153927) do
     t.float    "rotation"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "image"
   end
 
   create_table "fashion_fly_editor_collections", force: true do |t|

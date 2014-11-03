@@ -12,3 +12,6 @@ gemspec
 
 # To use debugger
 # gem 'debugger'
+
+# carrierwave not loaded, if put inside gemspec
+gem 'carrierwave', '0.9.0'

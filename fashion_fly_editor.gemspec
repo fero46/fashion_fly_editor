@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency "coffee-rails", "~> 4.0.0"
   s.add_dependency "sass-rails", "~> 4.0.0"
   s.add_dependency "jquery-ui-rails", '~> 4.0.0'
+  s.add_dependency 'carrierwave', '0.9.0'
   s.add_dependency 'rmagick', '2.13.2'
 
   s.add_development_dependency "sqlite3"

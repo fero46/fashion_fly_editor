@@ -77,7 +77,8 @@ app.factory 'Item', ($http) ->
     allItems = []
     $.each @items, (key, value) ->
       # prepare Data
-      self.items[key]['image'] = self.items[key]['image_url']
+      console.log self.items[key]['image_url']
+      self.items[key]['remote_image_url'] = "http://bnerd.de/bnerd_media.png" #self.items[key]['image_url']
       self.items[key]['item_id'] = self.items[key]['id']
 
       delete self.items[key]['name']
@@ -169,8 +170,8 @@ app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
         # check if newly added item
         if $(ui.draggable[0]).data('item')?
           item       = $(ui.draggable[0]).data('item')
-          position_x = ui.offset.left - $(this).offset().left
-          position_y = ui.offset.top - $(this).offset().top
+          position_x = ui.offset.left
+          position_y = ui.offset.top
 
           # random key for element
           key = Math.random().toString(36).replace(/[^a-z]+/g, '')
@@ -179,14 +180,8 @@ app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
           el = angular.element "<div id='item_#{key}' style='display: inline-block; position: absolute; top:#{position_y}px;left:#{position_x}px'><div class='item__remove'>x</div><img src='#{item.image_url}' style='width:100%;height:100%' /></div>"
           el.draggable
             stop: (e, ui) ->
-              item['position_x'] = ui.position.left
-              item['position_y'] = ui.position.top
-              items.update key, item
-
-          el.rotatable
-            stop: (e, ui) ->
-              deg = ui.angle.stop * (180/3.14159265) # convert radian to degrees
-              item['rotation'] = deg
+              item['position_x'] = ui.position.left - $('.editor__canvas').offset().left
+              item['position_y'] = ui.position.top - $('.editor__canvas').offset().top
               items.update key, item
 
           el.resizable
@@ -196,11 +191,17 @@ app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
               item['height'] = ui.size.height
               items.update key, item
 
+          el.rotatable
+            stop: (e, ui) ->
+              deg = ui.angle.stop * (180/3.14159265) # convert radian to degrees
+              item['rotation'] = deg
+              items.update key, item
+
           element.append(el)
 
           # set initial values for item and add to collection
-          item['position_x'] = position_x
-          item['position_y'] = position_y
+          item['position_x'] = position_x - $('.editor__canvas').offset().left
+          item['position_y'] = position_y - $('.editor__canvas').offset().top
           item['rotation']   = 0
           item['width']      = el.width()
           item['height']     = el.height()
@@ -219,7 +220,6 @@ app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
 
         # debug info
         console.log items.all()
-        console.log position_x, position_y
 ]
 
 ### CONFIG ###

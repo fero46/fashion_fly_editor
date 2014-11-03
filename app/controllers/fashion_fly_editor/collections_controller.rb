@@ -9,6 +9,8 @@ module FashionFlyEditor
     def create
       @collection = Collection.new collection_params
       @collection.save
+
+      render json: {}.to_json, status: 201
     end
 
     protected
@@ -18,12 +20,13 @@ module FashionFlyEditor
         :category_id,
         collection_items_attributes: [
           :item_id,
-          :image,
+          :remote_image_url,
           :position_x,
           :position_y,
           :rotation,
           :width,
-          :height
+          :height,
+          :name
         ]
       )
     end
