@@ -5,25 +5,26 @@ module FashionFlyEditor
       class CategoriesController < ApplicationController
 
         def index
-          categories = [
+          categories = {}
+          categories[:categories] = [
             {
               id: 1,
-              name: 'foo',
+              name: 'inga',
               image_url: '/categories/accessoires.png'
             },
             {
               id: 2,
-              name: 'bar',
+              name: 'schatz',
               image_url: '/categories/bademode.png'
             },
             {
               id: 3,
-              name: 'foobar',
+              name: 'freundin',
               image_url: '/categories/beauty.png'
             },
             {
               id: 4,
-              name: 'barfoo',
+              name: 'kuesse',
               image_url: '/categories/hosen.png'
             }
           ]

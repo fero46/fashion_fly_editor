@@ -3,6 +3,7 @@
 
 class HeadersController
   constructor: ($scope, $rootScope, Category) ->
+    console.log $scope, $rootScope
     self = @
 
     category = new Category()
@@ -29,17 +30,18 @@ class SidebarsController
       $scope.selectCategory(args.id)
 
     categories = new Category()
-    $scope.categories = categories.all()[0]
+    $scope.categories = categories.all()
 
-    sub_categories = new Category()
-    $scope.sub_categories = {}
+    subcategories = new Category()
+    $scope.subcategories = {}
+
+    $scope.selectCategory($scope.categories.categories.first.id)
 
     search = new Search()
     $scope.products = search.all()
 
     # dummy filters, remove me
     $scope.category_id   = 1
-    $scope.subcategories = ["Sub 1", "Sub 2"]
     $scope.brands        = ["Nike", "Puma"]
     $scope.colors        = ["#000", "#ff0000"]
     $scope.priceRanges    = ["0-50", "50-150", "150-250"]
@@ -63,8 +65,10 @@ class SidebarsController
     $scope.updateItems = ->
       # use search service
       console.log "updating items based on filter"
-      $scope.categories     = categories.get($scope.category_id)
-      $scope.subcategories  = categories.get($scope.category_id)
+      $scope.subcategories  = subcategories.all()
+      console.log "updating brands"
+      console.log $scope.subcategories.brands
+      $scope.brands         = $scope.subcategories.brands
 
 app = angular.module('demo', ['ngResource'])
 
@@ -130,8 +134,7 @@ app.factory 'Search', ($resource) ->
 app.factory 'Category', ($resource) ->
   class Category
     constructor: (categoryId) ->
-      #@service = $resource('/combine/api/v1/categories/:id',
-      @service = $resource('http://localhost:3000/de/api/categories/:id'
+      @service = $resource("<%= FashionFlyEditor::Engine.configuration.categories_endpoint %>/:id"
         { id: '@id' },
         { query: { method: "GET", isArray: false,  } })
 

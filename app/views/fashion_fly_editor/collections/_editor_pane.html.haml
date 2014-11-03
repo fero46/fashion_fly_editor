@@ -9,11 +9,14 @@
     %h4 Filter
     %select{ ng: { model: 'filter_subcategory', options: 'subcategory.name for subcategory in subcategories.categories', change: 'updateItems()' } }
       %option{ value: ''} -- Unterkategorie --
+
     %select{ ng: { model: 'filter_brand', options: 'brand for brand in brands', change: 'updateItems()' } }
       %option{ value: ''} -- Marke --
-    %select{ ng: { model: 'filter_color', options: 'color for color in colors', change: 'updateItems()' } }
+
+    %select{ ng: { model: 'filter_color', options: 'color.hex for color in colors', change: 'updateItems()' } }
       %option{ value: ''} -- Farbe --
-    %select{ ng: { model: 'filter_priceRange', options: 'price for price in priceRanges', change: 'updateItems()' } }
+
+    %select{ ng: { model: 'filter_priceRange', options: 'price.range for price in priceRanges', change: 'updateItems()' } }
       %option{ value: ''} -- Preis --
 
   %h4.clear Items
