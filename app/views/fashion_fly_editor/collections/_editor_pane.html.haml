@@ -21,6 +21,5 @@
 
   %h4.clear Items
   %ul.products
-    %li.product{ 'draggable' => true, 'ng-repeat' => 'product in products', data: { item: "{{product}}" } }
-      %img{ src: "{{product.image_url}}", class: 'product__thumbnail', 'ng-click' => 'selectProduct(product.id)' }
-      .product__name {{ product.name }}
+    %li.product{ 'draggable' => true, 'ng-repeat' => 'product in products.products', data: { item: "{{product}}" } }
+      %img{ src: "{{product.image}}", class: 'product__thumbnail', 'ng-click' => 'selectProduct(product.id)', title: "{{ product.name }}" }

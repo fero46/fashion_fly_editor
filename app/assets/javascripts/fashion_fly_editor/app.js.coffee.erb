@@ -26,7 +26,6 @@ class SidebarsController
     self = @
 
     $scope.$on "update_category", (event, args) ->
-      console.log "event: foo"
       $scope.selectCategory(args.id)
 
     categories = new Category()
@@ -34,8 +33,6 @@ class SidebarsController
 
     subcategories = new Category()
     $scope.subcategories = {}
-
-    $scope.selectCategory($scope.categories.categories.first.id)
 
     search = new Search()
     $scope.products = search.all()
@@ -65,7 +62,7 @@ class SidebarsController
     $scope.updateItems = ->
       # use search service
       console.log "updating items based on filter"
-      $scope.subcategories  = subcategories.all()
+      $scope.categories  = categories.get($scope.category_id)
       console.log "updating brands"
       console.log $scope.subcategories.brands
       $scope.brands         = $scope.subcategories.brands
@@ -80,20 +77,13 @@ app.factory 'Item', ($http) ->
     self = @
     allItems = []
     $.each @items, (key, value) ->
-      # prepare Data
-      console.log self.items[key]['image_url']
-      self.items[key]['remote_image_url'] = "http://bnerd.de/bnerd_media.png" #self.items[key]['image_url']
       self.items[key]['item_id'] = self.items[key]['id']
-
-      delete self.items[key]['name']
-      delete self.items[key]['id']
-      delete self.items[key]['image_url']
-
       allItems.push self.items[key]
     allItems
 
   create: ->
     url = window.location.origin + window.location.pathname + '/collections'
+
     data = {
       collection: {
         collection_items_attributes: @itemsAsArray()
@@ -125,8 +115,9 @@ app.factory 'Item', ($http) ->
 app.factory 'Search', ($resource) ->
   class Search
     constructor: () ->
-      @service = $resource('/combine/api/v1/search/:id',
-        { id: '@id'})
+      @service = $resource("<%= FashionFlyEditor::Engine.configuration.products_endpoint %>/:id",
+        { id: '@id'},
+        { query: { method: "GET", isArray: false,  } })
 
     all: ->
       @service.query()
@@ -180,7 +171,7 @@ app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
           key = Math.random().toString(36).replace(/[^a-z]+/g, '')
 
           # create item on canvas
-          el = angular.element "<div id='item_#{key}' style='display: inline-block; position: absolute; top:#{position_y}px;left:#{position_x}px'><div class='item__remove'>x</div><img src='#{item.image_url}' style='width:100%;height:100%' /></div>"
+          el = angular.element "<div id='item_#{key}' style='display: inline-block; position: absolute; top:#{position_y}px;left:#{position_x}px'><div class='item__remove'>x</div><img src='#{item.image}' style='width:100%;height:100%' /></div>"
           el.draggable
             stop: (e, ui) ->
               item['position_x'] = ui.position.left - $('.editor__canvas').offset().left

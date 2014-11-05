@@ -27,13 +27,14 @@ module FashionFlyEditor
 
     class Configuration
       attr_accessor :categories_endpoint,
+                    :products_endpoint,
                     :authentication_enabled,
                     :authentication_method,
                     :mount_web_service
 
       def initialize
-        @categories_endpoint    = "http://localhost:3001/de/api/categories"
-        @products_endpoint      = "http://localhost:3001/de/api/products"
+        @categories_endpoint    = "http://localhost:3000/de/api/categories"
+        @products_endpoint      = "http://localhost:3000/de/api/products"
         @authentication_method  = :authenticate_user
         @mount_test_api         = false
       end

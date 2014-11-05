@@ -3,6 +3,8 @@ require_dependency "fashion_fly_editor/application_controller"
 module FashionFlyEditor
   class CollectionsController < ApplicationController
 
+    before_filter :prepare_data, only: [:create]
+
     def editor
     end
 
@@ -29,6 +31,22 @@ module FashionFlyEditor
           :name
         ]
       )
+    end
+
+    def prepare_data
+      if params[:collection].has_key?(:collection_items_attributes)
+        params[:collection][:collection_items_attributes].each do |ci|
+          # set remote image url from params
+          ci[:remote_image_url] = ci[:image]
+
+          # remove some not needed vals from params
+          ci.delete('image')
+          ci.delete('url')
+          ci.delete('price')
+          ci.delete('name')
+          ci.delete('id')
+        end
+      end
     end
 
   end
