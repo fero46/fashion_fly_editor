@@ -10,10 +10,11 @@ class HeadersController
     $scope.categories = category.all()
 
     $scope.updateCategories = (id) ->
-      $rootScope.$broadcast("update_category", id: id)
+      $rootScope.$broadcast("select_main_category", id: id)
 
 class ActionsController
   constructor: ($scope, Item) ->
+    console.log "init me"
     self = @
 
     $scope.saveCollection = ->
@@ -25,36 +26,50 @@ class SidebarsController
   constructor: ($scope, Search, Category) ->
     self = @
 
+    $scope.$on "select_main_category", (event, args) ->
+      $scope.category_id = args.id
+      $scope.resetFilters()
+      $scope.resetItems()
+      $scope.updateItems()
+      $scope.categories  = $scope.Category.get($scope.category_id)
+
     $scope.$on "update_category", (event, args) ->
       $scope.selectCategory(args.id)
+      $scope.brands      = if args.brands? then args.brands else []
+      $scope.colors      = if args.colors? then args.colors else []
+      $scope.priceRanges = if args.price_ranges? then args.price_ranges else []
 
-    categories = new Category()
-    $scope.categories = categories.all()
+    $scope.$on "category_loaded", (event, args) ->
+      $scope.brands      = if args.brands? then args.brands else []
+      $scope.colors      = if args.colors? then args.colors else []
+      $scope.priceRanges = if args.price_ranges? then args.price_ranges else []
 
-    subcategories = new Category()
-    $scope.subcategories = {}
+    $scope.Category = new Category()
+    $scope.categories = $scope.Category.get(<%= FashionFlyEditor::Engine.configuration.startup_category_id %>)
 
-    search = new Search()
-    $scope.products = search.all()
-
-    # dummy filters, remove me
-    $scope.category_id   = 1
-    $scope.brands        = ["Nike", "Puma"]
-    $scope.colors        = ["#000", "#ff0000"]
-    $scope.priceRanges    = ["0-50", "50-150", "150-250"]
+    $scope.Search = new Search()
+    $scope.products = $scope.Search.all()
 
     $scope.resetFilters = ->
       console.log "resetting filters"
-      $scope.filter_subcategory = {}
-      $scope.filter_brand       = {}
-      $scope.filter_color       = {}
-      $scope.filter_priceRange  = {}
+      $scope.filter_subcategory = null
+      $scope.filter_brand       = null
+      $scope.filter_color       = null
+      $scope.filter_priceRange  = null
+
+    $scope.resetItems = ->
+      $scope.brands = []
+      $scope.colors = []
+      $scope.priceRanges = []
+      $scope.subcategories = []
 
     $scope.selectCategory = (id) ->
       console.log "selecting category #{id}"
       $scope.category_id = id
-      $scope.updateItems()
-      $scope.resetFilters() # maybe move into cb of updateItems
+      $scope.subcategories  = $scope.Category.get($scope.category_id)
+      params =
+        category: $scope.category_id
+      $scope.products = $scope.Search.all(params)
 
     $scope.selectProduct = (id) ->
       console.log "selecting product #{id}"
@@ -62,10 +77,13 @@ class SidebarsController
     $scope.updateItems = ->
       # use search service
       console.log "updating items based on filter"
-      $scope.categories  = categories.get($scope.category_id)
-      console.log "updating brands"
-      console.log $scope.subcategories.brands
-      $scope.brands         = $scope.subcategories.brands
+      params =
+        category: if $scope.filter_subcategory? then $scope.filter_subcategory.id else $scope.category_id
+        brand: if $scope.filter_brand? then $scope.filter_brand.id
+        color: if $scope.filter_color? then $scope.filter_color.hex.split("#")[1]
+        price: if $scope.filter_priceRange? then $scope.filter_priceRange.range
+
+      $scope.products = $scope.Search.all(params)
 
 app = angular.module('demo', ['ngResource'])
 
@@ -98,7 +116,7 @@ app.factory 'Item', ($http) ->
     ).success (data, status, headers, config) ->
       console.log "success"
     .error (data, status, headers, config) ->
-      console.log "error"
+      console.log "error on creation"
 
   add: (key, item) ->
     @update key, item
@@ -119,10 +137,10 @@ app.factory 'Search', ($resource) ->
         { id: '@id'},
         { query: { method: "GET", isArray: false,  } })
 
-    all: ->
-      @service.query()
+    all: (params = {}) ->
+      @service.query(params)
 
-app.factory 'Category', ($resource) ->
+app.factory 'Category', ($resource, $rootScope) ->
   class Category
     constructor: (categoryId) ->
       @service = $resource("<%= FashionFlyEditor::Engine.configuration.categories_endpoint %>/:id"
@@ -135,11 +153,27 @@ app.factory 'Category', ($resource) ->
       attrs
 
     get: (id) ->
-      console.log id
-      @service.get(id: id)
+      @service.get(id: id, (data) ->
+        console.log data
+        $rootScope.$broadcast("category_loaded", data)
+      )
 
-    all: ->
-      @service.query()
+    all: (cb) ->
+      self = @
+
+      @service.query( (data) ->
+        self.firstCategoryId = data.categories[0].id
+        console.log data
+        console.log data.categories.brands
+        self.brands = data.categories.brands
+        $rootScope.$broadcast("category_loaded", id: self.firstCategoryId)
+      )
+
+    firstCategoryId: ->
+      @firstCategoryId
+
+    brands: ->
+      @brands
 
 app.controller("SidebarsController", ["$scope", "Search", "Category", SidebarsController])
 app.controller("ActionsController", ["$scope", "Item", ActionsController])
