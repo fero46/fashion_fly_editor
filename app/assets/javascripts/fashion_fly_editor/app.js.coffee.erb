@@ -27,19 +27,16 @@ class SidebarsController
 
     $scope.$on "select_main_category", (event, args) ->
       $scope.category_id = args.id
-      $scope.resetFilters()
-      $scope.resetItems()
       $scope.categories  = $scope.Category.get($scope.category_id)
 
     $scope.$on "update_category", (event, args) ->
-      $scope.resetFilters()
-      $scope.resetItems()
       $scope.selectCategory(args.id)
       $scope.brands      = if args.brands? then args.brands else []
       $scope.colors      = if args.colors? then args.colors else []
       $scope.priceRanges = if args.price_ranges? then args.price_ranges else []
 
     $scope.$on "category_loaded", (event, args) ->
+      $scope.resetFilters()
       $scope.brands      = if args.brands? then args.brands else []
       $scope.colors      = if args.colors? then args.colors else []
       $scope.priceRanges = if args.price_ranges? then args.price_ranges else []
