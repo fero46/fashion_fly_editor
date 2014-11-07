@@ -6,19 +6,25 @@
 
   .filters.clear
     %h4 Filter
-    %select{ ng: { model: 'filter_subcategory', options: 'subcategory.name for subcategory in subcategories.categories', change: 'updateItems()' } }
+    %select{ ng: { model: 'filter_subcategory', options: 'subcategory.name for subcategory in subcategories.categories', change: 'updateFilters()' } }
       %option{ value: ''} -- Unterkategorie --
 
-    %select{ ng: { model: 'filter_brand', options: 'brand.name for brand in brands track by brand.id', change: 'updateItems()' } }
+    %select{ ng: { model: 'filter_brand', options: 'brand.name for brand in brands track by brand.id', change: 'updateFilters()' } }
       %option{ value: ''} -- Marke --
 
-    %select{ ng: { model: 'filter_color', options: 'color.hex for color in colors track by color.id', change: 'updateItems()' } }
+    %select{ ng: { model: 'filter_color', options: 'color.hex for color in colors track by color.id', change: 'updateFilters()' } }
       %option{ value: ''} -- Farbe --
 
-    %select{ ng: { model: 'filter_priceRange', options: 'price.range for price in priceRanges track by price.range', change: 'updateItems()' } }
+    %select{ ng: { model: 'filter_priceRange', options: 'price.range for price in priceRanges track by price.range', change: 'updateFilters()' } }
       %option{ value: ''} -- Preis --
 
   %h4.clear Items
   %ul.products
     %li.product{ 'draggable' => true, 'ng-repeat' => 'product in products.products', data: { item: "{{product}}" } }
       %img{ src: "{{product.image}}", class: 'product__thumbnail', 'ng-click' => 'selectProduct(product.id)', title: "{{ product.name }}" }
+
+  %ul.pagination.clear
+    %li.pagination__previous{ 'ng-show' => '!pagination.first_page' }
+      %a{ href: '#', 'ng-click' => 'pagination.paginate(pagination.current_page - 1)'} Zurück
+    %li.pagination__next{ 'ng-show' => '!pagination.last_page' }
+      %a{ href: '#', 'ng-click' => 'pagination.paginate(pagination.current_page + 1)'} Weiter
