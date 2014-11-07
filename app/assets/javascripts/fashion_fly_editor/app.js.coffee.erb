@@ -1,6 +1,5 @@
 'use strict';
 
-
 class HeadersController
   constructor: ($scope, $rootScope, Category) ->
     console.log $scope, $rootScope
@@ -30,10 +29,11 @@ class SidebarsController
       $scope.category_id = args.id
       $scope.resetFilters()
       $scope.resetItems()
-      $scope.updateItems()
       $scope.categories  = $scope.Category.get($scope.category_id)
 
     $scope.$on "update_category", (event, args) ->
+      $scope.resetFilters()
+      $scope.resetItems()
       $scope.selectCategory(args.id)
       $scope.brands      = if args.brands? then args.brands else []
       $scope.colors      = if args.colors? then args.colors else []
@@ -75,7 +75,6 @@ class SidebarsController
       console.log "selecting product #{id}"
 
     $scope.updateItems = ->
-      # use search service
       console.log "updating items based on filter"
       params =
         category: if $scope.filter_subcategory? then $scope.filter_subcategory.id else $scope.category_id
@@ -189,7 +188,9 @@ app.directive 'draggable', ->
 
 app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
   items = Item
-  link: (scope, element, attrs) ->
+  dir = {}
+  dir.restrict = 'A'
+  dir.link = (scope, element, attrs) ->
     element.droppable
       hoverClass: "drop-hover",
       drop: (e, ui) ->
@@ -205,7 +206,8 @@ app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
           key = Math.random().toString(36).replace(/[^a-z]+/g, '')
 
           # create item on canvas
-          el = angular.element "<div id='item_#{key}' style='display: inline-block; position: absolute; top:#{position_y}px;left:#{position_x}px'><div class='item__remove'>x</div><img src='#{item.image}' style='width:100%;height:100%' /></div>"
+          el = angular.element "<div id='item_#{key}' draggable style='display: inline-block; position: absolute; top:#{position_y}px;left:#{position_x}px'><div class='item__remove'>x</div><img src='#{item.image}' style='width:100%;height:100%' /></div>"
+
           el.draggable
             stop: (e, ui) ->
               item['position_x'] = ui.position.left - $('.editor__canvas').offset().left
@@ -248,6 +250,8 @@ app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
 
         # debug info
         console.log items.all()
+
+  dir
 ]
 
 ### CONFIG ###

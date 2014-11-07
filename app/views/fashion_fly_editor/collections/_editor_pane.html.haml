@@ -2,8 +2,7 @@
   %h4.clear Categories
   %ul.categories
     %li.category{ 'ng-repeat' => 'category in categories.categories' }
-      %img{ src: "{{category.image}}", class: 'category__thumbnail', 'ng-click' => 'selectCategory(category.id)' }
-      .category__name{'ng-click' => 'selectCategory(category.id)' } {{ category.name }}
+      %img{ 'ng-click' => 'selectCategory(category.id)', src: "{{category.icon}}", title: '{{ category.name}}', class: 'category__thumbnail', 'ng-click' => 'selectCategory(category.id)' }
 
   .filters.clear
     %h4 Filter
