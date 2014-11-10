@@ -9,22 +9,22 @@ module FashionFlyEditor
           categories[:categories] = [
             {
               id: 1,
-              name: 'inga',
+              name: 'foo',
               image_url: '/categories/accessoires.png'
             },
             {
               id: 2,
-              name: 'schatz',
+              name: 'bar',
               image_url: '/categories/bademode.png'
             },
             {
               id: 3,
-              name: 'freundin',
+              name: 'barfoo',
               image_url: '/categories/beauty.png'
             },
             {
               id: 4,
-              name: 'kuesse',
+              name: 'foobar',
               image_url: '/categories/hosen.png'
             }
           ]

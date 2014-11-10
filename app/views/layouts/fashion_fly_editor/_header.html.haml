@@ -1,5 +1,4 @@
 %header{ 'ng-controller' => 'HeadersController'}
-  Header
-  %ul.categories
-    %li.category{ 'ng-repeat' => 'category in categories.categories' }
-      .category__name{'ng-click' => 'updateCategories(category.id)' } {{ category.name }}
+  %ul.ffe-categories
+    %li.ffe-category{ 'ng-repeat' => 'category in categories.categories' }
+      .ffe-category__name{'ng-click' => 'updateCategories(category.id)' } {{ category.name }}

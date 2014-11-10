@@ -11,7 +11,7 @@ module FashionFlyEditor
     # config/initializers/fashion_fly_editor.rb
     #
     # FashionFlyEditor.configure do |config|
-    #   config.categories_endpoint    = http://example.com/categories.json
+    #   config.ffe-categories_endpoint    = http://example.com/categories.json
     #   config.authentication_method  = :authenticate_user
     #   config.mount_test_api         = false
     # end

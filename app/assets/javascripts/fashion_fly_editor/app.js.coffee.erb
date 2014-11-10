@@ -89,8 +89,8 @@ class SidebarsController
 
     $scope.selectCategory = (id) ->
       console.log "selecting category #{id}"
-      $scope.category_id = id
-      $scope.subcategories  = $scope.Category.get($scope.category_id)
+      $scope.category_id   = id
+      $scope.subcategories = $scope.Category.get($scope.category_id)
       params =
         category: $scope.category_id
 
@@ -237,12 +237,12 @@ app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
           key = Math.random().toString(36).replace(/[^a-z]+/g, '')
 
           # create item on canvas
-          el = angular.element "<div id='item_#{key}' draggable style='display: inline-block; position: absolute; top:#{position_y}px;left:#{position_x}px'><div class='item__remove'>x</div><img src='#{item.image}' style='width:100%;height:100%' /></div>"
+          el = angular.element "<div id='ffe-item_#{key}' style='display: inline-block; position: absolute; top:#{position_y}px;left:#{position_x}px'><div class='item__remove'>x</div><img src='#{item.image}' style='width:100%;height:100%' /></div>"
 
           el.draggable
             stop: (e, ui) ->
-              item['position_x'] = ui.position.left - $('.editor__canvas').offset().left
-              item['position_y'] = ui.position.top - $('.editor__canvas').offset().top
+              item['position_x'] = ui.position.left - $('.ffe-editor__canvas').offset().left
+              item['position_y'] = ui.position.top - $('.ffe-editor__canvas').offset().top
               items.update key, item
 
           el.resizable
@@ -261,8 +261,8 @@ app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
           element.append(el)
 
           # set initial values for item and add to collection
-          item['position_x'] = position_x - $('.editor__canvas').offset().left
-          item['position_y'] = position_y - $('.editor__canvas').offset().top
+          item['position_x'] = position_x - $('.ffe-editor__canvas').offset().left
+          item['position_y'] = position_y - $('.ffe-editor__canvas').offset().top
           item['rotation']   = 0
           item['width']      = el.width()
           item['height']     = el.height()

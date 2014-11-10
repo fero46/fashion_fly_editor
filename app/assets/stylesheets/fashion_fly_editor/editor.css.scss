@@ -1,10 +1,10 @@
-.editor{
+.ffe-editor{
 }
 
-.editor__canvas{
+.ffe-editor__canvas{
 }
 
-.editor__wrapper{
+.ffe-editor__wrapper{
   width: 70%;
   float: left;
   border: 1px solid #dbdbdb;
@@ -13,15 +13,14 @@
   position: relative;
 }
 
-.editor__canvas{
-  /*position: relative;*/
+.ffe-editor__canvas{
   margin: auto;
   width: 566px;
   height: 442px;
   border: 1px solid #dbdbdb;
 }
 
-.editor__pane{
+.ffe-editor__pane{
   background-color: #fff;
   width: 24%;
   float: right;
@@ -29,7 +28,7 @@
   z-index: 9999;
 }
 
-.item__remove{
+.ffe-item__remove{
   position: absolute;
   top: 0;
   right: 0;
