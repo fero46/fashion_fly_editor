@@ -3,6 +3,9 @@ module FashionFlyEditor
 
     mount_uploader :image, FashionFlyEditor::CollectionImageUploader
     has_many :collection_items
+    has_many :subscriber
+    belongs_to :category
+    belongs_to :user, class_name: '::User'
 
     accepts_nested_attributes_for :collection_items,
                                   reject_if: :all_blank,
