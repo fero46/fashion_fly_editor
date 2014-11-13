@@ -1,0 +1,28 @@
+%ul.ffe-categories
+  %li.ffe-category{ 'ng-repeat' => 'category in categories.categories' }
+    %img{ 'ng-click' => 'selectCategory(category.id)', src: "{{category.icon}}", title: '{{ category.name}}', class: 'category__thumbnail', 'ng-click' => 'selectCategory(category.id)' }
+    %span {{category.name}}
+.ffe-filters.ffe-clear
+  %h4 Filter
+  %select{ ng: { model: 'filter_subcategory', options: 'subcategory.name for subcategory in subcategories.categories', change: 'updateFilters()' } }
+    %option{ value: ''} -- Unterkategorie --
+
+  %select{ ng: { model: 'filter_brand', options: 'brand.name for brand in brands track by brand.id', change: 'updateFilters()' } }
+    %option{ value: ''} -- Marke --
+
+  %select{ ng: { model: 'filter_color', options: 'color.hex for color in colors track by color.id', change: 'updateFilters()' } }
+    %option{ value: ''} -- Farbe --
+
+  %select{ ng: { model: 'filter_priceRange', options: 'price.range for price in priceRanges track by price.range', change: 'updateFilters()' } }
+    %option{ value: ''} -- Preis --
+
+%h4.ffe-clear Items
+%ul.ffe-products
+  %li.ffe-product{ 'draggable' => true, 'ng-repeat' => 'product in products.products', data: { item: "{{product}}" } }
+    %img{ src: "{{product.image}}", class: 'product__thumbnail', 'ng-click' => 'selectProduct(product.id)', title: "{{ product.name }}" }
+
+%ul.ffe-pagination.ffe-clear
+  %li.ffe-pagination__previous{ 'ng-show' => '!pagination.first_page' }
+    %a{ href: '#', 'ng-click' => 'pagination.paginate(pagination.current_page - 1)'} Zurück
+  %li.ffe-pagination__next{ 'ng-show' => '!pagination.last_page' }
+    %a{ href: '#', 'ng-click' => 'pagination.paginate(pagination.current_page + 1)'} Weiter

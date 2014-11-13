@@ -1,0 +1,33 @@
+/*
+  Place all the styles related to the matching controller here.
+  They will automatically be included in application.css.
+*/
+
+
+.navigation_tab{
+  list-style: none;
+  height: 47px;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid grey;
+  li{
+    float: left;
+    a{
+      display: block;
+      color: black;
+      background: #aaa;
+      padding: 14px 8px 15px 8px;
+      &:hover{
+        background: #eee;
+      }
+      cursor: pointer;
+    }
+    &.active{
+      a{
+        background: white;
+        color: black;
+        padding: 14px 8px 16px 8px;
+      }
+    }
+  }
+}

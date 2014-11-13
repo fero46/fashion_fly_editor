@@ -1,11 +1,25 @@
 .ffe-products{
   list-style-type: none;
+  list-style: none;
+  margin:0px;
+  padding: 0px;
+  .ffe-product{
+   float: left;
+   width: 108px;
+   height:80px;
+   text-align: center;
+   position: relative;
+   margin-bottom: 5px;
+   img{
+    position: absolute;
+    top:0px;
+    left: 39px;
+    width: 30px;
+    max-height: 100%;
+    &:hover{
+      cursor: pointer;
+    }
+   }
+  }
 }
 
-.ffe-product{
-  float: left;
-}
-
-.ffe-product__thumbnail{
-  width: 100px;
-}

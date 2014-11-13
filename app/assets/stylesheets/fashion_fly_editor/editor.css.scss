@@ -5,24 +5,26 @@
 }
 
 .ffe-editor__wrapper{
-  width: 70%;
+  width:900px;
   float: left;
   border: 1px solid #dbdbdb;
   overflow: hidden;
   padding: 2em;
   position: relative;
+  margin-left: 10px;
 }
 
 .ffe-editor__canvas{
   margin: auto;
-  width: 566px;
-  height: 442px;
+  width: 100%;
+  min-height: 442px;
   border: 1px solid #dbdbdb;
 }
 
 .ffe-editor__pane{
   background-color: #fff;
-  width: 24%;
+  width: 401px;
+  margin-right: 10px;
   float: right;
   border: 1px solid #dbdbdb;
   z-index: 9999;

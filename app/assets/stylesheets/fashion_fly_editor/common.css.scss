@@ -1,5 +1,40 @@
+body{
+  margin:0px;
+  padding: 0px;
+}
+
 header{
   margin-bottom: 1em;
+  height: 47px;
+  border-bottom: 1px solid black;
+  #logo{
+    float:left;
+  }
+  .ffe-categories, .ffe-navigation{
+    margin:0px;
+    padding:0px;
+    height: 47px;
+    float:left;
+    margin-left: 15px;
+    list-style: none;
+    li{
+      .ffe-category__name, a{
+        cursor: pointer;
+        padding: 14px 8px 15px 8px;
+        text-decoration: none;
+        display: block;
+        float: left;
+        color: black;
+        &:hover{
+          color: white;
+          background: grey;
+        }
+      }
+    }
+  }
+  .ffe-navigation{
+    float: right;
+  }
 }
 
 footer{
@@ -10,4 +45,13 @@ footer{
   clear: both;
   overflow: hidden;
   width: 100%;
+}
+
+.ff-tab-window{
+  display: none;
+  height: 583px;
+  width: 401px;
+  &.active{
+    display: block;
+  }
 }

@@ -1,4 +1,6 @@
 %header{ 'ng-controller' => 'HeadersController'}
+  =render 'fashion_fly_editor/shared/logo'
   %ul.ffe-categories
     %li.ffe-category{ 'ng-repeat' => 'category in categories.categories' }
       .ffe-category__name{'ng-click' => 'updateCategories(category.id)' } {{ category.name }}
+  =render 'fashion_fly_editor/shared/custom_navigation'
