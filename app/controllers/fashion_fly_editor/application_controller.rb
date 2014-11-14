@@ -2,7 +2,7 @@ module FashionFlyEditor
   class ApplicationController < ActionController::Base
 
     # Nur zum Testen
-    if Rails.env.production?
+    if Rails.env.development?
       before_filter :call_action
       def call_action
         call_hooks("TEST")
