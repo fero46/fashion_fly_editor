@@ -6,6 +6,12 @@ module FashionFlyEditor
       attr_accessor :configuration
     end
 
+    config.to_prepare do
+      Dir.glob(Rails.root + "app/decorators/**/*_decorator*.rb").each do |c|
+        require_dependency(c)
+      end
+    end
+
     # Create an initializer inside your Rails application
     #
     # config/initializers/fashion_fly_editor.rb
