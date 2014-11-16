@@ -15,9 +15,11 @@ module FashionFlyEditor
 
     def create
       @collection = Collection.new collection_params
-      @collection.save
-
-      render json: @collection.to_json(include: :collection_items), status: 201
+      if @collection.save
+        options = {} # hier kommen die spezifischen Optionen z.B. scope:scope_id oder contest:true
+        call_hooks(@collection, options)
+        render json: @collection.to_json(include: :collection_items), status: 201
+      end
     end
 
     protected

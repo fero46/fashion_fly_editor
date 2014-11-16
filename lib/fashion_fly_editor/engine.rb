@@ -6,6 +6,12 @@ module FashionFlyEditor
       attr_accessor :configuration
     end
 
+    config.to_prepare do
+      Dir.glob(Rails.root + "app/decorators/**/*_decorator*.rb").each do |c|
+        require_dependency(c)
+      end
+    end
+
     # Create an initializer inside your Rails application
     #
     # config/initializers/fashion_fly_editor.rb
@@ -31,7 +37,8 @@ module FashionFlyEditor
                     :products_endpoint,
                     :authentication_enabled,
                     :authentication_method,
-                    :mount_web_service
+                    :mount_web_service,
+                    :callbacks
 
       def initialize
         @categories_endpoint    = "http://localhost:3000/de/api/categories"
@@ -39,6 +46,7 @@ module FashionFlyEditor
         @products_endpoint      = "http://localhost:3000/de/api/products"
         @authentication_method  = :authenticate_user
         @mount_test_api         = false
+        @callbacks              =[]
       end
     end
 
