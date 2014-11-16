@@ -3,6 +3,7 @@ module FashionFlyEditor
   class Category < ActiveRecord::Base
     has_many :collection
     belongs_to :parent, :polymorphic => true
+    has_many :categories, as: :parent, :dependent => :destroy
 
     validates :slug,  uniqueness: true
     validates :name, presence: true
