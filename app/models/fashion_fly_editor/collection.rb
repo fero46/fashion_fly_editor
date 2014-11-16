@@ -3,7 +3,7 @@ module FashionFlyEditor
 
     mount_uploader :image, FashionFlyEditor::CollectionImageUploader
     has_many :collection_items
-    has_many :subscriber
+    has_many :subscriptions
     belongs_to :category
     belongs_to :user, class_name: '::User'
 
