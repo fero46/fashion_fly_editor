@@ -12,14 +12,63 @@ class HeadersController
       $rootScope.$broadcast("select_main_category", id: id)
 
 class ActionsController
-  constructor: ($scope, Item) ->
+  constructor: ($scope, Item, Collection, ngDialog) ->
     console.log "init me"
     self = @
 
-    $scope.saveCollection = ->
-      console.log "saveCollection"
-      Item.create()
+    $scope.baseUrl = window.location.origin + window.location.pathname + '/collections'
 
+    $scope.collection = Collection
+    $scope.collection.title = "Give me a title"
+    $scope.showForm = true
+    $scope.title = "Kollektion speichern"
+    $scope.body  = "Nur noch wenige Schritte"
+
+    $scope.presaveCollection = ->
+      console.log "saveCollection"
+      console.log $scope.collection
+      console.log $scope.collection.price()
+
+      $scope.dialog ngDialog.open
+        controller: 'ActionsController'
+        template: $scope.baseUrl + '/new'
+        className: 'ngdialog-theme-plain'
+
+    $scope.saveCollection = ->
+      Item.create($scope)
+
+    $scope.collectionSuccessCallback = (data, status) ->
+      console.log "success"
+      console.log $scope.dialog
+      console.log data, status
+      $scope.collection = data
+      $scope.title = "Kollektion gespeichert."
+      # tbd: use template
+      $scope.body = "<img src='#{data.image.url}' />"
+      $scope.showForm = false
+
+    # called if creation fails
+    $scope.collectionErrorCallback = (data, status) ->
+      $scope.title = "Bar"
+      console.log "error"
+      console.log data, status
+      ngDialog.open
+        controller: 'ActionsController'
+        template: '<p>{{ title }} Fehler: Kollektion konnte nicht gespeichert werden.</p>'
+        plain: true
+        className: 'ngdialog-theme-plain'
+
+    $scope.collectionMetaInformation = ->
+      price = $scope.collection.price()
+      if price? && price != 0
+        return price.toFixed(2)
+      else
+        return false
+
+    $scope.collectionItemCount = ->
+      items = Item.all()
+      # think not supported in ie8
+      Object.keys(items).length
 
 class SidebarsController
   constructor: ($scope, Search, Category) ->
@@ -115,7 +164,20 @@ class SidebarsController
 
       $scope.products = $scope.Search.all(params)
 
-app = angular.module('demo', ['ngResource'])
+app = angular.module('ffe', ['ngResource', 'ngDialog', 'ngSanitize'])
+
+app.factory 'Collection', ($http, Item) ->
+  collection:
+    title: null
+    price: null
+
+  price: ->
+    console.log "collection price"
+    items = Item.all()
+    price = 0
+    $.each items, (key, value) ->
+      price += parseFloat(items[key]["price"])
+    price
 
 app.factory 'Item', ($http) ->
   items: {}
@@ -129,11 +191,18 @@ app.factory 'Item', ($http) ->
       allItems.push self.items[key]
     allItems
 
-  create: ->
+  create: (scope) ->
+    # we pass in controller scope for calling callback
+    self = @
+    self.scope = scope
+
     url = window.location.origin + window.location.pathname + '/collections'
+
+    console.log scope.collection.title
 
     data = {
       collection: {
+        title: scope.collection.title
         collection_items_attributes: @itemsAsArray()
       }
     }
@@ -145,8 +214,14 @@ app.factory 'Item', ($http) ->
       dataType: 'JSON'
     ).success (data, status, headers, config) ->
       console.log "success"
+      scope.collectionSuccessCallback(data, status) if self.scope?
+
     .error (data, status, headers, config) ->
       console.log "error on creation"
+      scope.collectionErrorCallback(data, status) if self.scope?
+
+  get: (key) ->
+    @items[key]
 
   add: (key, item) ->
     @update key, item
@@ -206,7 +281,7 @@ app.factory 'Category', ($resource, $rootScope) ->
       @brands
 
 app.controller("SidebarsController", ["$scope", "Search", "Category", SidebarsController])
-app.controller("ActionsController", ["$scope", "Item", ActionsController])
+app.controller("ActionsController", ["$scope", "Item", 'Collection', 'ngDialog', ActionsController])
 app.controller("HeadersController", ["$scope", "$rootScope", "Category", HeadersController])
 
 ### DIRECTIVES ###
@@ -217,15 +292,17 @@ app.directive 'draggable', ->
     element.draggable
       revert: true
 
-app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
-  items = Item
-  dir = {}
+app.directive 'droppable', ['$compile', 'Item', 'Collection', ($compile, Item, Collection) ->
+  items      = Item
+  dir =     {}
+
   dir.restrict = 'A'
   dir.link = (scope, element, attrs) ->
+    self = @
+
     element.droppable
       hoverClass: "drop-hover",
       drop: (e, ui) ->
-        self = @
 
         # check if newly added item
         if $(ui.draggable[0]).data('item')?
@@ -269,8 +346,9 @@ app.directive 'droppable', ['$compile', 'Item', ($compile, Item) ->
           items.add key, item
 
           # add remove item
-          element.find('.item__remove').on 'click', (e) =>
+          element.find('.item__remove').on 'click', (e) ->
             $el = $(e.currentTarget).parent()
+            console.log key
             items.delete $el.attr('id').split('_')[1]
             $el.remove()
 

@@ -1,8 +1,13 @@
-.ffe-editor.ffe-clear
+.ffe-editor.ffe-clear{ ng: {controller: 'ActionsController'} }
+  .ffe-editor__meta
+    .ffe-editor__collection_price{ 'ng-show' => 'collectionMetaInformation()' }
+      Der Preis für die gesamte Kollektion beträgt {{ collectionMetaInformation() }}€ ({{ collectionItemCount() }} Elemente)
+    .ffe-editor__collection_add_element{ 'ng-show' => '!collectionMetaInformation()' }
+      Füge Produkte zur Kollektion hinzu.
   .ffe-editor__wrapper{ 'droppable' => true }
     .ffe-editor__canvas
 
   = render 'editor_pane'
 
-  .ffe-editor__actions.ffe-clear{ ng: {controller: 'ActionsController'} }
-    = link_to "Kollektion speichern", '#', class: 'btn btn-save', 'ng-click' => 'saveCollection()'
+  .ffe-editor__actions.ffe-clear
+    = link_to "Kollektion speichern", '#', class: 'btn btn-save', 'ng-click' => 'presaveCollection()'

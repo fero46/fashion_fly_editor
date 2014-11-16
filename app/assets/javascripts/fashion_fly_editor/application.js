@@ -2,5 +2,7 @@
 //= require fashion_fly_editor/vendor/jquery.ui.rotatable
 //= require fashion_fly_editor/vendor/angular
 //= require fashion_fly_editor/vendor/angular-resource
+//= require fashion_fly_editor/vendor/angular-sanitize
+//= require fashion_fly_editor/vendor/ngdialog
 //= require fashion_fly_editor/app
 //= require_tree .
