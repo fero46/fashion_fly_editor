@@ -22,6 +22,11 @@ module FashionFlyEditor
       end
     end
 
+
+    def cookie_access_hook
+      cookies
+    end
+
     protected
 
     def collection_params
