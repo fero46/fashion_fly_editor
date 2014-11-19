@@ -36,8 +36,6 @@ angular.module("ffe").factory 'Item', ($http) ->
 
     url = window.location.origin + window.location.pathname + '/collections'
 
-    console.log scope.collection.title
-
     data =
       collection:
         title: scope.collection.title
@@ -45,9 +43,18 @@ angular.module("ffe").factory 'Item', ($http) ->
 
     # add config to data
     if scope.settings?
-      console.log "settings from item create: #{scope.settings.config}"
-      data.options      = scope.settings.config.options
       data.redirect_url = scope.settings.config.collection.redirect_url
+
+      # tbd: build items in rails instead, get rid of this bullshit
+      options = {}
+      values  = $('input[name^=options]')
+      $.each values, (idx) ->
+        item = $(values[idx])
+        name = item.attr("name")
+        name = name.replace("options[", "")
+        name = name.replace("]","")
+        options[name] = item.val()
+      data.options = options
 
     $http(
       method: 'POST'

@@ -39,9 +39,10 @@ module FashionFlyEditor
 
     def collection_params
       params.require(:collection).permit(
+        :title,
+        :description,
         :category_id,
         collection_items_attributes: [
-          :title,
           :item_id,
           :remote_image_url,
           :position_x,
