@@ -1,0 +1,123 @@
+"use_strict"
+
+angular.module("ffe").factory 'Settings', ($http) ->
+  config:
+    options: null
+
+angular.module("ffe").factory 'Collection', ($http, Item) ->
+  collection:
+    title: null
+    price: null
+
+  price: ->
+    console.log "collection price"
+    items = Item.all()
+    price = 0
+    $.each items, (key, value) ->
+      price += parseFloat(items[key]["price"])
+    price
+
+angular.module("ffe").factory 'Item', ($http) ->
+  items: {}
+
+  #helper
+  itemsAsArray: ->
+    self = @
+    allItems = []
+    $.each @items, (key, value) ->
+      self.items[key]['item_id'] = self.items[key]['id']
+      allItems.push self.items[key]
+    allItems
+
+  create: (scope) ->
+    # we pass in controller scope for calling callback
+    self = @
+    self.scope = scope
+
+    url = window.location.origin + window.location.pathname + '/collections'
+
+    console.log scope.collection.title
+
+    data = {
+      collection: {
+        title: scope.collection.title
+        collection_items_attributes: @itemsAsArray()
+      }
+    }
+
+    $http(
+      method: 'POST'
+      url: url
+      data: data
+      dataType: 'JSON'
+    ).success (data, status, headers, config) ->
+      console.log "success"
+      scope.collectionSuccessCallback(data, status) if self.scope?
+
+    .error (data, status, headers, config) ->
+      console.log "error on creation"
+      scope.collectionErrorCallback(data, status) if self.scope?
+
+  get: (key) ->
+    @items[key]
+
+  add: (key, item) ->
+    @update key, item
+
+  update: (key, item) ->
+    @items[key] = item
+
+  delete: (key) ->
+    delete @items[key]
+
+  all: ->
+    @items
+
+angular.module("ffe").factory 'Search', ($resource, $rootScope) ->
+  class Search
+    constructor: () ->
+      @service = $resource("<%= FashionFlyEditor::Engine.configuration.products_endpoint %>/:id",
+        { id: '@id'},
+        { query: { method: "GET", isArray: false,  } })
+
+    all: (params = {}) ->
+      @service.query(params, (data) ->
+        $rootScope.$broadcast("search_loaded", data)
+      )
+
+angular.module("ffe").factory 'Category', ($resource, $rootScope) ->
+  class Category
+    constructor: (categoryId) ->
+      @service = $resource("<%= FashionFlyEditor::Engine.configuration.categories_endpoint %>/:id"
+        { id: '@id' },
+        { query: { method: "GET", isArray: false,  } })
+
+    create: (attrs) ->
+      new @service(category: attrs).$save (category) ->
+        attrs.id = category.id
+      attrs
+
+    get: (id) ->
+      @service.get(id: id, (data) ->
+        console.log data
+        $rootScope.$broadcast("category_loaded", data)
+      )
+
+    all: (cb) ->
+      self = @
+
+      @service.query( (data) ->
+        self.firstCategoryId = data.categories[0].id
+        self.brands     = data.categories.brands
+        self.options    = data.options if data.options?
+        self.scope      = data.scope if data.scope?
+        self.collection = data.collection if data.collection?
+
+        $rootScope.$broadcast("category_loaded", id: self.firstCategoryId)
+      )
+
+    firstCategoryId: ->
+      @firstCategoryId
+
+    brands: ->
+      @brands
