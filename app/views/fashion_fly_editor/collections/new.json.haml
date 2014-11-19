@@ -5,7 +5,10 @@
 
     = f.label :title, "Geben Sie ihre Kollektion einen Titel"
     = f.text_field :title, "ng-model" => 'collection.title'
-
+    - @options.each do |field|
+      %input{ type: field["type"], value: field["value"], name: "options[#{field["name"]}]" }
+      - if field["label"].present?
+        %label= field["label"]
     = f.select :category, @categories, { include_blank: false }
 
 .ngdialog-buttons.mt
