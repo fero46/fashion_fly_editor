@@ -48,7 +48,7 @@ angular.module("ffe").factory 'Item', ($http) ->
       # tbd: build items in rails instead, get rid of this bullshit
       options = {}
       values  = $('input[name^=options]')
-      $.each values, (idx) ->
+      $.each values, (idx) =>
         item = $(values[idx])
         name = item.attr("name")
         name = name.replace("options[", "")
