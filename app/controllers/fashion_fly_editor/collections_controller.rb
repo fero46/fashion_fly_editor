@@ -9,7 +9,14 @@ module FashionFlyEditor
     end
 
     def new
+      # jquery serializes array into hash, fuck it.
+      @options = []
+      params[:options].each_with_index do |v, idx|
+        @options << params[:options][idx.to_s]
+      end
+
       @collection = Collection.new
+      @categories = Category.all.collect { |c| [c.name, c.id] }
       render layout: false
     end
 
@@ -18,7 +25,7 @@ module FashionFlyEditor
       if @collection.save
         options = {} # hier kommen die spezifischen Optionen z.B. scope:scope_id oder contest:true
         call_hooks(@collection, options)
-        render json: @collection.to_json(include: :collection_items), status: 201
+        render json: { location: get_redirect_url }.to_json, status: 201
       else
         render json: @collection.to_json(include: :collection_items), status: 422
       end
@@ -49,6 +56,10 @@ module FashionFlyEditor
     end
 
     def prepare_data
+      @options      = params[:options] and params.delete(:options) if params.has_key?(:options)
+      @redirect_url = params[:redirect_url] and params.delete(:redirect_url) if params.has_key?(:redirect_url)
+
+
       if params[:collection].has_key?(:collection_items_attributes)
         params[:collection][:collection_items_attributes].each do |ci|
           # set remote image url from params
@@ -62,6 +73,10 @@ module FashionFlyEditor
           ci.delete('id')
         end
       end
+    end
+
+    def get_redirect_url
+      @redirect_url.gsub(":id", @collection.id.to_s)
     end
 
   end

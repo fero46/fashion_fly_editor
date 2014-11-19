@@ -2,8 +2,11 @@
 %p.body{ "ng-bind-html" => "body" }{{ body }}
 .form{ "ng-show" => "showForm" }
   = form_for @collection do |f|
+
     = f.label :title, "Geben Sie ihre Kollektion einen Titel"
     = f.text_field :title, "ng-model" => 'collection.title'
+
+    = f.select :category, @categories, { include_blank: false }
 
 .ngdialog-buttons.mt
   = link_to "Speichern", "#", class: "ngdialog-button ngdialog-button-primary", "ng-click" => "saveCollection()"

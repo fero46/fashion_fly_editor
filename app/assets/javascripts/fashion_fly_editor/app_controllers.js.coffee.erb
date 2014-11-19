@@ -13,10 +13,10 @@ class HeadersController
     # this is stupid, work with cb instead
     $scope.$on "category_loaded", (event, args) ->
       unless $scope.inited
-        Settings.options    = category.options
-        Settings.scope      = category.scope
-        Settings.collection = category.collection
-        console.log Settings
+        Settings.config.options    = category.options
+        Settings.config.scope      = category.scope
+        Settings.config.collection = category.collection
+        console.log Settings.config
 
     $scope.updateCategories = (id) ->
       $rootScope.$broadcast("select_main_category", id: id)
@@ -36,27 +36,19 @@ class ActionsController
     $scope.body  = "Nur noch wenige Schritte"
 
     $scope.presaveCollection = ->
-      console.log "saveCollection"
-      console.log $scope.collection
-      console.log $scope.collection.price()
+      # put options in params
+      $scope.params = $.param($scope.settings.config)
 
       $scope.dialog ngDialog.open
         controller: 'ActionsController'
-        template: $scope.baseUrl + '/new'
+        template: $scope.baseUrl + '/new?' + $scope.params
         className: 'ngdialog-theme-plain'
 
     $scope.saveCollection = ->
       Item.create($scope)
 
     $scope.collectionSuccessCallback = (data, status) ->
-      console.log "success"
-      console.log $scope.dialog
-      console.log data, status
-      $scope.collection = data
-      $scope.title = "Kollektion gespeichert."
-      # tbd: use template
-      $scope.body = "<img src='#{data.image.url}' />"
-      $scope.showForm = false
+      window.location = data.location
 
     # called if creation fails
     $scope.collectionErrorCallback = (data, status) ->

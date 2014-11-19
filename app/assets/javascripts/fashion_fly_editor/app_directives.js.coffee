@@ -7,8 +7,8 @@ angular.module("ffe").directive 'draggable', ->
       revert: true
 
 angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', ($compile, Item, Collection) ->
-  items      = Item
-  dir =     {}
+  items = Item
+  dir   =     {}
 
   dir.restrict = 'A'
   dir.link = (scope, element, attrs) ->

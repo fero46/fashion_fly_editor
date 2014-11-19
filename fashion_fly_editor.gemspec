@@ -25,4 +25,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'rmagick', '2.13.2'
 
   s.add_development_dependency "sqlite3"
+  s.add_development_dependency "pry"
+  s.add_development_dependency "pry-byebug"
 end

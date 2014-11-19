@@ -38,12 +38,16 @@ angular.module("ffe").factory 'Item', ($http) ->
 
     console.log scope.collection.title
 
-    data = {
-      collection: {
+    data =
+      collection:
         title: scope.collection.title
         collection_items_attributes: @itemsAsArray()
-      }
-    }
+
+    # add config to data
+    if scope.settings?
+      console.log "settings from item create: #{scope.settings.config}"
+      data.options      = scope.settings.config.options
+      data.redirect_url = scope.settings.config.collection.redirect_url
 
     $http(
       method: 'POST'
