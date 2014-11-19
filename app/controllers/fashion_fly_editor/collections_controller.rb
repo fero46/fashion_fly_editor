@@ -19,6 +19,8 @@ module FashionFlyEditor
         options = {} # hier kommen die spezifischen Optionen z.B. scope:scope_id oder contest:true
         call_hooks(@collection, options)
         render json: @collection.to_json(include: :collection_items), status: 201
+      else
+        render json: @collection.to_json(include: :collection_items), status: 422
       end
     end
 
@@ -28,6 +30,7 @@ module FashionFlyEditor
       params.require(:collection).permit(
         :category_id,
         collection_items_attributes: [
+          :title,
           :item_id,
           :remote_image_url,
           :position_x,
