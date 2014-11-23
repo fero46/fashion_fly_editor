@@ -2,7 +2,7 @@ module FashionFlyEditor
   module Api
     module V1
 
-      class SearchController < ApplicationController
+      class SearchController < FashionFlyEditorController
 
         def index
           products = [

@@ -1,7 +1,7 @@
-require_dependency "fashion_fly_editor/application_controller"
+require_dependency "fashion_fly_editor/fashion_fly_editor_controller"
 
 module FashionFlyEditor
-  class CollectionsController < ApplicationController
+  class CollectionsController < FashionFlyEditorController
 
     before_filter :prepare_data, only: [:create]
 

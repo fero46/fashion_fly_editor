@@ -2,7 +2,7 @@ module FashionFlyEditor
   module Api
     module V1
 
-      class CollectionItemsController < ApplicationController
+      class CollectionItemsController < FashionFlyEditorController
 
         def index
           categories = [
