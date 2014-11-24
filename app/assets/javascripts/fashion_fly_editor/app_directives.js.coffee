@@ -40,6 +40,10 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
           recoupTop = 0
           el.draggable
             start: (e, ui) ->
+              # make active on drag
+              $('.ffe-item').removeClass('active')
+              el.addClass('active')
+
               left = parseInt($(this).css('left'),10)
               left = if isNaN(left) then 0 else left
               top = parseInt($(this).css('top'),10)
