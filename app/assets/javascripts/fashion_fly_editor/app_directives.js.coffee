@@ -30,7 +30,7 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
           # create item on canvas
           image = $("<img style='width:100%;height:100%'>")
           image.attr('src', item.image)
-          el    = angular.element "<div class='ffe-item' id='ffe-item_#{key}' style='position: absolute; top:#{position_y}px;left:#{position_x}px'><div class='ffe-item__remove'>x</div></div>"
+          el    = angular.element "<div class='ffe-item' id='ffe-item_#{key}' style='width: #{item.width}px; height: #{item.height}px; position: absolute; top:#{position_y}px;left:#{position_x}px'><div class='ffe-item__remove'>x</div></div>"
           el.html(image)
 
           # includes fix for jumping on dragging with css transforms
@@ -68,6 +68,15 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
               deg = ui.angle.stop * (180/3.14159265) # convert radian to degrees
               item['rotation'] = deg
               items.update key, item
+
+          el.on 'click', (e) ->
+            $('.ffe-item').removeClass('active')
+            $(e.currentTarget).addClass('active')
+
+
+          # make active on load
+          $('.ffe-item').removeClass('active')
+          el.addClass('active')
 
           element.append(el)
 
