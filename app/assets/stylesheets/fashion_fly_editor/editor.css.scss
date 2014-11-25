@@ -47,6 +47,7 @@
   background-color: #dbdbdb;
   line-height: 13px;
   vertical-align: middle;
+  visibility: hidden;
 }
 
 .ffe-item__flip{
@@ -65,6 +66,7 @@
   &:before{
     content: "\21D4";
   }
+  visibility: hidden;
 }
 
 .ffe-item__flop{
@@ -83,6 +85,7 @@
   &:before{
     content: "\21D5";
   }
+  visibility: hidden;
 }
 
 /* jquery ui */
@@ -97,7 +100,7 @@
 .ffe-item{
   &.active{
     border: 1px solid #999;
-    .ui-resizable-handle, .ui-rotatable-handle{
+    .ui-resizable-handle, .ui-rotatable-handle, .ffe-item__flop, .ffe-item__flip, .ffe-item__remove{
       visibility: visible;
     }
   }
