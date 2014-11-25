@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141116193624) do
+ActiveRecord::Schema.define(version: 20141125001914) do
 
   create_table "fashion_fly_editor_categories", force: true do |t|
     t.string   "name"
@@ -36,6 +36,8 @@ ActiveRecord::Schema.define(version: 20141116193624) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "image"
+    t.integer  "scale_x"
+    t.integer  "scale_y"
   end
 
   create_table "fashion_fly_editor_collections", force: true do |t|

@@ -49,6 +49,42 @@
   vertical-align: middle;
 }
 
+.ffe-item__flip{
+  position: absolute;
+  cursor: pointer;
+  display: block;
+  height: 15px;
+  width: 16px;
+  right: 2px;
+  bottom: 2px;
+  text-align: center;
+  padding: 2px;
+  background-color: #dbdbdb;
+  line-height: 13px;
+  vertical-align: middle;
+  &:before{
+    content: "\21D4";
+  }
+}
+
+.ffe-item__flop{
+  position: absolute;
+  cursor: pointer;
+  display: block;
+  height: 15px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  text-align: center;
+  padding: 2px;
+  background-color: #dbdbdb;
+  line-height: 13px;
+  vertical-align: middle;
+  &:before{
+    content: "\21D5";
+  }
+}
+
 /* jquery ui */
 
 .ffe-item{
@@ -64,6 +100,31 @@
     .ui-resizable-handle, .ui-rotatable-handle{
       visibility: visible;
     }
+  }
+  &.flip img{
+    -moz-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    transform: scaleX(-1);
+    -ms-transform: scaleX(-1);
+    -ms-filter: fliph;
+    filter: fliph;
+  }
+  &.flop img{
+    -moz-transform: scaleY(-1);
+    -webkit-transform: scaleY(-1);
+    -o-transform: scaleY(-1);
+    transform: scaleY(-1);
+    -ms-transform: scaleY(-1);
+  }
+  &.flip.flop img{
+    -moz-transform: scale(-1,-1);
+    -webkit-transform: scale(-1,-1);
+    -o-transform: scale(-1,-1);
+    transform: scale(-1,-1);
+    -ms-transform: scale(-1,-1);
+    -ms-filter: fliph flipv;
+    filter: fliph flipv;
   }
 }
 

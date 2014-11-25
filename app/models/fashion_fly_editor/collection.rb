@@ -34,6 +34,8 @@ module FashionFlyEditor
 
         image.resize!(width, height)
         image.rotate! collection_item.rotation
+        image.flip! if collection_item.scale_x == -1
+        image.flop! if collection_item.scale_y == -1
         new_image.composite! image, collection_item.position_x, collection_item.position_y, ::Magick::OverCompositeOp
       end
       fn = SecureRandom.uuid

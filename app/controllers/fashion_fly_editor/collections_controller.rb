@@ -48,6 +48,8 @@ module FashionFlyEditor
           :remote_image_url,
           :position_x,
           :position_y,
+          :scale_x,
+          :scale_y,
           :rotation,
           :width,
           :height,

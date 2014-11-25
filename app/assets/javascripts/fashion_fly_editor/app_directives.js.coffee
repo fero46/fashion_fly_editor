@@ -32,7 +32,12 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
           image = $("<img style='width:100%;height:100%'>")
           image.attr('src', item.image)
           el    = angular.element "<div class='ffe-item' id='ffe-item_#{key}' style='width: #{item.width}px; height: #{item.height}px; position: absolute; top:#{position_y}px;left:#{position_x}px'><div class='ffe-item__remove'>x</div></div>"
-          el.html(image)
+          el.prepend(image)
+
+          flip = $("<div class='ffe-item__flip'>")
+          el.append(flip)
+          flop = $("<div class='ffe-item__flop'>")
+          el.append(flop)
 
           # includes fix for jumping on dragging with css transforms
           # http://stackoverflow.com/questions/3523747/webkit-and-jquery-draggable-jumping
@@ -91,14 +96,34 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
           item['rotation']   = 0
           item['width']      = el.width()
           item['height']     = el.height()
+          item['scale_x']    = 1
+          item['scale_y']    = 1
           items.add key, item
 
           # add remove item
           element.find('.ffe-item__remove').on 'click', (e) ->
             $el = $(e.currentTarget).parent()
-            console.log key
             items.delete $el.attr('id').split('_')[1]
             $el.remove()
+
+          # add flip_x
+          element.find('.ffe-item__flip').on 'click', (e) ->
+            $el = $(e.currentTarget).parent()
+            if $el.hasClass("flip")
+              $el.removeClass("flip")
+              item.scale_x = 1
+            else
+              $el.addClass("flip")
+              item.scale_x = -1
+
+          element.find('.ffe-item__flop').on 'click', (e) ->
+            $el = $(e.currentTarget).parent()
+            if $el.hasClass("flop")
+              $el.removeClass("flop")
+              item.scale_y = 1
+            else
+              $el.addClass("flop")
+              item.scale_y = -1
 
         else
           console.log "move me around"
