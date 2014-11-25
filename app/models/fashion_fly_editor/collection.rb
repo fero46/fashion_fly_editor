@@ -42,6 +42,8 @@ module FashionFlyEditor
       new_image.write("/tmp/#{fn}.jpg")
       self.image = ::File.new("/tmp/#{fn}.jpg")
       self.save!
+      # clean up, only in production
+      File.delete("/tmp/#{fn}.jpg") if Rails.env.production?
     end
 
 
