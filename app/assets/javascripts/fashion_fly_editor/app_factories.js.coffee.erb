@@ -25,7 +25,7 @@ angular.module("ffe").factory 'Item', ($http) ->
     self = @
     allItems = []
     $.each @items, (key, value) ->
-      self.items[key]['item_id'] = self.items[key]['id']
+#      self.items[key]['item_id'] = self.items[key]['id']
       allItems.push self.items[key]
     allItems
 

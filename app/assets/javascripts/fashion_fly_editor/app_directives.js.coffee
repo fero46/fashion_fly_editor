@@ -21,6 +21,7 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
         # check if newly added item
         if $(ui.draggable[0]).data('item')?
           item       = $(ui.draggable[0]).data('item')
+          item["item_id"] = item["id"]
           delete item["id"]
           position_x = ui.offset.left
           position_y = ui.offset.top
