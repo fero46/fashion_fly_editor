@@ -31,9 +31,12 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
           # create item on canvas
           image = $("<img style='width:100%;height:100%'>")
           image.attr('src', item.image)
-          el    = angular.element "<div class='ffe-item' id='ffe-item_#{key}' style='width: #{item.width}px; height: #{item.height}px; position: absolute; top:#{position_y}px;left:#{position_x}px'><div class='ffe-item__remove'>x</div></div>"
+          el    = angular.element "<div class='ffe-item' id='ffe-item_#{key}' style='width: #{item.width}px; height: #{item.height}px; position: absolute; top:#{position_y}px;left:#{position_x}px'></div>"
           el.prepend(image)
 
+          # remove
+          remove = $("<div class='ffe-item__remove'>x</div>")
+          el.append(remove)
           flip = $("<div class='ffe-item__flip'>")
           el.append(flip)
           flop = $("<div class='ffe-item__flop'>")
