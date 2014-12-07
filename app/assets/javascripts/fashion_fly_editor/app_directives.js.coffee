@@ -48,6 +48,7 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
           recoupLeft = 0
           recoupTop = 0
           el.draggable
+            containment: '.ffe-editor__wrapper'
             start: (e, ui) ->
               # make active on drag
               $('.ffe-item').removeClass('active')
