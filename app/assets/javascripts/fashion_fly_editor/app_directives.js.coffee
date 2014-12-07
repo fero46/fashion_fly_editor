@@ -105,13 +105,13 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
           items.add key, item
 
           # add remove item
-          element.find('.ffe-item__remove').on 'click', (e) ->
+          element.find('.ffe-item__remove').off('click').on 'click', (e) ->
             $el = $(e.currentTarget).parent()
             items.delete $el.attr('id').split('_')[1]
             $el.remove()
 
           # add flip_x
-          element.find('.ffe-item__flip').on 'click', (e) ->
+          element.find('.ffe-item__flip').off('click').on 'click', (e) ->
             $el = $(e.currentTarget).parent()
             if $el.hasClass("flip")
               $el.removeClass("flip")
@@ -120,7 +120,7 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
               $el.addClass("flip")
               item.scale_x = -1
 
-          element.find('.ffe-item__flop').on 'click', (e) ->
+          element.find('.ffe-item__flop').off('click').on 'click', (e) ->
             $el = $(e.currentTarget).parent()
             if $el.hasClass("flop")
               $el.removeClass("flop")
