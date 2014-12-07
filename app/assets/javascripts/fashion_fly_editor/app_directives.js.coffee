@@ -16,7 +16,7 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
 
     element.droppable
       hoverClass: "drop-hover",
-      drop: (e, ui) =>
+      drop: (e, ui) ->
 
         # check if newly added item
         if $(ui.draggable[0]).data('item')?
