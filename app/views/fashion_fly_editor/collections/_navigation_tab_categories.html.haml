@@ -1,5 +1,5 @@
 %ul.ffe-categories
-  %li.ffe-category{ 'ng-repeat' => 'category in categories.categories' }
+  %li.ffe-category{ 'ng-repeat' => 'category in categories.categories', 'ng-class' => "{active:isActive(category.id)}"}
     %img{ 'ng-click' => 'selectCategory(category.id)', src: "{{category.icon}}", title: '{{ category.name}}', class: 'category__thumbnail', 'ng-click' => 'selectCategory(category.id)' }
     %span {{category.name}}
 .ffe-filters.ffe-clear

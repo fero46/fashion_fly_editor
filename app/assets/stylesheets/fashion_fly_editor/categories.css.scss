@@ -14,9 +14,12 @@
   .ffe-category{
     float:left;
     height:67px;
-    border: 1px solid grey;
+    border: 1px solid #dbdbdb;
     padding: 2px;
     margin: 1px;
+    &.active{
+      border-color: #333;
+      background-color: #dbdbdb; };
     img{
       width: 58px;
       margin: 0px auto;
@@ -29,6 +32,6 @@
       width: 58px;
     }
   }
- } 
+ }
 
 }

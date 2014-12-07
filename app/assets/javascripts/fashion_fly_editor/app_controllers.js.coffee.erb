@@ -96,6 +96,9 @@ class SidebarsController
       $scope.pagination.update(args.pagination) if args.pagination?
       console.log $scope.pagination
 
+    $scope.isActive = (category_id) ->
+      $scope.category_id == category_id
+
     # init Pagination Object
     $scope.pagination =
       current_page: null
