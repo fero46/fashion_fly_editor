@@ -10,7 +10,6 @@ angular.module("ffe").factory 'Collection', ($http, Item) ->
     price: null
 
   price: ->
-    console.log "collection price"
     items = Item.all()
     price = 0
     $.each items, (key, value) ->
@@ -62,11 +61,9 @@ angular.module("ffe").factory 'Item', ($http) ->
       data: data
       dataType: 'JSON'
     ).success (data, status, headers, config) ->
-      console.log "success"
       scope.collectionSuccessCallback(data, status) if self.scope?
 
     .error (data, status, headers, config) ->
-      console.log "error on creation"
       scope.collectionErrorCallback(data, status) if self.scope?
 
   get: (key) ->
@@ -83,6 +80,9 @@ angular.module("ffe").factory 'Item', ($http) ->
 
   all: ->
     @items
+
+  select: (key) ->
+    @selected = @items[key]
 
 angular.module("ffe").factory 'Search', ($resource, $rootScope) ->
   class Search
@@ -110,7 +110,6 @@ angular.module("ffe").factory 'Category', ($resource, $rootScope) ->
 
     get: (id) ->
       @service.get(id: id, (data) ->
-        console.log data
         $rootScope.$broadcast("category_loaded", data)
       )
 

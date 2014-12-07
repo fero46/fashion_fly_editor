@@ -2,7 +2,6 @@
 
 class HeadersController
   constructor: ($scope, $rootScope, Category, Settings) ->
-    console.log $scope, $rootScope
     self = @
 
     $scope.inited = false
@@ -16,14 +15,12 @@ class HeadersController
         Settings.config.options    = category.options
         Settings.config.scope      = category.scope
         Settings.config.collection = category.collection
-        console.log Settings.config
 
     $scope.updateCategories = (id) ->
       $rootScope.$broadcast("select_main_category", id: id)
 
 class ActionsController
   constructor: ($scope, Item, Collection, Settings, ngDialog) ->
-    console.log "init me"
     self = @
 
     $scope.settings = Settings
@@ -53,8 +50,6 @@ class ActionsController
     # called if creation fails
     $scope.collectionErrorCallback = (data, status) ->
       $scope.title = "Bar"
-      console.log "error"
-      console.log data, status
       ngDialog.open
         controller: 'ActionsController'
         template: '<p>{{ title }} Fehler: Kollektion konnte nicht gespeichert werden.</p>'
@@ -80,12 +75,15 @@ class MainController
       $scope.priceRanges = if args.price_ranges? then args.price_ranges else []
 
     $scope.$on "search_loaded", (event, args) ->
-      console.log "search loaded"
       $scope.pagination.update(args.pagination) if args.pagination?
-      console.log $scope.pagination
 
     $scope.isActive = (category_id) ->
       $scope.category_id == category_id
+
+    $scope.selectedItem = ->
+      item = Item.selected || undefined
+      if item?
+        "#{item.name}, #{parseFloat(item.price).toFixed(2)}"
 
     # init Pagination Object
     $scope.pagination =
@@ -118,7 +116,6 @@ class MainController
     $scope.products = $scope.Search.all()
 
     $scope.resetFilters = ->
-      console.log "resetting filters"
       $scope.filter_subcategory = null
       $scope.filter_brand       = null
       $scope.filter_color       = null
@@ -131,7 +128,6 @@ class MainController
       $scope.subcategories = []
 
     $scope.selectCategory = (id) ->
-      console.log "selecting category #{id}"
       $scope.category_id   = id
       $scope.subcategories = $scope.Category.get($scope.category_id)
       params =
@@ -141,14 +137,13 @@ class MainController
       $scope.products = $scope.Search.all(params)
 
     $scope.selectProduct = (id) ->
-      console.log "selecting product #{id}"
+      # nothing
 
     $scope.updateFilters = ->
       $scope.pagination.reset()
       $scope.updateItems()
 
     $scope.updateItems = ->
-      console.log "updating items based on filter"
       params =
         category: if $scope.filter_subcategory? then $scope.filter_subcategory.id else $scope.category_id
         brand: if $scope.filter_brand? then $scope.filter_brand.id

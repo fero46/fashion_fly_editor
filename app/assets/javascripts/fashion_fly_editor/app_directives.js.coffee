@@ -52,6 +52,8 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
               # make active on drag
               $('.ffe-item').removeClass('active')
               el.addClass('active')
+              Item.select(key)
+              dir.scope.$apply()
 
               left = parseInt($(this).css('left'),10)
               left = if isNaN(left) then 0 else left
@@ -84,9 +86,12 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
               items.update key, item
 
           el.on 'click', (e) ->
-            $('.ffe-item').removeClass('active')
-            $(e.currentTarget).addClass('active')
-
+            e.stopPropagation()
+            if(!$(e.currentTarget).hasClass('active'))
+              $('.ffe-item').removeClass('active')
+              $(e.currentTarget).addClass('active')
+              items.select(key)
+              dir.scope.$apply()
 
           # make active on load
           $('.ffe-item').removeClass('active')
@@ -109,6 +114,7 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
             $el = $(e.currentTarget).parent()
             items.delete $el.attr('id').split('_')[1]
             $el.remove()
+            items.selected = undefined
             dir.scope.$apply()
 
           # add flip_x
@@ -130,15 +136,20 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
               $el.addClass("flop")
               item.scale_y = -1
 
+          items.select(key)
           dir.scope.$apply()
 
         else
-          console.log "move me around"
           position_x = ui.offset.left - $(this).offset().left
           position_y = ui.offset.top - $(this).offset().top
 
-        # debug info
-        console.log items.all()
+  # deselect item on canvas click, seems a little bit dirty, but works
+  $(".ffe-editor").off('mousedown').on 'mousedown', (e) ->
+    e.stopPropagation()
+    if $(e.target).hasClass('ffe-editor__canvas') || $(e.target).hasClass('ffe-editor__wrapper')
+      $('.ffe-item').removeClass('active')
+      Item.selected = undefined
+      dir.scope.$apply()
 
   dir
 ]
