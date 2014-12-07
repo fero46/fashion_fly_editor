@@ -195,3 +195,9 @@
   margin-left: -6px;
   bottom: -36px;
 }
+
+.field{
+  &.error input{
+    border: 1px solid red;
+  }
+}

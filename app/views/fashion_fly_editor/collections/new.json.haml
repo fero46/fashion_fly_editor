@@ -1,15 +1,20 @@
 %h1 {{ title }}
 %p.body{ "ng-bind-html" => "body" }{{ body }}
-.form{ "ng-show" => "showForm" }
+.form
   = form_for @collection do |f|
 
-    = f.label :title, "Geben Sie ihre Kollektion einen Titel"
-    = f.text_field :title, "ng-model" => 'collection.title'
+    .field{ "ng-class" =>"errorClass('title')" }
+      = f.label :title, "Geben Sie ihre Kollektion einen Titel"
+      = f.text_field :title, "ng-model" => 'collection.title'
+      .error{"ng-show"=>"form.title.$invalid && form.title.$dirty"}
+        {{ errorMessage('title') }}
     - @options.each do |field|
-      %input{ type: field["type"], value: field["value"], name: "options[#{field["name"]}]" }
-      - if field["label"].present?
-        %label= field["label"]
-    = f.select :category, @categories, { include_blank: false }
+      .field
+        %input{ type: field["type"], value: field["value"], name: "options[#{field["name"]}]" }
+        - if field["label"].present?
+          %label= field["label"]
+    .field
+      = f.select :category, @categories, { include_blank: false }
 
 .ngdialog-buttons.mt
   = link_to "Speichern", "#", class: "ngdialog-button ngdialog-button-primary", "ng-click" => "saveCollection()"

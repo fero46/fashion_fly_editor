@@ -14,6 +14,8 @@ module FashionFlyEditor
 
     after_create :build_image
 
+    validates :title, presence: true
+
     protected
 
     def build_image

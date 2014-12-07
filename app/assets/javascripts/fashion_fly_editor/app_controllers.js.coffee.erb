@@ -27,21 +27,31 @@ class ActionsController
     $scope.baseUrl  = window.location.origin + window.location.pathname + '/collections'
 
     $scope.collection = Collection
-    $scope.collection.title = "Give me a title"
-    $scope.showForm = true
+    $scope.form = {}
+    $scope.collection.title = undefined
     $scope.title = "Kollektion speichern"
-    $scope.body  = "Nur noch wenige Schritte"
+    $scope.body  = "Nur noch wenige Schritte."
 
     $scope.presaveCollection = ->
-      # put options in params
-      $scope.params = $.param($scope.settings.config)
+      if $.map(Item.all(), (n, i) -> return i).length > 0
+        # put options in params
+        $scope.params = $.param($scope.settings.config)
 
-      $scope.dialog ngDialog.open
-        controller: 'ActionsController'
-        template: $scope.baseUrl + '/new?' + $scope.params
-        className: 'ngdialog-theme-plain'
+        ngDialog.open
+          controller: 'ActionsController'
+          template: $scope.baseUrl + '/new?' + $scope.params
+          className: 'ngdialog-theme-plain'
+
+      else
+        # TODO: add route and template
+        ngDialog.open
+          controller: 'ActionsController'
+          template: 'Bitte fügen Sie mindestens ein Element der Kollektion hinzu.'
+          className: 'ngdialog-theme-plain'
+          plain: true
 
     $scope.saveCollection = ->
+      $scope.form = {}
       Item.create($scope)
 
     $scope.collectionSuccessCallback = (data, status) ->
@@ -49,12 +59,30 @@ class ActionsController
 
     # called if creation fails
     $scope.collectionErrorCallback = (data, status) ->
-      $scope.title = "Bar"
-      ngDialog.open
-        controller: 'ActionsController'
-        template: '<p>{{ title }} Fehler: Kollektion konnte nicht gespeichert werden.</p>'
-        plain: true
-        className: 'ngdialog-theme-plain'
+      $scope.body = "Kollektion konnte nicht gespeichert werden."
+      $scope.failure(data)
+
+    $scope.failure = (response) ->
+      $.each response, (key, errors) ->
+        $.each errors, (k, e) ->
+          $scope.form[key] ||= {}
+          $scope.form[key].$dirty = true
+          $scope.form[key].$invalid = true
+          $scope.form[key].errors ||= []
+          $scope.form[key].errors.push(e)
+
+    $scope.errorMessage = (name) ->
+      result = []
+      if $scope.form[name]?
+        $.each $scope.form[name].errors, (key, value) ->
+          result.push(value)
+        result.join(", ")
+
+    $scope.errorClass = (name) ->
+      s = $scope.form
+      if s?
+        s = s[name]
+        if s? && s.$invalid && s.$dirty then "error" else ""
 
 class MainController
   constructor: ($scope, Search, Category, Collection, Item) ->

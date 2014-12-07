@@ -27,7 +27,7 @@ module FashionFlyEditor
         call_hooks(@collection, @options)
         render json: { location: get_redirect_url }.to_json, status: 201
       else
-        render json: @collection.to_json(include: :collection_items), status: 422
+        render json: @collection.errors.to_json, status: 422
       end
     end
 
