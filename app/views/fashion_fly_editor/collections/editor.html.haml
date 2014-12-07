@@ -1,7 +1,8 @@
-.ffe-editor.ffe-clear{ ng: {controller: 'ActionsController'} }
+.ffe-editor.ffe-clear{ 'ng-controller' => 'MainController'}
   .ffe-editor__meta
     .ffe-editor__collection_price{ 'ng-show' => 'collectionMetaInformation()' }
-      Der Preis für die gesamte Kollektion beträgt {{ collectionMetaInformation() }}€ ({{ collectionItemCount() }} Elemente)
+      Der Preis für die gesamte Kollektion beträgt {{ collectionMetaInformation() }}€
+      %ng-pluralize{ count: "collectionItemCount()", 'when' => "{0: '', 'one': '(1 Produkt)', 'other': '({} Produkte)'}"} foo
     .ffe-editor__collection_add_element{ 'ng-show' => '!collectionMetaInformation()' }
       Füge Produkte zur Kollektion hinzu.
   .ffe-editor__wrapper{ 'droppable' => true }
@@ -9,5 +10,5 @@
 
   = render 'editor_pane'
 
-  .ffe-editor__actions.ffe-clear
+  .ffe-editor__actions.ffe-clear{ 'ng-controller' => 'ActionsController'}
     = link_to "Kollektion speichern", '#', class: 'btn btn-save', 'ng-click' => 'presaveCollection()'

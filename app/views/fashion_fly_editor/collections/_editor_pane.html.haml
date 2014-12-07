@@ -1,12 +1,12 @@
-.ffe-editor__pane{ 'ng-controller' => 'SidebarsController'}
-  %ul.navigation_tab 
+.ffe-editor__pane
+  %ul.navigation_tab
     %li.active{'navigation-tab' => 'ff-tab_categories'}
       %a Categories
     %li{'navigation-tab' => 'ff-tab_search'}
       %a Search
     %li{'navigation-tab' => 'ff-tab_styleboard'}
-      %a Styleboard            
+      %a Styleboard
   %div.ff-tab-window.active.ff-tab_categories
     = render 'navigation_tab_categories'
   %div.ff-tab-window.ff-tab_search
-  %div.ff-tab-window.ff-tab_styleboard 
+  %div.ff-tab-window.ff-tab_styleboard

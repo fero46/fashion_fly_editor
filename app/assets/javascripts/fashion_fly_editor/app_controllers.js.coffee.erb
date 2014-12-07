@@ -61,20 +61,8 @@ class ActionsController
         plain: true
         className: 'ngdialog-theme-plain'
 
-    $scope.collectionMetaInformation = ->
-      price = $scope.collection.price()
-      if price? && price != 0
-        return price.toFixed(2)
-      else
-        return false
-
-    $scope.collectionItemCount = ->
-      items = Item.all()
-      # think not supported in ie8
-      Object.keys(items).length
-
-class SidebarsController
-  constructor: ($scope, Search, Category) ->
+class MainController
+  constructor: ($scope, Search, Category, Collection, Item) ->
     self = @
 
     # events
@@ -170,7 +158,20 @@ class SidebarsController
 
       $scope.products = $scope.Search.all(params)
 
+    $scope.collection = Collection
+    $scope.collectionMetaInformation = ->
+      price = $scope.collection.price()
+      if price? && price != 0
+        return price.toFixed(2)
+      else
+        return false
+
+    $scope.collectionItemCount = ->
+      items = Item.all()
+      # think not supported in ie8
+      Object.keys(items).length
+
 angular.module("ffe.controllers", [])
-.controller("SidebarsController", ["$scope", "Search", "Category", SidebarsController])
+.controller("MainController", ["$scope", "Search", "Category", "Collection", "Item", MainController])
 .controller("ActionsController", ["$scope", "Item", 'Collection', 'Settings', 'ngDialog', ActionsController])
 .controller("HeadersController", ["$scope", "$rootScope", "Category", "Settings", HeadersController])

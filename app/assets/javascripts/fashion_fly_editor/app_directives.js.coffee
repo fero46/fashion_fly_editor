@@ -8,15 +8,15 @@ angular.module("ffe").directive 'draggable', ->
 
 angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', ($compile, Item, Collection) ->
   items = Item
-  dir   =     {}
+  dir   = {}
 
   dir.restrict = 'A'
   dir.link = (scope, element, attrs) ->
-    self = @
+    dir.scope = scope
 
     element.droppable
       hoverClass: "drop-hover",
-      drop: (e, ui) ->
+      drop: (e, ui) =>
 
         # check if newly added item
         if $(ui.draggable[0]).data('item')?
@@ -105,10 +105,11 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
           items.add key, item
 
           # add remove item
-          element.find('.ffe-item__remove').off('click').on 'click', (e) ->
+          element.find('.ffe-item__remove').off('click').on 'click', (e) =>
             $el = $(e.currentTarget).parent()
             items.delete $el.attr('id').split('_')[1]
             $el.remove()
+            dir.scope.$apply()
 
           # add flip_x
           element.find('.ffe-item__flip').off('click').on 'click', (e) ->
@@ -128,6 +129,8 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
             else
               $el.addClass("flop")
               item.scale_y = -1
+
+          dir.scope.$apply()
 
         else
           console.log "move me around"
