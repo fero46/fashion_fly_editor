@@ -14,7 +14,7 @@
         - if field["label"].present?
           %label= field["label"]
     .field
-      = f.select :category, @categories, { include_blank: false }
+      = f.select :category, options_for_select(@categories)
 
 .ngdialog-buttons.mt
   = link_to "Speichern", "#", class: "ngdialog-button ngdialog-button-primary", "ng-click" => "saveCollection()"
