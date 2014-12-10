@@ -14,6 +14,22 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
   dir.link = (scope, element, attrs) ->
     dir.scope = scope
 
+    dir.getInitialImageDimensions = (item, maxWidth = 200, maxHeight = 200) ->
+      size = {}
+      ratio = item.width / item.height
+      if ratio > 1 && item.width > maxWidth
+        ratio = maxWidth / item.width
+        size.width = maxWidth
+        size.height = item.height * ratio
+      else if ratio < 1 && item.height > maxHeight
+        ratio = maxHeight / item.height
+        size.width = item.width * ratio
+        size.height = maxHeight
+      else
+        size.width = item.width
+        size.height = item.height
+      size
+
     element.droppable
       hoverClass: "drop-hover",
       drop: (e, ui) ->
@@ -26,13 +42,17 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
           position_x = ui.offset.left
           position_y = ui.offset.top
 
+          initial_size = dir.getInitialImageDimensions(item)
+          initial_width = initial_size.width;
+          initial_height = initial_size.height;
+
           # random key for element
           key = Math.random().toString(36).replace(/[^a-z]+/g, '')
 
           # create item on canvas
           image = $("<img style='width:100%;height:100%'>")
           image.attr('src', item.image)
-          el    = angular.element "<div class='ffe-item' id='ffe-item_#{key}' style='width: #{item.width}px; height: #{item.height}px; position: absolute; top:#{position_y}px;left:#{position_x}px'></div>"
+          el    = angular.element "<div class='ffe-item' id='ffe-item_#{key}' style='width: #{initial_width}px; height: #{initial_height}px; position: absolute; top:#{position_y}px;left:#{position_x}px'></div>"
           el.prepend(image)
 
           # remove
@@ -104,8 +124,8 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
           item['position_x'] = position_x - $('.ffe-editor__canvas').offset().left
           item['position_y'] = position_y - $('.ffe-editor__canvas').offset().top
           item['rotation']   = 0
-          item['width']      = el.width()
-          item['height']     = el.height()
+          item['width']      = initial_width
+          item['height']     = initial_height
           item['scale_x']    = 1
           item['scale_y']    = 1
           items.add key, item
