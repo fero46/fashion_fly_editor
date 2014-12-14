@@ -1,0 +1,4 @@
+%h4.ffe-clear Items
+%ul.ffe-products
+  %li.ffe-product{ 'draggable' => true, 'ng-repeat' => 'product in products.products', data: { item: "{{product}}" } }
+    %img{ src: "{{product.image}}", class: 'product__thumbnail', 'ng-click' => 'selectProduct(product.id)', title: "{{ product.name }}" }

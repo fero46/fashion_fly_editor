@@ -114,6 +114,28 @@ class MainController
       if item?
         "#{item.name}, #{parseFloat(item.price).toFixed(2)}"
 
+    # search
+    $scope.searchTerm = null # tmp holds search term
+    $scope.search = ->
+      $scope.resetFilters()
+      $scope.filter_name = $scope.searchTerm
+      $scope.updateItems()
+
+    # init tabs
+    $scope.tabs =
+      selected: 1
+      selectTab: (setTab) ->
+        this.selected = setTab
+        if this.selected == 1
+          $scope.filter_name = null # reset search, we always want items
+          $scope.updateItems()
+
+        if this.selected == 2 # show search, based on prev search
+          $scope.search()
+
+      isSelected: (checkTab) ->
+        this.selected == checkTab
+
     # init Pagination Object
     $scope.pagination =
       current_page: null
@@ -145,6 +167,7 @@ class MainController
     $scope.products = $scope.Search.all()
 
     $scope.resetFilters = ->
+      $scope.filter_name        = null
       $scope.filter_subcategory = null
       $scope.filter_brand       = null
       $scope.filter_color       = null
@@ -165,15 +188,13 @@ class MainController
       $scope.pagination.reset()
       $scope.products = $scope.Search.all(params)
 
-    $scope.selectProduct = (id) ->
-      # nothing
-
     $scope.updateFilters = ->
       $scope.pagination.reset()
       $scope.updateItems()
 
     $scope.updateItems = ->
       params =
+        name: if $scope.filter_name? then $scope.filter_name
         category: if $scope.filter_subcategory? then $scope.filter_subcategory.id else $scope.category_id
         brand: if $scope.filter_brand? then $scope.filter_brand.id
         color: if $scope.filter_color? then $scope.filter_color.hex.split("#")[1]

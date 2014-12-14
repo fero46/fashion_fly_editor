@@ -16,13 +16,6 @@
   %select{ ng: { model: 'filter_priceRange', options: 'price.range for price in priceRanges track by price.range', change: 'updateFilters()' } }
     %option{ value: ''} -- Preis --
 
-%h4.ffe-clear Items
-%ul.ffe-products
-  %li.ffe-product{ 'draggable' => true, 'ng-repeat' => 'product in products.products', data: { item: "{{product}}" } }
-    %img{ src: "{{product.image}}", class: 'product__thumbnail', 'ng-click' => 'selectProduct(product.id)', title: "{{ product.name }}" }
+= render 'items'
 
-%ul.ffe-pagination.ffe-clear
-  %li.ffe-pagination__previous{ 'ng-show' => '!pagination.first_page' }
-    %a{ href: '#', 'ng-click' => 'pagination.paginate(pagination.current_page - 1)'} Zurück
-  %li.ffe-pagination__next{ 'ng-show' => '!pagination.last_page' }
-    %a{ href: '#', 'ng-click' => 'pagination.paginate(pagination.current_page + 1)'} Weiter
+= render 'pagination'
