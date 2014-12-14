@@ -117,6 +117,7 @@ class MainController
     # search
     $scope.searchTerm = null # tmp holds search term
     $scope.search = ->
+      $scope.category_id = undefined
       $scope.resetFilters()
       $scope.filter_name = $scope.searchTerm
       $scope.updateItems()
