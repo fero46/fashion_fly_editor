@@ -144,7 +144,8 @@ class MainController
       first_page: null
       last_page: null
       total_count: null
-      paginate: (page) ->
+      paginate: ($event, page) ->
+        $event.preventDefault()
         @current_page = page
         $scope.updateItems()
       update: (vals) ->
