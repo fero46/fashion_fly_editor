@@ -13,5 +13,5 @@
 
   = render 'editor_pane'
 
-  .ffe-editor__actions.ffe-clear{ 'ng-controller' => 'ActionsController'}
-    = link_to "Kollektion speichern", '#', class: 'btn btn-save', 'ng-click' => 'presaveCollection()'
+.ffe-editor__actions{ 'ng-controller' => 'ActionsController'}
+  = link_to "Kollektion speichern", '#', class: 'btn btn-save', 'ng-click' => 'presaveCollection()'

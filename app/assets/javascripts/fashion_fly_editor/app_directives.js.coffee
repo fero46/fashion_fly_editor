@@ -169,7 +169,7 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
         else
           position_x = ui.offset.left - $(this).offset().left
           position_y = ui.offset.top - $(this).offset().top
-          console.log items.all()
+
   # deselect item on canvas click, seems a little bit dirty, but works
   $(".ffe-editor").off('mousedown').on 'mousedown', (e) ->
     e.stopPropagation()

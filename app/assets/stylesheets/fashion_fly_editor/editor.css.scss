@@ -32,6 +32,11 @@
   z-index: 9999;
 }
 
+.ffe__items{
+  position: relative;
+  margin-top: 2em;
+}
+
 .ffe-item{
   cursor: pointer;
 }
@@ -141,13 +146,55 @@
   }
 }
 
+.ffe-filters{
+  margin-top: 1em;
+}
+
+.ffe-filter__subcategory{
+  width: 128px;
+}
+
+.ffe-filter__brand{
+  width: 88px;
+}
+
+.ffe-filter__color{
+  width: 81px;
+}
+
+.ffe-filter__pricerange{
+  width: 81px;
+}
+
+.ffe-pagination__next{
+  cursor: pointer;
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  background: url(image-path("fashion_fly_editor/arrows.gif")) no-repeat scroll 0 50% transparent;
+  width: 12px;
+  height: 40px;
+}
+
+.ffe-pagination__previous{
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  background: url(image-path("fashion_fly_editor/arrows.gif")) no-repeat scroll -44px 50% transparent;
+  width: 12px;
+  height: 40px;
+}
+
 .ui-resizable-n {
   cursor: n-resize; }
 
 .ui-resizable-s {
   cursor: s-resize; }
 
-.ui-resizable-e {
+.ui-resizable-e {ffe-pagination__previous{
+
+}
   cursor: e-resize; }
 
 .ui-resizable-w {

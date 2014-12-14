@@ -10,8 +10,8 @@
  .ffe-categories{
   padding: 0;
   margin: 0;
-  margin-left: 3px;
   .ffe-category{
+    cursor: pointer;
     float:left;
     height:67px;
     border: 1px solid #dbdbdb;
@@ -23,7 +23,6 @@
     img{
       width: 58px;
       margin: 0px auto;
-      cursor: pointer;
     }
     span{
       display: block;
