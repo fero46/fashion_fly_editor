@@ -5,8 +5,9 @@
       %ng-pluralize{ count: "collectionItemCount()", 'when' => "{0: '', 'one': '(1 Produkt)', 'other': '({} Produkte)'}"} foo
     .ffe-editor__collection_add_element{ 'ng-show' => '!collectionMetaInformation()' }
       Füge Produkte zur Kollektion hinzu.
-    .ffe-editor__collection_selected_item{'ng-show' => 'selectedItem()'}
-      {{ selectedItem() }}€
+    .ffe-editor__collection_selected_item
+      {{ selectedItem() }}
+      %span.item__curency{'ng-show' => 'selectedItem()'}€
   .ffe-editor__wrapper{ 'droppable' => true }
     .ffe-editor__canvas
 

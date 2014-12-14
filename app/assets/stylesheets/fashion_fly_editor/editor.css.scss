@@ -98,6 +98,14 @@
   }
 }
 
+.ffe-editor__collection_selected_item{
+  height: 20px;
+}
+
+.ffe-editor__meta{
+  margin-left: 10px;
+}
+
 .ffe-item{
   &.active{
     border: 1px solid #999;
