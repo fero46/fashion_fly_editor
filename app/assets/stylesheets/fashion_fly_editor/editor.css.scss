@@ -259,3 +259,9 @@
     border: 1px solid red;
   }
 }
+
+@media screen and (max-width: 1500px) {
+  .ffe-editor__wrapper{
+    width: 58%;
+  }
+}
