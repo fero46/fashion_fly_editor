@@ -50,7 +50,8 @@ class ActionsController
           className: 'ngdialog-theme-plain'
           plain: true
 
-    $scope.saveCollection = ->
+    $scope.saveCollection = ($event) ->
+      $event.preventDefault()
       $scope.form = {}
       Item.create($scope)
 

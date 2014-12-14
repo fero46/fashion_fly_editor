@@ -1,6 +1,6 @@
 %h1 {{ title }}
 %p.body{ "ng-bind-html" => "body" }{{ body }}
-.form
+.form{ "ng-submit" => "saveCollection($event)"}
   = form_for @collection do |f|
 
     .field{ "ng-class" =>"errorClass('title')" }
@@ -17,4 +17,4 @@
       = f.select :category, options_for_select(@categories)
 
 .ngdialog-buttons.mt
-  = link_to "Speichern", "#", class: "ngdialog-button ngdialog-button-primary", "ng-click" => "saveCollection()"
+  = link_to "Speichern", "#", class: "ngdialog-button ngdialog-button-primary", "ng-click" => "saveCollection($event)"
