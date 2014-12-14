@@ -10,6 +10,14 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
   items = Item
   dir   = {}
 
+  dir.childOffset = ->
+    wrapper = $('.ffe-editor__wrapper').offset();
+    canvas = $('.ffe-editor__canvas').offset();
+    return {
+      top: canvas.top - wrapper.top,
+      left: canvas.left - wrapper.left
+    }
+
   dir.restrict = 'A'
   dir.link = (scope, element, attrs) ->
     dir.scope = scope
@@ -37,10 +45,8 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
         # check if newly added item
         if $(ui.draggable[0]).data('item')?
           item       = $(ui.draggable[0]).data('item')
-          item["item_id"] = item["id"]
-          delete item["id"]
-          position_x = ui.offset.left
-          position_y = ui.offset.top
+          position_x = ui.offset.left - $('.ffe-editor__wrapper').offset().left
+          position_y = ui.offset.top - $('.ffe-editor__wrapper').offset().top
 
           initial_size = dir.getInitialImageDimensions(item)
           initial_width = initial_size.width;
@@ -68,7 +74,6 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
           recoupLeft = 0
           recoupTop = 0
           el.draggable
-            containment: '.ffe-editor__wrapper'
             start: (e, ui) ->
               # make active on drag
               $('.ffe-item').removeClass('active')
@@ -87,9 +92,9 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
               ui.position.left += recoupLeft
               ui.position.top  += recoupTop
 
-            stop: (e, ui) ->
-              item['position_x'] = ui.position.left - $('.ffe-editor__canvas').offset().left
-              item['position_y'] = ui.position.top - $('.ffe-editor__canvas').offset().top
+            stop: (e, ui) =>
+              item['position_x'] = ui.position.left - dir.childOffset().left
+              item['position_y'] = ui.position.top - dir.childOffset().top
               items.update key, item
 
           el.resizable
@@ -121,13 +126,14 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
           element.append(el)
 
           # set initial values for item and add to collection
-          item['position_x'] = position_x - $('.ffe-editor__canvas').offset().left
-          item['position_y'] = position_y - $('.ffe-editor__canvas').offset().top
+          item['position_x'] = position_x - dir.childOffset().left
+          item['position_y'] = position_y - dir.childOffset().top
           item['rotation']   = 0
           item['width']      = initial_width
           item['height']     = initial_height
           item['scale_x']    = 1
           item['scale_y']    = 1
+          item['item_id']    = item.id
           items.add key, item
 
           # add remove item
@@ -163,7 +169,7 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
         else
           position_x = ui.offset.left - $(this).offset().left
           position_y = ui.offset.top - $(this).offset().top
-
+          console.log items.all()
   # deselect item on canvas click, seems a little bit dirty, but works
   $(".ffe-editor").off('mousedown').on 'mousedown', (e) ->
     e.stopPropagation()
