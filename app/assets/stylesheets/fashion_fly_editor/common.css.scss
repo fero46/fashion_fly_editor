@@ -3,6 +3,10 @@ body{
   padding: 0px;
 }
 
+.container{
+  min-width: 1170px;
+}
+
 header{
   margin-bottom: 1em;
   height: 47px;
@@ -58,4 +62,10 @@ footer{
 
 .ngdialog.ngdialog-theme-plain .ngdialog-content{
   width: 640px;
+}
+
+@media screen and (max-width: 1500px) {
+  .ffe-editor__wrapper{
+    max-width: 58%;
+  }
 }
