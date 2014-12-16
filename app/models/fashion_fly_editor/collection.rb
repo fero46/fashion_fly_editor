@@ -33,10 +33,36 @@ module FashionFlyEditor
         height = collection_item.height
 
         image.resize!(width, height)
-        image.rotate! collection_item.rotation
+        # First Flip Flop then Rotate
         image.flop! if collection_item.scale_x == -1
         image.flip! if collection_item.scale_y == -1
-        new_image.composite! image, collection_item.position_x, collection_item.position_y, ::Magick::OverCompositeOp
+        position_x = collection_item.position_x
+        position_y = collection_item.position_y
+        # fix rotation bug http://stackoverflow.com/questions/14094386/calculate-new-x-and-y-coordinates-after-rotation
+        if collection_item.rotation != 0
+          image.rotate! collection_item.rotation
+          theta = collection_item.rotation*Math::PI/180.0;
+
+          # Find the middle rotating point
+          midX = position_x + width/2;
+          midY = position_y + height/2;
+
+          
+          # Find all the corners relative to the center
+          cornersX = [position_x-midX, position_x-midX, position_x+width-midX, position_x+width-midX];
+          cornersY = [position_y-midY, position_y+height-midY, midY-position_y, position_y+height-midY];
+
+          #Find new the minimum corner X and Y by taking the minimum of the bounding box
+          newX = 1e10;
+          newY = 1e10;
+          4.times do |i|
+            newX = [newX, cornersX[i]*Math.cos(theta) - cornersY[i]*Math.sin(theta) + midX].min;
+            newY = [newY, cornersX[i]*Math.sin(theta) + cornersY[i]*Math.cos(theta) + midY].min;
+          end
+          position_x = newX
+          position_y = newY
+        end
+        new_image.composite! image, position_x, position_y, ::Magick::OverCompositeOp
       end
       fn = SecureRandom.uuid
       new_image.write("/tmp/#{fn}.jpg")
