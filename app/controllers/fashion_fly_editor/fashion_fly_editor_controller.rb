@@ -16,9 +16,17 @@ module FashionFlyEditor
 private
     def call_method(method, options={})
       begin
-        self.method(method).call(options)
+        if options.blank?
+          self.method(method).call
+        else
+          self.method(method).call(options)
+        end
       rescue NoMethodError
-        ::ApplicationController.method(method).call(options)
+          if options.blank?    
+            ::ApplicationController.method(method).call()
+          else
+            ::ApplicationController.method(method).call(options)
+          end
       end
     end
 

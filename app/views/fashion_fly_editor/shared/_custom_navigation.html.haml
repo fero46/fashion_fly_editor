@@ -1,4 +1,7 @@
+
 %ul.ffe-navigation
   %li
     %a.item{href: '#', title:'item'} Extra Navigation1
-    %a.item{href: '#', title:'item'} Extra Navigation2    
+    %a.item{href: '#', title:'item'} Extra Navigation2
+    - if scoped_current_user
+      %a.item{href: '#', title:'item'}= scoped_current_user.name
