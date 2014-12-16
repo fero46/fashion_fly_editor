@@ -18,7 +18,7 @@ class HeadersController
         $scope.inited= true
         $rootScope.$broadcast("select_main_category", id: $scope.categories.categories[0].id)
         $('body').fadeIn(100)
-
+        
     $scope.updateCategories = (id) ->
       $rootScope.$broadcast("select_main_category", id: id)
 
