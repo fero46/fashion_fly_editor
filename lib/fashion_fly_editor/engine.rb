@@ -38,7 +38,8 @@ module FashionFlyEditor
                     :authentication_enabled,
                     :authentication_method,
                     :mount_web_service,
-                    :callbacks
+                    :callbacks,
+                    :current_user
 
       def initialize
         @categories_endpoint    = "http://localhost:3000/de/api/categories"
@@ -47,6 +48,7 @@ module FashionFlyEditor
         @authentication_method  = :authenticate_user
         @mount_test_api         = false
         @callbacks              =[]
+        @current_user           = :default_user
       end
     end
 
