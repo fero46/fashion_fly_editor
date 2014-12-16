@@ -43,7 +43,7 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
       drop: (e, ui) ->
         # check if newly added item
         if $(ui.draggable[0]).data('item')?
-          item       = $(ui.draggable[0]).data('item')
+          item       =  jQuery.extend(true, {}, $(ui.draggable[0]).data('item'));
           position_x = ui.offset.left - $('.ffe-editor__wrapper').offset().left
           position_y = ui.offset.top - $('.ffe-editor__wrapper').offset().top
 
@@ -143,9 +143,10 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
           item['scale_x']    = 1
           item['scale_y']    = 1
           item['item_id']    = item.id
+          item['id'] = key
           item['order']   = new_index
           items.add key, item
-
+          window.items = items
           # add remove item
           element.find('.ffe-item__remove').off('click').on 'click', (e) =>
             $el = $(e.currentTarget).parent()
