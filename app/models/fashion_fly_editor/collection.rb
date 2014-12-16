@@ -28,7 +28,7 @@ module FashionFlyEditor
       maximal_dimension_y = 442
 
       new_image = ::Magick::Image.new(maximal_dimension_x, maximal_dimension_y) { self.background_color = "#ffffff" }
-      self.collection_items.each do |collection_item|
+      self.collection_items.order('`order` ASC').each do |collection_item|
         path  = collection_item.image.path
         image = ::Magick::Image.read(path).first
 

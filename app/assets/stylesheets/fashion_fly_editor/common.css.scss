@@ -68,3 +68,31 @@ footer{
 .ngdialog.ngdialog-theme-plain .ngdialog-content{
   width: 640px;
 }
+
+
+.ffe-editor{
+  position: relative;
+  .ffe-editor__meta{
+    z-index: 50000;
+    text-shadow: 2px 2px 3px rgba(255,255,255,0.1);
+    position: absolute;
+    font-size: 13px;
+    top: 14px;
+    left: 20px;
+    padding:0px;
+    margin:0px;
+    width: 100%;
+    .ffe-editor__collection_price, .ffe-editor__collection_add_element, .ffe-editor__collection_selected_item{
+      display: inline-block;
+      height: 16px;
+      position: static;
+    }
+    .ffe-editor__collection_selected_item:before{
+      font-weight: bold;
+      content: " | "
+    }
+    .ffe-editor__collection_selected_item{
+      font-weight: bold;
+    }
+  }
+}

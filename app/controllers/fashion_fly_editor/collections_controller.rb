@@ -53,7 +53,8 @@ module FashionFlyEditor
           :rotation,
           :width,
           :height,
-          :name
+          :name,
+          :order
         ]
       )
     end

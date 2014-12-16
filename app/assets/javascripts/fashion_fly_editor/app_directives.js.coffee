@@ -41,7 +41,6 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
     element.droppable
       hoverClass: "drop-hover",
       drop: (e, ui) ->
-
         # check if newly added item
         if $(ui.draggable[0]).data('item')?
           item       = $(ui.draggable[0]).data('item')
@@ -60,6 +59,11 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
           image.attr('src', item.image)
           el    = angular.element "<div class='ffe-item' id='ffe-item_#{key}' style='width: #{initial_width}px; height: #{initial_height}px; position: absolute; top:#{position_y}px;left:#{position_x}px'></div>"
           el.prepend(image)
+          # create z-index
+          new_index = parseInt($('.ffe-editor__wrapper').attr('highest_index')) + 1
+          $('.ffe-editor__wrapper').attr('highest_index', new_index)
+          el.css('z-index', new_index)
+          $('.ffe-editor__meta').css('z-index', new_index + 1)
 
           # remove
           remove = $("<div class='ffe-item__remove'>x</div>")
@@ -118,6 +122,11 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
               $(e.currentTarget).addClass('active')
               items.select(key)
               dir.scope.$apply()
+              new_index = parseInt($('.ffe-editor__wrapper').attr('highest_index')) + 1
+              $('.ffe-editor__wrapper').attr('highest_index', new_index)
+              $(e.currentTarget).css('z-index', new_index)
+              $('.ffe-editor__meta').css('z-index', new_index + 1)
+              item['order'] = new_index
 
           # make active on load
           $('.ffe-item').removeClass('active')
@@ -134,6 +143,7 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
           item['scale_x']    = 1
           item['scale_y']    = 1
           item['item_id']    = item.id
+          item['order']   = new_index
           items.add key, item
 
           # add remove item

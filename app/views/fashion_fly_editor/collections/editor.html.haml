@@ -4,11 +4,11 @@
       Der Preis für die gesamte Kollektion beträgt {{ collectionMetaInformation() }}€
       %ng-pluralize{ count: "collectionItemCount()", 'when' => "{0: '', 'one': '(1 Produkt)', 'other': '({} Produkte)'}"} foo
       %span.ffe-editor__collection_selected_item
-      {{ selectedItem() }}
-      %span.item__curency{'ng-show' => 'selectedItem()'}€
+        {{ selectedItem() }}
+        %span.item__curency{'ng-show' => 'selectedItem()'}€
     .ffe-editor__collection_add_element{ 'ng-show' => '!collectionMetaInformation()' }
       Füge Produkte zur Kollektion hinzu.
-  .ffe-editor__wrapper{ 'droppable' => true }
+  .ffe-editor__wrapper{ 'droppable' => true , 'highest_index' => 0}
     .ffe-editor__canvas
 
   = render 'editor_pane'

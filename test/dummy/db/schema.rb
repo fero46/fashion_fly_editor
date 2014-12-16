@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141125001914) do
+ActiveRecord::Schema.define(version: 20141216175057) do
 
   create_table "fashion_fly_editor_categories", force: true do |t|
     t.string   "name"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20141125001914) do
     t.string   "image"
     t.integer  "scale_x"
     t.integer  "scale_y"
+    t.integer  "order",         default: 0
   end
 
   create_table "fashion_fly_editor_collections", force: true do |t|
