@@ -43,6 +43,8 @@ module FashionFlyEditor
         :title,
         :description,
         :category_id,
+        :width,
+        :height,
         collection_items_attributes: [
           :item_id,
           :remote_image_url,

@@ -35,11 +35,15 @@ angular.module("ffe").factory 'Item', ($http) ->
     self.scope = scope
 
     url = window.location.origin + window.location.pathname + '/collections'
+    canvas_height = $('.ffe-editor__canvas').height()
+    canvas_width = $('.ffe-editor__canvas').width()
 
     data =
       collection:
         title: scope.collection.title
         collection_items_attributes: @itemsAsArray()
+        height: canvas_height
+        width: canvas_width
 
     # add config to data
     if scope.settings?

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141216175057) do
+ActiveRecord::Schema.define(version: 20141216191618) do
 
   create_table "fashion_fly_editor_categories", force: true do |t|
     t.string   "name"
@@ -49,6 +49,8 @@ ActiveRecord::Schema.define(version: 20141216175057) do
     t.datetime "updated_at"
     t.integer  "category_id"
     t.integer  "user_id"
+    t.integer  "height"
+    t.integer  "width"
   end
 
   add_index "fashion_fly_editor_collections", ["category_id"], name: "index_fashion_fly_editor_collections_on_category_id"
