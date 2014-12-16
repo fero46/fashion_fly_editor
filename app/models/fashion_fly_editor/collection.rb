@@ -50,7 +50,7 @@ module FashionFlyEditor
           
           # Find all the corners relative to the center
           cornersX = [position_x-midX, position_x-midX, position_x+width-midX, position_x+width-midX];
-          cornersY = [position_y-midY, position_y+height-midY, midY-position_y, position_y+height-midY];
+          cornersY = [position_y-midY, position_y+height-midY, position_y-midY, position_y+height-midY];
 
           #Find new the minimum corner X and Y by taking the minimum of the bounding box
           newX = 1e10;
