@@ -5,6 +5,7 @@ module FashionFlyEditor
     has_many :collection_items
     has_many :subscriptions
     belongs_to :category
+    #Fixme - Breaks Rails Engine Concept 
     belongs_to :user, class_name: '::User'
 
     accepts_nested_attributes_for :collection_items,
