@@ -8,6 +8,9 @@
       = f.text_field :title, "ng-model" => 'collection.title'
       .error{"ng-show"=>"form.title.$invalid && form.title.$dirty"}
         {{ errorMessage('title') }}
+    .field{}
+      = f.label :description, "Geben Sie ihre Kollektion eine Beschreibung"
+      = f.text_area :description, "ng-model" => 'collection.description' 
     - @options.each do |field|
       .field
         %input{ type: field["type"], value: field["value"], name: "options[#{field["name"]}]" }

@@ -41,6 +41,7 @@ angular.module("ffe").factory 'Item', ($http) ->
     data =
       collection:
         title: scope.collection.title
+        description: scope.collection.description
         collection_items_attributes: @itemsAsArray()
         height: canvas_height
         width: canvas_width
