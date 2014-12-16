@@ -15,6 +15,9 @@ class HeadersController
         Settings.config.options    = category.options
         Settings.config.scope      = category.scope
         Settings.config.collection = category.collection
+        $scope.inited= true
+        $rootScope.$broadcast("select_main_category", id: $scope.categories.categories[0].id)
+        $('body').fadeIn(100)
 
     $scope.updateCategories = (id) ->
       $rootScope.$broadcast("select_main_category", id: id)
@@ -163,7 +166,6 @@ class MainController
 
     # init Categories and Search
     $scope.Category = new Category()
-    $scope.categories = $scope.Category.get(<%= FashionFlyEditor::Engine.configuration.startup_category_id %>)
 
     $scope.Search = new Search()
     $scope.products = $scope.Search.all()

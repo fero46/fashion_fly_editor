@@ -4,6 +4,7 @@ angular.module("ffe").factory 'Settings', ($http) ->
   config:
     options: null
 
+
 angular.module("ffe").factory 'Collection', ($http, Item) ->
   collection:
     title: null
@@ -35,6 +36,7 @@ angular.module("ffe").factory 'Item', ($http) ->
     self.scope = scope
 
     url = window.location.origin + window.location.pathname + '/collections'
+    console.log(url)
     canvas_height = $('.ffe-editor__canvas').height()
     canvas_width = $('.ffe-editor__canvas').width()
 
@@ -93,7 +95,8 @@ angular.module("ffe").factory 'Item', ($http) ->
 angular.module("ffe").factory 'Search', ($resource, $rootScope) ->
   class Search
     constructor: () ->
-      @service = $resource("<%= FashionFlyEditor::Engine.configuration.products_endpoint %>/:id",
+      endpoint = window.endpoint_to_url($('body').attr('products_endpoint'))
+      @service = $resource(endpoint+"/:id",
         { id: '@id'},
         { query: { method: "GET", isArray: false,  } })
 
@@ -105,7 +108,8 @@ angular.module("ffe").factory 'Search', ($resource, $rootScope) ->
 angular.module("ffe").factory 'Category', ($resource, $rootScope) ->
   class Category
     constructor: (categoryId) ->
-      @service = $resource("<%= FashionFlyEditor::Engine.configuration.categories_endpoint %>/:id"
+      endpoint = window.endpoint_to_url($('body').attr('categories_endpoint'))
+      @service = $resource(endpoint+"/:id"
         { id: '@id' },
         { query: { method: "GET", isArray: false,  } })
 
