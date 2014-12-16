@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = FashionFlyEditor::VERSION
   s.authors     = ["Bernd Suenkel", "Ferhat Ziba"]
   s.email       = ["bernd@bnerd.de", "ferhat@hansehype.de"]
-  s.homepage    = "fashionfly.de"
+  s.homepage    = "http://fashionfly.co"
   s.summary     = "An editor plugin."
   s.description = "An editor plugin"
 
@@ -18,11 +18,13 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 4.0.9"
   s.add_dependency "haml"
+  s.add_dependency 'i18n'
   s.add_dependency "coffee-rails", "~> 4.0.0"
   s.add_dependency "sass-rails", "~> 4.0.0"
   s.add_dependency "jquery-ui-rails", '~> 4.0.0'
   s.add_dependency 'carrierwave', '0.9.0'
   s.add_dependency 'rmagick', '2.13.2'
+  
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "pry"
