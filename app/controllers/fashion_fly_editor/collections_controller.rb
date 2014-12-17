@@ -17,7 +17,7 @@ module FashionFlyEditor
       end
 
       @collection = Collection.new
-      @categories = category_options_array([], params["scope"]["id"])
+      @categories = category_options_array([], params["scope"]["id"], params["scope"]["type"])
       render layout: false
     end
 
@@ -89,10 +89,10 @@ module FashionFlyEditor
       ("&nbsp;" * 2 * depth).html_safe
     end
 
-    def category_options_array(categories=[], parent_id=nil, depth=0)
-      Category.where(parent_id: parent_id).order(:id).each do |category|
+    def category_options_array(categories=[], parent_id=nil, type='', depth=0)
+      Category.where(parent_id: parent_id, parent_type: type).order(:id).each do |category|
         categories << [subcat_prefix(depth) + category.name, category.id]
-        category_options_array(categories, category.id, depth+1) if category.parent_type == "FashionFlyEditor::Category"
+        category_options_array(categories, category.id, "FashionFlyEditor::Category", depth+1)
       end
 
       categories
