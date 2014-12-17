@@ -17,7 +17,7 @@
           %label= field["label"]      
         %input{ type: field["type"], value: field["value"], name: "options[#{field["name"]}]" }
         - if field["label"].present? && field["type"] == 'checkbox'
-          %label= field["label"]
+          %label{class: 'inline-label'}= field["label"]
     .field{ "ng-class" =>"errorClass('category_id')" }
       = f.label :category, "Zu welcher Kategory gehört diese Kollektion"
       = f.select :category, options_for_select(@categories), {}, "ng-model" => 'collection.category'
