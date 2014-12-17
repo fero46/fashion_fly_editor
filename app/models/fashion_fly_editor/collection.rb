@@ -27,7 +27,13 @@ module FashionFlyEditor
       new_image = ::Magick::Image.new(self.width, self.height) { self.background_color = "#ffffff" }
       self.collection_items.order('`order` ASC').each do |collection_item|
         path  = collection_item.image.path
-        image = ::Magick::Image.read(path).first
+
+        if  path.start_with?('http://') || path.start_with?('https://')
+          image = Magick::Image::from_blob open(path).read
+          image = image[0] if image.kind_of?(Array)
+        else
+          image =  Magick::Image.read(path).first
+        end
 
         width = collection_item.width
         height = collection_item.height
