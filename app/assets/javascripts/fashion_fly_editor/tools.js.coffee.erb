@@ -6,7 +6,7 @@ window.endpoint_to_url = (endpoint) ->
   if endpoint.startsWith('http')
     return endpoint
   else
-    document.URL.replace("combine", "")+endpoint
+    document.URL.replace("#","").replace("combine", "")+endpoint
 
 <%
 imgs = {}
