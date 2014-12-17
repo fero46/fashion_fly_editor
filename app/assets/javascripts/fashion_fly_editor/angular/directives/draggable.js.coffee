@@ -3,3 +3,4 @@ angular.module("ffe").directive 'draggable', ->
   link: (scope, element, attrs) ->
     element.draggable
       helper: 'clone'
+      containment: "document"
