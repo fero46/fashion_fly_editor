@@ -3,24 +3,95 @@
 class HeadersController
   constructor: ($scope, $rootScope, Category, Settings) ->
     self = @
-
     $scope.inited = false
-
     category = new Category()
     $scope.categories = category.all()
-
+    $scope.selected_id = 0
     # this is stupid, work with cb instead
     $scope.$on "category_loaded", (event, args) ->
       unless $scope.inited
+        $('body').attr('init', 'stop')
         Settings.config.options    = category.options
         Settings.config.scope      = category.scope
         Settings.config.collection = category.collection
         $scope.inited= true
-        $rootScope.$broadcast("select_main_category", id: $scope.categories.categories[0].id)
+        $scope.selected_id = $scope.categories.categories[0].id
+        $rootScope.$broadcast("select_main_category", id: $scope.selected_id)
+        $('body').attr('can_resize', 'yes')
+        $(window).resize( ->
+          $scope.resizeView()
+        )
+        $scope.resizeView()
         $('body').fadeIn(100)
-        
+
+    $scope.isActive = (id) ->
+      $scope.selected_id == id
+
     $scope.updateCategories = (id) ->
+      $scope.selected_id = id
       $rootScope.$broadcast("select_main_category", id: id)
+    $scope.resizeView = () ->
+      if $('body').attr('can_resize') == 'yes'
+        body_height = $(window).height()
+        header_height = parseInt($('header').outerHeight(true),10);
+        footer_height = parseInt($('footer').outerHeight(true),10);
+        content_height = body_height - (header_height + footer_height)
+        if content_height < 510
+          content_height = 510
+        $('.ffe-editor__wrapper').height(content_height)
+        $('.ffe-editor__pane').height(content_height)
+        # REPOSITION FOOTER
+        $('footer').css('bottom', 'auto')
+        $('footer').css('top',content_height+header_height)
+        # CONTENT_AREA
+        body_width = $(window).width()
+        if body_width < 1170
+          body_width = 1170
+
+        canvas_width = body_width - $('.ffe-editor__pane').outerWidth(true) - 40
+        $('.ffe-editor__wrapper').width(canvas_width)
+
+        # Calculate inner Asspect Ratio
+        width = 566
+        height = 442;
+        asspect_ratio = width / height
+        # inner box with padding from canvas_wrapper
+        inner_box_width = (canvas_width - 40)
+        inner_box_height = (content_height - 68)
+        console.log(inner_box_width)
+        console.log(inner_box_height)       
+        outer_asspect_ratio = inner_box_width / inner_box_height
+        if outer_asspect_ratio > asspect_ratio
+          inner_box_width = asspect_ratio * inner_box_height
+        else
+          inner_box_height = inner_box_width / asspect_ratio
+        console.log(inner_box_width)
+        console.log(inner_box_height)
+        $('.ffe-editor__canvas').width(inner_box_width)
+        $('.ffe-editor__canvas').height(inner_box_height)
+
+        $('.ffe-editor__canvas').css('top', (content_height - inner_box_height) / 2 )
+        $('.ffe-editor__canvas').css('left', (canvas_width - inner_box_width) / 2 )
+
+        #SIDEBAR
+        navigation_tab = parseInt($('.navigation_tab').outerHeight(true),10)
+        innerheight = content_height - navigation_tab
+        $('.ff-tab-window').outerHeight(innerheight)
+        # CATEGORY_TAB
+        categories_height = parseInt($('.ff-tab_categories .ffe-categories').outerHeight(true),10)
+        filters_height = parseInt($('.ff-tab_categories .ffe-filters').outerHeight(true),10)
+        result_box_height = innerheight - (filters_height+categories_height)
+        if result_box_height < 255
+          result_box_height = 255
+        $('.ff-tab_categories .ffe__items').outerHeight(result_box_height)
+        # pagination arrows
+        $('.ffe-pagination__previous').css('top', ((result_box_height/2) - $('.ffe-pagination__previous').outerHeight(true)) + "px")
+        $('.ffe-pagination__next').css('top', ((result_box_height/2) - $('.ffe-pagination__next').outerHeight(true)) + "px")
+
+        #container width
+        $('.container').width($('.ff-tab-window').outerWidth + canvas_width)
+        $('.container').height(content_height + footer_height + header_height);
+        $rootScope.$broadcast("resize_finished", resize:'finished')
 
 class ActionsController
   constructor: ($scope, Item, Collection, Settings, ngDialog) ->
@@ -95,6 +166,7 @@ class MainController
     # events
     $scope.$on "select_main_category", (event, args) ->
       $scope.category_id = args.id
+      $('body').attr('init', 'start')
       $scope.categories  = $scope.Category.get($scope.category_id)
 
     $scope.$on "update_category", (event, args) ->
@@ -105,9 +177,16 @@ class MainController
       $scope.brands      = if args.brands? then args.brands else []
       $scope.colors      = if args.colors? then args.colors else []
       $scope.priceRanges = if args.price_ranges? then args.price_ranges else []
+      if($('body').attr('init') == 'start' && $scope.categories.$resolved)
+        $('body').attr('init', 'end')
+        first = $scope.categories.categories[0].id
+        $scope.selectCategory(first)
 
     $scope.$on "search_loaded", (event, args) ->
       $scope.pagination.update(args.pagination) if args.pagination?
+
+    $scope.$on "resize_finished", (event, args) ->
+      $scope.updateItems()
 
     $scope.isActive = (category_id) ->
       $scope.category_id == category_id
@@ -168,7 +247,7 @@ class MainController
     $scope.Category = new Category()
 
     $scope.Search = new Search()
-    $scope.products = $scope.Search.all()
+    #$scope.products = $scope.Search.all()
 
     $scope.resetFilters = ->
       $scope.filter_name        = null
@@ -187,8 +266,8 @@ class MainController
       $scope.category_id   = id
       $scope.subcategories = $scope.Category.get($scope.category_id)
       params =
-        category: $scope.category_id
-
+        category: $scope.category_id,
+        per: $scope.calculateTotalItemPerQuery()
       $scope.pagination.reset()
       $scope.products = $scope.Search.all(params)
 
@@ -204,8 +283,12 @@ class MainController
         color: if $scope.filter_color? then $scope.filter_color.hex.split("#")[1]
         price: if $scope.filter_priceRange? then $scope.filter_priceRange.range
         page: if $scope.pagination.current_page? then $scope.pagination.current_page
+        per: $scope.calculateTotalItemPerQuery()
 
       $scope.products = $scope.Search.all(params)
+
+    $scope.calculateTotalItemPerQuery = ->
+      parseInt($('.ff-tab_categories .ffe__items').height() / 83) * 3
 
     $scope.collection = Collection
     $scope.collectionMetaInformation = ->

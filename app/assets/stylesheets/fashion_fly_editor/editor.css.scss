@@ -5,35 +5,31 @@
 }
 
 .ffe-editor__wrapper{
-  width: 70%;
   min-width: 560px;
-  float: left;
   border: 1px solid #dbdbdb;
+  position: absolute;
   overflow: hidden;
-  margin-left: 10px;
-  position: relative;
-  overflow: hidden;
+  left:10px;
 }
 
 .ffe-editor__canvas{
-  margin: 2em auto;
+  position: absolute;
   width: 566px;
   min-height: 442px;
   border: 1px solid #dbdbdb;
 }
 
 .ffe-editor__pane{
-  background-color: #fff;
-  width: 401px;
-  margin-right: 10px;
-  float: right;
-  border: 1px solid #dbdbdb;
-  z-index: 9999;
+background-color: #fff;
+width: 401px;
+border: 1px solid #dbdbdb;
+z-index: 9999;
+position: absolute;
+right: 10px;
 }
 
 .ffe__items{
   position: relative;
-  margin-top: 2em;
 }
 
 .ffe-item{
@@ -147,6 +143,8 @@
 
 .ffe-filters{
   margin-top: 1em;
+  margin-bottom: 1em;
+  height:19px;
 }
 
 .ffe-filter__subcategory{

@@ -34,6 +34,9 @@ header{
           color: white;
           background: grey;
         }
+        &.active{
+          background: grey;
+        }
       }
     }
   }
@@ -44,6 +47,9 @@ header{
 
 footer{
   margin-top: 1em;
+  position: absolute;
+  bottom: 0px;
+  height: 18px;
 }
 
 .ffe-clear{
@@ -82,7 +88,6 @@ footer{
     left: 20px;
     padding:0px;
     margin:0px;
-    width: 100%;
     .ffe-editor__collection_price, .ffe-editor__collection_add_element, .ffe-editor__collection_selected_item{
       display: inline-block;
       height: 16px;

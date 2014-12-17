@@ -33,6 +33,10 @@ angular.module("ffe").directive 'droppable', ['$compile', 'Item', 'Collection', 
     element.droppable
       hoverClass: "drop-hover",
       drop: (e, ui) ->
+
+        if($('body').attr('can_resize') == 'yes')
+          $('body').attr('can_resize', 'no')
+
         # check if newly added item
         if $(ui.draggable[0]).data('item')?
           item       =  jQuery.extend(true, {}, $(ui.draggable[0]).data('item'));
