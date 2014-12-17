@@ -15,16 +15,29 @@
     cursor: pointer;
     float:left;
     height:67px;
+    width: 58px;
     border: 1px solid #dbdbdb;
     padding: 2px;
     margin: 1px;
+    position: relative;
     &.active{
       border-color: #333;
       background-color: #dbdbdb; };
     img{
-      width: 58px;
-      margin: 0px auto;
-    }
+      display: none;
+      &.spinner{
+        position: absolute;
+        top: 33px;
+        left: 21px;
+        display: block;
+        width:16px;
+      }
+      &.image{
+        width:58px;
+        margin: 0px auto;
+        display: block;
+      }
+     }
     span{
       display: block;
       text-align: center;
