@@ -58,15 +58,13 @@ class HeadersController
         # inner box with padding from canvas_wrapper
         inner_box_width = (canvas_width - 40)
         inner_box_height = (content_height - 68)
-        console.log(inner_box_width)
-        console.log(inner_box_height)       
+      
         outer_asspect_ratio = inner_box_width / inner_box_height
         if outer_asspect_ratio > asspect_ratio
           inner_box_width = asspect_ratio * inner_box_height
         else
           inner_box_height = inner_box_width / asspect_ratio
-        console.log(inner_box_width)
-        console.log(inner_box_height)
+
         $('.ffe-editor__canvas').width(inner_box_width)
         $('.ffe-editor__canvas').height(inner_box_height)
 
