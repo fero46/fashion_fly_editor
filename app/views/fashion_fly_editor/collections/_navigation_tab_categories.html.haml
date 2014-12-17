@@ -1,6 +1,6 @@
 %ul.ffe-categories.ffe-clear
   %li.ffe-category{ 'ng-click' => 'selectCategory(category.id)', 'ng-repeat' => 'category in categories.categories', 'ng-class' => "{active:isActive(category.id)}"}
-    %img{ src: "{{category.icon}}", title: '{{ category.name}}', class: 'category__thumbnail', 'ng-click' => 'selectCategory(category.id)' }
+    %img{ src:'', "my-src" => "{{category.icon}}", title: '{{ category.name}}', class: 'category__thumbnail', 'ng-click' => 'selectCategory(category.id)' }
     %span {{category.name}}
 .ffe-filters.ffe-clear
   %select.ffe-filter__subcategory{ ng: { model: 'filter_subcategory', options: 'subcategory.name for subcategory in subcategories.categories', change: 'updateFilters()' } }
