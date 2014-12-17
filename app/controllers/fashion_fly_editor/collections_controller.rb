@@ -92,7 +92,7 @@ module FashionFlyEditor
     def category_options_array(categories=[], parent_id=nil, depth=0)
       Category.where(parent_id: parent_id).order(:id).each do |category|
         categories << [subcat_prefix(depth) + category.name, category.id]
-        category_options_array(categories, category.id, depth+1) if parent_type == "FashionFlyEditor::Category"
+        category_options_array(categories, category.id, depth+1) if category.parent_type == "FashionFlyEditor::Category"
       end
 
       categories
