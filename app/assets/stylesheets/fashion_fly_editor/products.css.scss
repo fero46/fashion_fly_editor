@@ -2,23 +2,31 @@
   list-style-type: none;
   list-style: none;
   margin:0 auto;
+  padding-left: 20px;
   .ffe-product{
    float: left;
    width: 108px;
    height:80px;
    text-align: center;
    position: relative;
-   margin-bottom: 5px;
+   text-align: center;
+   margin: 5px;
    img{
-    position: absolute;
-    top:0px;
-    left: 39px;
-    width: 30px;
-    max-height: 100%;
+    display: none;
+    &.spinner{
+      top: 24px;
+      left: 38px;
+      position: absolute;
+      display: block;
+    }
+    &.image{
+      position: static;
+      display: inline-block;
+      height:80px;
+    }
     &:hover{
       cursor: pointer;
     }
    }
   }
 }
-

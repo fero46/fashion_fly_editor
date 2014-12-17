@@ -286,7 +286,7 @@ class MainController
       $scope.products = $scope.Search.all(params)
 
     $scope.calculateTotalItemPerQuery = ->
-      parseInt($('.ff-tab_categories .ffe__items').height() / 83) * 3
+      parseInt($('.ff-tab_categories .ffe__items').height() / 92) * 3
 
     $scope.collection = Collection
     $scope.collectionMetaInformation = ->

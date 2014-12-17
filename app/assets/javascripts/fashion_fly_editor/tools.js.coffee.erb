@@ -7,3 +7,11 @@ window.endpoint_to_url = (endpoint) ->
     return endpoint
   else
     document.URL.replace("combine", "")+endpoint
+
+<%
+imgs = {}
+imgs['spinner.gif'] = image_path('fashion_fly_editor/spinner.gif')
+%>
+
+window.image_path = (name) ->
+  <%= imgs.to_json %>[name]

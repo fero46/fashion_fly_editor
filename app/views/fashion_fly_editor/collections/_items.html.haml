@@ -2,4 +2,4 @@
   = render 'pagination'
   %ul.ffe-products.ffe-clear
     %li.ffe-product{ 'draggable' => true, 'ng-repeat' => 'product in products.products', data: { item: "{{product}}" } }
-      %img{ src: "{{product.selectable_image}}", class: 'product__thumbnail', 'ng-click' => 'selectProduct(product.id)', title: "{{ product.name }}"}
+      %img{ src:'', "my-src" => "{{product.selectable_image}}", class: 'product__thumbnail', 'ng-click' => 'selectProduct(product.id)', title: "{{ product.name }}"}
