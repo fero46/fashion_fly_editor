@@ -28,6 +28,8 @@ angular.module("ffe").factory 'Item', ($http) ->
         collection_items_attributes: @itemsAsArray()
         height: canvas_height
         width: canvas_width
+        category_id: scope.collection.category
+
 
     # add config to data
     if scope.settings?

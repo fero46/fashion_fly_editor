@@ -16,6 +16,7 @@ module FashionFlyEditor
     after_create :build_image
 
     validates :title, presence: true
+    validates :category_id, presence: true
 
     protected
 
