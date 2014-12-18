@@ -33,7 +33,8 @@ module FashionFlyEditor
           image = Magick::Image::from_blob open(path).read
           image = image[0] if image.kind_of?(Array)
         else
-          image = Magick::Image.read(Rails.root + path).first
+          path = Rails.root + "/public/" + path
+          image = Magick::Image.read(path).first
         end
         width = collection_item.width
         height = collection_item.height
