@@ -35,10 +35,9 @@ module FashionFlyEditor
         else
           image =  Magick::Image.read(path).first
         end
-
         width = collection_item.width
         height = collection_item.height
-
+        image.background_color = "none"
         image.resize!(width, height)
         # First Flip Flop then Rotate
         image.flop! if collection_item.scale_x == -1
