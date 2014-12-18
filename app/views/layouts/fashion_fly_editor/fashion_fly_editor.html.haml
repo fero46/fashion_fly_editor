@@ -1,5 +1,5 @@
 !!!
-%html
+%html{lang: "#{params[:lang].present? ? params[:lang] : 'de'}"}
   %head
     %title FashionFlyEditor
     = stylesheet_link_tag    "fashion_fly_editor/application", media: "all"
