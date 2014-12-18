@@ -112,7 +112,7 @@ class ActionsController
         ngDialog.open
           controller: 'ActionsController'
           template: $scope.baseUrl + '/new?' + $scope.params
-          className: 'ngdialog-theme-plain'
+          className: 'ngdialog-theme-plain miyagi'
 
       else
         # TODO: add route and template
@@ -125,6 +125,8 @@ class ActionsController
     $scope.saveCollection = ($event) ->
       $event.preventDefault()
       $scope.form = {}
+      $('.miyagi #information').show();
+      $('.miyagi #formular').hide()
       Item.create($scope)
 
     $scope.collectionSuccessCallback = (data, status) ->
@@ -134,6 +136,8 @@ class ActionsController
     $scope.collectionErrorCallback = (data, status) ->
       $scope.body = "Kollektion konnte nicht gespeichert werden."
       $scope.failure(data)
+      $('.miyagi #information').hide();
+      $('.miyagi #formular').show()
 
     $scope.failure = (response) ->
       $.each response, (key, errors) ->

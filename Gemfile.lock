@@ -128,4 +128,5 @@ DEPENDENCIES
   fashion_fly_editor!
   pry
   pry-byebug
+  rmagick
   sqlite3

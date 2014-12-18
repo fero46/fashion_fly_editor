@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141216191618) do
+ActiveRecord::Schema.define(version: 20141218155820) do
 
   create_table "fashion_fly_editor_categories", force: true do |t|
     t.string   "name"
@@ -66,5 +66,10 @@ ActiveRecord::Schema.define(version: 20141216191618) do
 
   add_index "fashion_fly_editor_subscriptions", ["collection_id"], name: "index_fashion_fly_editor_subscriptions_on_collection_id"
   add_index "fashion_fly_editor_subscriptions", ["subscriber_id", "subscriber_type"], name: "subscriber"
+
+  create_table "scopes", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

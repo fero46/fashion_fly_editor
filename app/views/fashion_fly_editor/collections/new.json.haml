@@ -1,27 +1,35 @@
-%h1 {{ title }}
-%p.body{ "ng-bind-html" => "body" }{{ body }}
-.form{ "ng-submit" => "saveCollection($event)"}
-  = form_for @collection do |f|
+%div#formular{style: "disply:none !importnat"}
+  %h1 {{ title }}
+  %p.body{ "ng-bind-html" => "body" }{{ body }}
+  .form{ "ng-submit" => "saveCollection($event)"}
+    = form_for @collection do |f|
 
-    .field{ "ng-class" =>"errorClass('title')" }
-      = f.label :title, "Geben Sie ihre Kollektion einen Titel"
-      = f.text_field :title, "ng-model" => 'collection.title'
-      .error{"ng-show"=>"form.title.$invalid && form.title.$dirty"}
-        {{ errorMessage('title') }}
-    .field{}
-      = f.label :description, "Geben Sie ihre Kollektion eine Beschreibung"
-      = f.text_area :description, "ng-model" => 'collection.description' 
-    - @options.each do |field|
-      .field
-        - if field["label"].present? && field["type"] != 'checkbox'
-          %label= field["label"]      
-        %input{ type: field["type"], value: field["value"], name: "options[#{field["name"]}]" }
-        - if field["label"].present? && field["type"] == 'checkbox'
-          %label{class: 'inline-label'}= field["label"]
-    .field{ "ng-class" =>"errorClass('category_id')" }
-      = f.label :category, "Zu welcher Kategory gehört diese Kollektion"
-      = f.select :category, options_for_select(@categories), {}, "ng-model" => 'collection.category'
-      .error{"ng-show"=>"form.category_id.$invalid && form.category_id.$dirty"}
-        {{ errorMessage('category_id') }}
-.ngdialog-buttons.mt
-  = link_to "Speichern", "#", class: "ngdialog-button ngdialog-button-primary", "ng-click" => "saveCollection($event)"
+      .field{ "ng-class" =>"errorClass('title')" }
+        = f.label :title, "Geben Sie ihre Kollektion einen Titel"
+        = f.text_field :title, "ng-model" => 'collection.title'
+        .error{"ng-show"=>"form.title.$invalid && form.title.$dirty"}
+          {{ errorMessage('title') }}
+      .field{}
+        = f.label :description, "Geben Sie ihre Kollektion eine Beschreibung"
+        = f.text_area :description, "ng-model" => 'collection.description' 
+      - @options.each do |field|
+        .field
+          - if field["label"].present? && field["type"] != 'checkbox'
+            %label= field["label"]      
+          %input{ type: field["type"], value: field["value"], name: "options[#{field["name"]}]" }
+          - if field["label"].present? && field["type"] == 'checkbox'
+            %label{class: 'inline-label'}= field["label"]
+      .field{ "ng-class" =>"errorClass('category_id')" }
+        = f.label :category, "Zu welcher Kategory gehört diese Kollektion"
+        = f.select :category, options_for_select(@categories), {}, "ng-model" => 'collection.category'
+        .error{"ng-show"=>"form.category_id.$invalid && form.category_id.$dirty"}
+          {{ errorMessage('category_id') }}
+  .ngdialog-buttons.mt
+    = link_to "Speichern", "#", class: "ngdialog-button ngdialog-button-primary", "ng-click" => "saveCollection($event)"
+%div#information{style:"disply:none"}
+  %h1
+    Ein Augenblick
+  %p.body
+    Dein Outfit wird gerade erstellt...
+  %p.body{style: "text-align:center"}
+    = image_tag 'fashion_fly_editor/spinner.gif'

@@ -21,10 +21,6 @@ module FashionFlyEditor
     protected
 
     def build_image
-
-      # temporarily put inside method
-      require 'RMagick'
-
       new_image = ::Magick::Image.new(self.width, self.height) { self.background_color = "#ffffff" }
       self.collection_items.order('`order` ASC').each do |collection_item|
         path  = collection_item.image.url
@@ -33,8 +29,7 @@ module FashionFlyEditor
           image = Magick::Image::from_blob open(path).read
           image = image[0] if image.kind_of?(Array)
         else
-          path = Rails.root + "/public/" + path
-          image = Magick::Image.read(path).first
+          image = Magick::Image.read(collection_item.image.path).first
         end
         width = collection_item.width
         height = collection_item.height
