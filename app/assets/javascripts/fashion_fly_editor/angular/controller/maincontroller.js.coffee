@@ -90,6 +90,15 @@ class HeadersController
         $('.container').width($('.ff-tab-window').outerWidth + canvas_width)
         $('.container').height(content_height + footer_height + header_height);
         $rootScope.$broadcast("resize_finished", resize:'finished')
+        if body_height < 550
+          window.remove_padding = true
+
+    $rootScope.$on('ngDialog.opened', (e, $dialog) ->
+      if window.remove_padding
+        $('.miyagi').attr('style', 'padding:0px !important')
+      $('.btn').blur() # Fix bug
+    )
+
 
 class ActionsController
   constructor: ($scope, Item, Collection, Settings, ngDialog) ->
@@ -119,7 +128,7 @@ class ActionsController
         ngDialog.open
           controller: 'ActionsController'
           template: 'Bitte fügen Sie mindestens ein Element der Kollektion hinzu.'
-          className: 'ngdialog-theme-plain'
+          className: 'ngdialog-theme-plain miyagi'
           plain: true
 
     $scope.saveCollection = ($event) ->
