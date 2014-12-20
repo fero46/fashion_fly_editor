@@ -2,17 +2,25 @@
   %li.ffe-category{ 'ng-click' => 'selectCategory(category.id)', 'ng-repeat' => 'category in categories.categories', 'ng-class' => "{active:isActive(category.id)}"}
     %img{ src:'', "my-src" => "{{category.icon}}", title: '{{ category.name}}', class: 'category__thumbnail', 'ng-click' => 'selectCategory(category.id)' }
     %span {{category.name}}
-.ffe-filters.ffe-clear
-  %select.ffe-filter__subcategory{ ng: { model: 'filter_subcategory', options: 'subcategory.name for subcategory in subcategories.categories', change: 'updateFilters()' } }
-    %option{ value: ''} -- Unterkategorie --
 
-  %select.ffe-filter__brand{ ng: { model: 'filter_brand', options: 'brand.name for brand in brands track by brand.id', change: 'updateFilters()' } }
-    %option{ value: ''} -- Marke --
+%ui-select.ffe-filters.ffe-filter__subcategory{"ng-model" => "$parent.filter_subcategory", "on-select" => 'updateFilters($item)', theme: 'selectize'}
+  %ui-select-match{:placeholder => "Unterkategorie"} {{$select.selected.name}}
+  %ui-select-choices{:repeat => "subcategory in subcategories.categories",}
+    %div{"ng-bind-html" => "subcategory.name"}
 
-  %select.ffe-filter__color{ ng: { model: 'filter_color', options: 'color.hex for color in colors track by color.id', change: 'updateFilters()' } }
-    %option{ value: ''} -- Farbe --
+%ui-select.ffe-filters.ffe-filter__brand{"ng-model" => "$parent.filter_brand", "on-select" => 'updateFilters($item)', theme: 'selectize'}
+  %ui-select-match{:placeholder => "Marke"} {{$select.selected.name}}
+  %ui-select-choices{:repeat => "brand in brands",}
+    %div{"ng-bind-html" => "brand.name"}
 
-  %select.ffe-filter__pricerange{ ng: { model: 'filter_priceRange', options: 'price.range for price in priceRanges track by price.range', change: 'updateFilters()' } }
-    %option{ value: ''} -- Preis --
+%ui-select.ffe-filters.ffe-filter__brand{"ng-model" => "$parent.filter_color", "on-select" => 'updateFilters($item)', theme: 'selectize'}
+  %ui-select-match{:placeholder => "Farbe"} {{$select.selected.hex}}
+  %ui-select-choices{:repeat => "color in colors"}
+    %div{style: "background-color: {{color.hex}}", "ng-bind-html" => "color.hex"}
+
+%ui-select.ffe-filters.ffe-filter__brand{"ng-model" => "$parent.filter_priceRange", "on-select" => 'updateFilters($item)', theme: 'selectize'}
+  %ui-select-match{:placeholder => "Preis"} {{$select.selected.range}}
+  %ui-select-choices{:repeat => "price in priceRanges"}
+    %div{"ng-bind-html" => "price.range"}
 
 = render 'items'
