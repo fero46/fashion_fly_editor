@@ -58,7 +58,7 @@ class HeadersController
         # inner box with padding from canvas_wrapper
         inner_box_width = (canvas_width - 40)
         inner_box_height = (content_height - 68)
-
+      
         outer_asspect_ratio = inner_box_width / inner_box_height
         if outer_asspect_ratio > asspect_ratio
           inner_box_width = asspect_ratio * inner_box_height
@@ -282,17 +282,9 @@ class MainController
       $scope.pagination.reset()
       $scope.products = $scope.Search.all(params)
 
-    $scope.updateFilters = (item) ->
-      # we need to delay: otherwise selected item race condition;
-      # it takes some time to set selected item vi ui-select
-      updateFiltersDelayed = ->
-        $scope.pagination.reset()
-        $scope.updateItems()
-
-      if item?
-        setTimeout(updateFiltersDelayed, 50)
-      else
-        updateFiltersDelayed()
+    $scope.updateFilters = ->
+      $scope.pagination.reset()
+      $scope.updateItems()
 
     $scope.updateItems = ->
       params =
