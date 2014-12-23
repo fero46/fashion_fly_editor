@@ -2,17 +2,14 @@
   %li.ffe-category{ 'ng-click' => 'selectCategory(category.id)', 'ng-repeat' => 'category in categories.categories', 'ng-class' => "{active:isActive(category.id)}"}
     %img{ src:'', "my-src" => "{{category.icon}}", title: '{{ category.name}}', class: 'category__thumbnail', 'ng-click' => 'selectCategory(category.id)' }
     %span {{category.name}}
+
 .ffe-filters.ffe-clear
-  %select.ffe-filter__subcategory{ ng: { model: 'filter_subcategory', options: 'subcategory.name for subcategory in subcategories.categories', change: 'updateFilters()' } }
-    %option{ value: ''} -- Unterkategorie --
+  %div.ffe-filter__subcategory{"button-label" => "name", "input-model" => "subcategories.categories", "output-model" => 'filter_subcategory', "item-label" => "name", "multi-select" => "false", "selection-mode" => 'single', 'default-label' => "Kategorien", "tick-property" => "ticked", "on-item-click" => 'updateFilters()', "on-reset" => "resetFilter('subcategory')"}
 
-  %select.ffe-filter__brand{ ng: { model: 'filter_brand', options: 'brand.name for brand in brands track by brand.id', change: 'updateFilters()' } }
-    %option{ value: ''} -- Marke --
+  %div.ffe-filter__brand{"button-label" => "name", "input-model" => "brands", "output-model" => 'filter_brand', "item-label" => "name", "multi-select" => "false", "selection-mode" => 'single', 'default-label' => "Marke", "tick-property" => "ticked", "on-item-click" => 'updateFilters()', "on-reset" => "resetFilter('brand')"}
 
-  %select.ffe-filter__color{ ng: { model: 'filter_color', options: 'color.hex for color in colors track by color.id', change: 'updateFilters()' } }
-    %option{ value: ''} -- Farbe --
+  %div.ffe-filter__color{"button-label" => "name", "input-model" => "colors", "output-model" => 'filter_color', "item-label" => "hex", "multi-select" => "false", "selection-mode" => 'single', 'default-label' => "Farbe", "button-label" => "hex", "tick-property" => "ticked", "on-item-click" => 'updateFilters()', "on-reset" => "resetFilter('color')"}
 
-  %select.ffe-filter__pricerange{ ng: { model: 'filter_priceRange', options: 'price.range for price in priceRanges track by price.range', change: 'updateFilters()' } }
-    %option{ value: ''} -- Preis --
+  %div.ffe-filter__pricerange{"button-label" => "name", "input-model" => "priceRanges", "output-model" => 'filter_priceRange', "item-label" => "range", "multi-select" => "false", "selection-mode" => 'single', 'default-label' => "Preis", "button-label" => "range", "tick-property" => "ticked", "on-item-click" => 'updateFilters()', "on-reset" => "resetFilter('priceRange')"}
 
 = render 'items'

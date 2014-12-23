@@ -1,6 +1,6 @@
 'use strict';
 
-app = angular.module('ffe', ['ngResource', 'ngDialog', 'ngSanitize', 'ffe.controllers'])
+app = angular.module('ffe', ['ngResource', 'ngDialog', 'ngSanitize', 'multi-select', 'ffe.controllers'])
 
 app.config ($httpProvider) ->
   #authToken = $("meta[name=\"csrf-token\"]").attr("content")

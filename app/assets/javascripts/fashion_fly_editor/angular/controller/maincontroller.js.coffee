@@ -58,7 +58,7 @@ class HeadersController
         # inner box with padding from canvas_wrapper
         inner_box_width = (canvas_width - 40)
         inner_box_height = (content_height - 68)
-      
+
         outer_asspect_ratio = inner_box_width / inner_box_height
         if outer_asspect_ratio > asspect_ratio
           inner_box_width = asspect_ratio * inner_box_height
@@ -260,6 +260,21 @@ class MainController
     $scope.Search = new Search()
     #$scope.products = $scope.Search.all()
 
+    $scope.resetFilter = (filter) ->
+      switch filter
+        when 'subcategory'
+          $scope.filter_subcategory = null
+        when 'brand'
+          $scope.filter_brand = null
+        when 'color'
+          $scope.filter_color = null
+        when 'priceRange'
+          $scope.filter_priceRange = null
+        else
+          $scope.resetFilers()
+
+      $scope.updateFilters()
+
     $scope.resetFilters = ->
       $scope.filter_name        = null
       $scope.filter_subcategory = null
@@ -289,10 +304,10 @@ class MainController
     $scope.updateItems = ->
       params =
         name: if $scope.filter_name? then $scope.filter_name
-        category: if $scope.filter_subcategory? then $scope.filter_subcategory.id else $scope.category_id
-        brand: if $scope.filter_brand? then $scope.filter_brand.id
-        color: if $scope.filter_color? then $scope.filter_color.hex.split("#")[1]
-        price: if $scope.filter_priceRange? then $scope.filter_priceRange.range
+        category: if $scope.filter_subcategory? && $scope.filter_subcategory.length > 0 then $scope.filter_subcategory[0].id else $scope.category_id
+        brand: if $scope.filter_brand? && $scope.filter_brand.length > 0 then $scope.filter_brand[0].id
+        color: if $scope.filter_color? && $scope.filter_color.length > 0 then $scope.filter_color[0].hex.split("#")[1]
+        price: if $scope.filter_priceRange? && $scope.filter_priceRange.length > 0 then $scope.filter_priceRange[0].range
         page: if $scope.pagination.current_page? then $scope.pagination.current_page
         per: $scope.calculateTotalItemPerQuery()
 

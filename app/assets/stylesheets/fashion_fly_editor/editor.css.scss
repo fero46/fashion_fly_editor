@@ -257,6 +257,58 @@ right: 10px;
   }
 }
 
+.multiSelect .button{
+  display: inline-block;
+  background-image: none;
+  width: inherit;
+  border-radius: 0;
+  font-size: 12px;
+  padding: 1px 0px 1px 0px;
+  height: 30px !important;
+  min-height: 30px !important;
+  &:hover{
+    background-image: none;
+  }
+}
+
+.multiSelect .checkBoxContainer {
+  display: block;
+  padding: 8px;
+  max-height: 140px !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.multiSelect .checkboxLayer {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  margin-right: 0;
+  left: 3px;
+  border-radius: 0;
+  width: 388px;
+}
+
+.multiSelect .searchField{
+  display: inline-block;
+  margin-right: 12px;
+}
+
+.multiSelect .displayHelper{
+  display: inline-block;
+}
+
+.ffe-filter__color{
+  .multiSelectItem{
+    border: none !important;
+  }
+  .multiSelectItem:hover{
+    background-image: none !important;
+    border: none !important;
+  }
+}
+
 @media screen and (max-width: 1500px) {
   .ffe-editor__wrapper{
     width: 58%;
