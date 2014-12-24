@@ -1,8 +1,8 @@
 .ffe-editor__pane
   %ul.navigation_tab
-    %li.active{'navigation-tab' => 'ff-tab_categories', "ng-click" => "tabs.selectTab(1)"}
+    %li.active#tab1{'navigation-tab' => 'ff-tab_categories', "ng-click" => "tabs.selectTab(1)"}
       %a Categories
-    %li{'navigation-tab' => 'ff-tab_search', "ng-click" => "tabs.selectTab(2)"}
+    %li#tab2{'navigation-tab' => 'ff-tab_search', "ng-click" => "tabs.selectTab(2)"}
       %a Search
   %div.ff-tab-window.ff-tab_categories{ "ng-show" => "tabs.isSelected(1)", "ng-class" => "{active:tabs.isSelected(1)}"}
     = render 'navigation_tab_categories'

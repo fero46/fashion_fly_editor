@@ -6,6 +6,27 @@
   float: left;
 }
 
+.item__search{
+  height: auto;
+}
+
+.search_field{
+  input{
+    height: 32px;
+    border:1px solid #ccc;
+    padding:5px;
+    width: 320px;
+  }
+  button{
+    padding: 5px;
+    text-align: center;
+    height: 44px;
+    width: 58px;
+    display: inline-block;
+    cursor: pointer;
+  }
+}
+
 .ff-tab_categories{
  .ffe-categories{
   padding: 0;

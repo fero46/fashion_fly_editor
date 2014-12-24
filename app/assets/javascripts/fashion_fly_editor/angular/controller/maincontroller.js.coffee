@@ -85,6 +85,13 @@ class HeadersController
         # pagination arrows
         $('.ffe-pagination__previous').css('top', ((result_box_height/2) - $('.ffe-pagination__previous').outerHeight(true)) + "px")
         $('.ffe-pagination__next').css('top', ((result_box_height/2) - $('.ffe-pagination__next').outerHeight(true)) + "px")
+        # SEARCH_TAB
+        searchbar_height = parseInt($('.item__search .search_field').outerHeight(true),10)
+        result_box_height = innerheight - searchbar_height
+        if result_box_height < 255
+          result_box_height = 255
+        $('.item__search').outerHeight(innerheight)
+        $('.item__search .ffe__items').outerHeight(result_box_height)
 
         #container width
         $('.container').width($('.ff-tab-window').outerWidth + canvas_width)
@@ -92,7 +99,7 @@ class HeadersController
         $rootScope.$broadcast("resize_finished", resize:'finished')
         if body_height < 550
           window.remove_padding = true
-
+    window.resizeView = $scope.resizeView
     $rootScope.$on('ngDialog.opened', (e, $dialog) ->
       if window.remove_padding
         $('.miyagi').attr('style', 'padding:0px !important')
@@ -216,9 +223,14 @@ class MainController
       $scope.updateItems()
 
     # init tabs
+    window.selected_tab = 1
     $scope.tabs =
       selected: 1
       selectTab: (setTab) ->
+        window.resizeView()
+        $('.navigation_tab li').removeClass('active')
+        $('.navigation_tab li#tab'+setTab).addClass('active')
+        window.selected_tab = setTab
         this.selected = setTab
         if this.selected == 1
           $scope.filter_name = null # reset search, we always want items
@@ -314,7 +326,10 @@ class MainController
       $scope.products = $scope.Search.all(params)
 
     $scope.calculateTotalItemPerQuery = ->
-      parseInt($('.ff-tab_categories .ffe__items').height() / 92) * 3
+      if window.selected_tab == 1
+        parseInt($('.ff-tab_categories .ffe__items').height() / 92) * 3
+      else
+        parseInt($('.ff-tab_search .ffe__items').height() / 92) * 3      
 
     $scope.collection = Collection
     $scope.collectionMetaInformation = ->
