@@ -17,7 +17,7 @@ angular.module("ffe").factory 'Item', ($http) ->
     self.scope = scope
 
     url = window.location.origin + window.location.pathname + '/collections'
-    console.log(url)
+
     canvas_height = $('.ffe-editor__canvas').height()
     canvas_width = $('.ffe-editor__canvas').width()
 
@@ -43,8 +43,12 @@ angular.module("ffe").factory 'Item', ($http) ->
         name = item.attr("name")
         name = name.replace("options[", "")
         name = name.replace("]","")
-        options[name] = item.val()
+        if(item.attr('type') == 'checkbox')
+          options[name] = item.is(':checked') 
+        else
+          options[name] = item.val()
       data.options = options
+
 
     $http(
       method: 'POST'
