@@ -330,6 +330,9 @@ right: 10px;
 .dropdown ul li {
     display: block;
     cursor: pointer;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     &:first-child{
       display: none;
     }
