@@ -3,13 +3,35 @@
     %img{ src:'', "my-src" => "{{category.icon}}", title: '{{ category.name}}', class: 'category__thumbnail', 'ng-click' => 'selectCategory(category.id)' }
     %span {{category.name}}
 
+<script id="dropdown-selected" type="text/x-dot-template">
+<div class="label">{{=it.label}}</div><div class="color-indicator"></div><div class="arrow"><i>x</i></div>
+</script>
+<script id="dropdown" type="text/x-dot-template">
+<div class="dropdown {{=it.classes}}" tabindex="1">
+<div class="selected">{{=it.selected.label}}</div>
+<ul>
+{{~it.items :item:index}}
+<li style="{{=item.style}}" data-index="{{=index}}" data-filter="{{=item.filter}}" >{{=item.label}}</li>
+{{~}}
+</ul>
+</div>
+</script>
+
 .ffe-filters.ffe-clear
-  %div.ffe-filter__subcategory{"button-label" => "name", "input-model" => "subcategories.categories", "output-model" => 'filter_subcategory', "item-label" => "name", "multi-select" => "false", "selection-mode" => 'single', 'default-label' => "Kategorien", "tick-property" => "ticked", "on-item-click" => 'updateFilters()', "on-reset" => "resetFilter('subcategory')"}
+  %select.ffe-filter__subcategory.dropdown{ data: { template: '#dropdown', classes: 'ffe-filter__subcategory'} }
+    %option{ value: '', data: {filter: 'filter_subcategory'} } Unterkategorie
+    %option{ "dropdown" => true, ng: { repeat: 'subcategory in subcategories.categories'}, value: '{{subcategory.id}}', data: {filter: 'filter_subcategory'} } {{subcategory.name}}
 
-  %div.ffe-filter__brand{"button-label" => "name", "input-model" => "brands", "output-model" => 'filter_brand', "item-label" => "name", "multi-select" => "false", "selection-mode" => 'single', 'default-label' => "Marke", "tick-property" => "ticked", "on-item-click" => 'updateFilters()', "on-reset" => "resetFilter('brand')"}
+  %select.ffe-filter__brand.dropdown{ data: { template: '#dropdown', classes: 'ffe-filter__brand'} }
+    %option{ value: '', data: {filter: 'filter_brand'}} Marke
+    %option{ "dropdown" => true, ng: { repeat: 'brand in brands'}, value: '{{brand.id}}', data: {filter: 'filter_brand'} } {{brand.name}}
 
-  %div.ffe-filter__color{"button-label" => "name", "input-model" => "colors", "output-model" => 'filter_color', "item-label" => "hex", "multi-select" => "false", "selection-mode" => 'single', 'default-label' => "Farbe", "button-label" => "hex", "tick-property" => "ticked", "on-item-click" => 'updateFilters()', "on-reset" => "resetFilter('color')"}
+  %select.ffe-filter__color.dropdown{ data: { template: '#dropdown', classes: 'ffe-filter__color'} }
+    %option{ value: '', data: {filter: 'filter_color'}} Farbe
+    %option{ "dropdown" => true, ng: { repeat: 'color in colors'}, value: '{{color.hex}}', data: {filter: 'filter_color', style: 'background-color:{{color.hex}};'} }
 
-  %div.ffe-filter__pricerange{"button-label" => "name", "input-model" => "priceRanges", "output-model" => 'filter_priceRange', "item-label" => "range", "multi-select" => "false", "selection-mode" => 'single', 'default-label' => "Preis", "button-label" => "range", "tick-property" => "ticked", "on-item-click" => 'updateFilters()', "on-reset" => "resetFilter('priceRange')"}
+  %select.ffe-filter__pricerange.dropdown{ data: { template: '#dropdown', classes: 'ffe-filter__pricerange'} }
+    %option{ value: '', data: {filter: 'filter_priceRange'}} Preis
+    %option{ "dropdown" => true, ng: { repeat: 'price in priceRanges'}, value: '{{price.range}}', data: {filter: 'filter_priceRange'} } {{price.range}}
 
 = render 'items'

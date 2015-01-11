@@ -141,28 +141,6 @@ right: 10px;
   }
 }
 
-.ffe-filters{
-  margin-top: 1em;
-  margin-bottom: 1em;
-  height:19px;
-}
-
-.ffe-filter__subcategory{
-  width: 128px;
-}
-
-.ffe-filter__brand{
-  width: 88px;
-}
-
-.ffe-filter__color{
-  width: 81px;
-}
-
-.ffe-filter__pricerange{
-  width: 81px;
-}
-
 .ffe-pagination__next{
   cursor: pointer;
   position: absolute;
@@ -257,56 +235,128 @@ right: 10px;
   }
 }
 
-.multiSelect .button{
-  display: inline-block;
-  background-image: none;
-  width: inherit;
-  border-radius: 0;
-  font-size: 12px;
-  padding: 1px 0px 1px 0px;
-  height: 30px !important;
-  min-height: 30px !important;
-  &:hover{
-    background-image: none;
-  }
+.ffe-filters{
+  margin-top: 1em;
+  margin-bottom: 1em;
+  height:19px;
+  position: relative;
 }
 
-.multiSelect .checkBoxContainer {
-  display: block;
-  padding: 8px;
-  max-height: 140px !important;
-  overflow-y: auto;
-  overflow-x: hidden;
+.ffe-filter__subcategory{
+  width: 130px;
 }
 
-.multiSelect .checkboxLayer {
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 0;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  margin-right: 0;
-  left: 3px;
-  border-radius: 0;
-  width: 388px;
-}
-
-.multiSelect .searchField{
-  display: inline-block;
-  margin-right: 12px;
-}
-
-.multiSelect .displayHelper{
-  display: inline-block;
+.ffe-filter__brand{
+  width: 130px;
 }
 
 .ffe-filter__color{
-  .multiSelectItem{
-    border: none !important;
+  width: 52px;
+}
+
+.ffe-filter__pricerange{
+  width: 74px;
+}
+
+.dropdown {
+    position: relative;
+    float: left;
+    outline: none;
+    font-size: 12px;
+    color: #333;
+    margin-left: 2px;
+}
+.dropdown{
+  .color-indicator{
+    width: 16px;
+    height: 16px;
   }
-  .multiSelectItem:hover{
-    background-image: none !important;
-    border: none !important;
+  .label{
+    width: 90%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
+}
+.dropdown > .selected {
+    height: 15px;
+    font-weight: 400;
+    border: 1px solid rgba(0,0,0,0.15);
+    position: relative;
+    padding: 6px;
+}
+.dropdown.focus > .selected,
+.dropdown:focus > .selected {
+    outline: none;
+}
+
+.dropdown > .selected:hover,
+.dropdown > .selected:focus {
+    cursor: pointer;
+    color: #000;
+}
+.dropdown > .selected i {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  line-height: 20px;
+  border-left: 1px solid #E2E7EA;
+  text-align: center;
+  color: #999;
+  font-size: 20px;
+  font-style: normal;
+}
+.dropdown.open > .selected {
+
+}
+
+.dropdown ul {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+    background: #FFF;
+    z-index: 10;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-top: none;
+    line-height: 1;
+    max-height: 300px;
+    overflow: auto;
+    margin: 0;
+    padding: 0;
+}
+.dropdown ul li {
+    display: block;
+    cursor: pointer;
+    &:first-child{
+      display: none;
+    }
+}
+.dropdown ul li.selected {
+    background: #EEE;
+}
+.dropdown ul li:last-child.selected {
+    -webkit-border-radius: 0px 0px 4px 4px;
+    border-radius: 0px 0px 4px 4px;
+}
+.dropdown ul li {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    padding: 10px 10px;
+    color: #414141;
+}
+
+.dropdown ul li.hover {
+    background: #EEE;
+    color: #333;
+}
+
+.dropdown ul li .people {
+    position: absolute;
+    right: 10px;
 }
 
 @media screen and (max-width: 1500px) {

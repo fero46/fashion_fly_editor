@@ -309,17 +309,21 @@ class MainController
       $scope.pagination.reset()
       $scope.products = $scope.Search.all(params)
 
-    $scope.updateFilters = ->
+    $scope.updateFilters = (data, filter) ->
+      if data? && filter?
+        $scope[filter] = data
+        if !$scope[filter].value? && !$scope[filter].value != ''
+          $scope[filter] = null
       $scope.pagination.reset()
       $scope.updateItems()
 
     $scope.updateItems = ->
       params =
         name: if $scope.filter_name? then $scope.filter_name
-        category: if $scope.filter_subcategory? && $scope.filter_subcategory.length > 0 then $scope.filter_subcategory[0].id else $scope.category_id
-        brand: if $scope.filter_brand? && $scope.filter_brand.length > 0 then $scope.filter_brand[0].id
-        color: if $scope.filter_color? && $scope.filter_color.length > 0 then $scope.filter_color[0].hex.split("#")[1]
-        price: if $scope.filter_priceRange? && $scope.filter_priceRange.length > 0 then $scope.filter_priceRange[0].range
+        category: if $scope.filter_subcategory? && $scope.filter_subcategory.value? then $scope.filter_subcategory.value else $scope.category_id
+        brand: if $scope.filter_brand? then $scope.filter_brand.value
+        color: if $scope.filter_color? then $scope.filter_color.value.split("#")[1]
+        price: if $scope.filter_priceRange? then $scope.filter_priceRange.value
         page: if $scope.pagination.current_page? then $scope.pagination.current_page
         per: $scope.calculateTotalItemPerQuery()
 
@@ -329,7 +333,7 @@ class MainController
       if window.selected_tab == 1
         parseInt($('.ff-tab_categories .ffe__items').height() / 92) * 3
       else
-        parseInt($('.ff-tab_search .ffe__items').height() / 92) * 3      
+        parseInt($('.ff-tab_search .ffe__items').height() / 92) * 3
 
     $scope.collection = Collection
     $scope.collectionMetaInformation = ->
