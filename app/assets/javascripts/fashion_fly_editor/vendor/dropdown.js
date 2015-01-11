@@ -16,17 +16,22 @@
             'openClass': 'open',
             'changed': function(data) {}
         }, options);
-
+        if(window.normal_template === undefined){
+            window.normal_template = doT.template($($(this).data('template')).text());
+        }
+        if(window.select_template === undefined){
+            window.select_template = doT.template($($(this).data('template') + '-selected').text());
+        }
         return this.each(function() {
 
             var $this = $(this);
 
-            // hide select element
-            $this.hide();
+            // hide select element - nicht benötigt wird über css schon gemacht.
+            //$this.hide(); 
 
             // prepare dropdown template
-            var template = doT.template($($this.data('template')).text());
-            var templateSelected = doT.template($($this.data('template') + '-selected').text());
+            var template = window.normal_template;
+            var templateSelected = window.select_template;
             var data = { "selected": null, "items": [], "classes": $this.data('classes') };
             var selectedIndex = 0;
 
