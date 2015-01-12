@@ -14,7 +14,8 @@
             'items': 'ul',
             'item': 'li',
             'openClass': 'open',
-            'changed': function(data) {}
+            'changed': function(data) {},
+            'selector': undefined
         }, options);
         if(window.normal_template === undefined){
             window.normal_template = doT.template($($(this).data('template')).text());
@@ -27,12 +28,12 @@
             var $this = $(this);
 
             // hide select element - nicht benötigt wird über css schon gemacht.
-            //$this.hide(); 
+            //$this.hide();
 
             // prepare dropdown template
             var template = window.normal_template;
             var templateSelected = window.select_template;
-            var data = { "selected": null, "items": [], "classes": $this.data('classes') };
+            var data = { "selected": null, "items": [], "classes": $this.data('classes'), id: $this.data('id') };
             var selectedIndex = 0;
 
             // parse data for dropdown items
@@ -68,6 +69,9 @@
                     // do nothing
                     return false;
                 }
+                if($dropdown.hasClass('inactive')){
+                    return false;
+                }
                 $dropdown.focus();
                 if ($items.is(':visible')) {
                     _closeDropdown();
@@ -88,9 +92,10 @@
 
             $dropdown.on('keydown', function(e) {
                 var next = null;
+                console.log($dropdown.hasClass('inactive'));
                 switch (e.keyCode) {
                     case 40: // down
-                        if (!$dropdown.hasClass(settings.openClass)) {
+                        if (!$dropdown.hasClass(settings.openClass) && !$dropdown.hasClass('inactive')) {
                             _openDropdown();
                             next = $items.find('.selected');
                         } else {
@@ -174,9 +179,13 @@
                 $items.hide();
                 $dropdown.removeClass(settings.openClass);
             }
-
             // insert dropdown into dom tree
-            return $this.before($dropdown);
-        });
+            var $item = $(settings.selector)
+            if($('body ' + settings.selector).html() == undefined){
+                return $this.before($dropdown);
+            } else
+               return $item.replaceWith($dropdown);
+            }
+        );
     };
 })(jQuery);

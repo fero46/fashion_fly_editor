@@ -1,11 +1,18 @@
 angular.module("ffe").directive('dropdown', ['$timeout', ($timeout) ->
   restrict: 'A'
   link: (scope, element, attrs) ->
+    $('body').on 'click', '.inactive', (e) ->
+      e.preventDefault()
+      e.stopPropagation()
+
     if scope.$last
       _scope = scope
-      # somehow dropdown renders again on category change, so lets remove old
-      # rendered dropdowns
-      $('div.dropdown').remove();
+
+      $dropdowns = $('div.dropdown')
+      setTimeout (->
+        $dropdowns.addClass('inactive')
+        return
+      ), 150
 
       # reset filter
       $('body').on 'click', '.dropdown i', (e) =>
@@ -29,7 +36,9 @@ angular.module("ffe").directive('dropdown', ['$timeout', ($timeout) ->
       # init dropdown
       $timeout(->
 
-        element.closest('select').dropdown(
+        $element = element.closest('select')
+        $element.dropdown(
+          selector: "#" + $element.data("id")
           changed: (data) ->
             filter = element.data('filter')
             if filter == 'filter_color'

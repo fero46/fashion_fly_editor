@@ -7,7 +7,7 @@
 <div class="label">{{=it.label}}</div><div class="color-indicator"></div><div class="arrow"><i>x</i></div>
 </script>
 <script id="dropdown" type="text/x-dot-template">
-<div class="dropdown {{=it.classes}}" tabindex="1">
+<div id="{{=it.id}}" class="dropdown {{=it.classes}}" tabindex="1">
 <div class="selected">{{=it.selected.label}}</div>
 <ul>
 {{~it.items :item:index}}
@@ -18,19 +18,19 @@
 </script>
 
 .ffe-filters.ffe-clear
-  %select.ffe-filter__subcategory.dropdown{ data: { template: '#dropdown', classes: 'ffe-filter__subcategory'} }
+  %select.ffe-filter__subcategory.dropdown{ data: { template: '#dropdown', id: 'ffe-filter__subcategory', classes: 'ffe-filter__subcategory'} }
     %option{ value: '', data: {filter: 'filter_subcategory'} } Unterkategorie
     %option{ "dropdown" => true, ng: { repeat: 'subcategory in subcategories.categories'}, value: '{{subcategory.id}}', data: {filter: 'filter_subcategory'} } {{subcategory.name}}
 
-  %select.ffe-filter__brand.dropdown{ data: { template: '#dropdown', classes: 'ffe-filter__brand'} }
+  %select.ffe-filter__brand.dropdown{ data: { template: '#dropdown', id: 'ffe-filter__brand', classes: 'ffe-filter__brand'} }
     %option{ value: '', data: {filter: 'filter_brand'}} Marke
     %option{ "dropdown" => true, ng: { repeat: 'brand in brands'}, value: '{{brand.id}}', data: {filter: 'filter_brand'} } {{brand.name}}
 
-  %select.ffe-filter__color.dropdown{ data: { template: '#dropdown', classes: 'ffe-filter__color'} }
+  %select.ffe-filter__color.dropdown{ data: { template: '#dropdown', id: 'ffe-filter__color',classes: 'ffe-filter__color'} }
     %option{ value: '', data: {filter: 'filter_color'}} Farbe
     %option{ "dropdown" => true, ng: { repeat: 'color in colors'}, value: '{{color.hex}}', data: {filter: 'filter_color', style: 'background-color:{{color.hex}};'} }
 
-  %select.ffe-filter__pricerange.dropdown{ data: { template: '#dropdown', classes: 'ffe-filter__pricerange'} }
+  %select.ffe-filter__pricerange.dropdown{ data: { template: '#dropdown', id: 'ffe-filter__pricerange', classes: 'ffe-filter__pricerange'} }
     %option{ value: '', data: {filter: 'filter_priceRange'}} Preis
     %option{ "dropdown" => true, ng: { repeat: 'price in priceRanges'}, value: '{{price.range}}', data: {filter: 'filter_priceRange'} } {{price.range}}
 

@@ -277,6 +277,14 @@ right: 10px;
     width: 16px;
     height: 16px;
   }
+  &.inactive{
+    background-color: rgba(0,0,0,0.15);
+    -webkit-transition: background .1s linear;
+    -moz-transition: background .1s linear;
+    -o-transition: background .1s linear;
+    -ms-transition: background 0.1s linear;
+    transition: background 0.1s linear;
+  }
   .label{
     width: 90%;
     overflow: hidden;
