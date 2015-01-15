@@ -5,12 +5,12 @@
     = form_for @collection do |f|
 
       .field{ "ng-class" =>"errorClass('title')" }
-        = f.label :title, "Geben Sie ihre Kollektion einen Titel"
+        = f.label :title, "", translate: 'collections.new.title_label'
         = f.text_field :title, "ng-model" => 'collection.title'
         .error{"ng-show"=>"form.title.$invalid && form.title.$dirty"}
           {{ errorMessage('title') }}
       .field{}
-        = f.label :description, "Geben Sie ihre Kollektion eine Beschreibung"
+        = f.label :description, "", translate: 'collections.new.description_label'
         = f.text_area :description, "ng-model" => 'collection.description' 
       - @options.each do |field|
         .field
@@ -20,16 +20,14 @@
           - if field["label"].present? && field["type"] == 'checkbox'
             %label{class: 'inline-label'}= field["label"]
       .field{ "ng-class" =>"errorClass('category_id')" }
-        = f.label :category, "Zu welcher Kategory gehört diese Kollektion"
+        = f.label :category, '', translate: 'collections.new.category_label'
         = f.select :category, options_for_select(@categories), {}, "ng-model" => 'collection.category'
         .error{"ng-show"=>"form.category_id.$invalid && form.category_id.$dirty"}
           {{ errorMessage('category_id') }}
   .ngdialog-buttons.mt
     = link_to "Speichern", "#", class: "ngdialog-button ngdialog-button-primary", "ng-click" => "saveCollection($event)"
 %div#information{style:"disply:none"}
-  %h1
-    Ein Augenblick
-  %p.body
-    Dein Outfit wird gerade erstellt...
+  %h1{translate: 'collections.new.one_second'}
+  %p.body{translate: 'collections.new.now_creating'}
   %p.body{style: "text-align:center"}
     = image_tag 'fashion_fly_editor/spinner.gif'

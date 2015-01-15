@@ -16,3 +16,4 @@ gemspec
 # carrierwave not loaded, if put inside gemspec
 gem 'carrierwave', '0.9.0'
 gem 'rmagick'
+gem 'rails-i18n'

@@ -1,5 +1,5 @@
 %form.item__search
   .search_field
     %input{ng: { model: 'searchTerm'} }
-    %button{type: 'submit', "ng-click" => "search($event)"} Go.
+    %button{type: 'submit', translate: 'collections.navigation_tab_search.go' , "ng-click" => "search($event)" }
   = render 'items'

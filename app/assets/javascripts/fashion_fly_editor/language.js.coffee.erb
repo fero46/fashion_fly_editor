@@ -1,4 +1,4 @@
-window.translations = <%= I18n.t('fashion_fly_editor').to_json() %>
+window.translations = <%= I18n.t('fashion_fly_editor.').to_json() %>
 
 window.translate = (key) ->
   result = window.translations
@@ -6,3 +6,5 @@ window.translate = (key) ->
   for splittet_key in splittet_keys
     result = result[splittet_key]
   return result
+
+document.title = window.translations.editor.title

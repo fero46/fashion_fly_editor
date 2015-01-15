@@ -19,19 +19,19 @@
 
 .ffe-filters.ffe-clear
   %select.ffe-filter__subcategory.dropdown{ data: { template: '#dropdown', id: 'ffe-filter__subcategory', classes: 'ffe-filter__subcategory'} }
-    %option{ value: '', data: {filter: 'filter_subcategory'} } Unterkategorie
+    %option{ value: '',  translate: 'collections.navigation_tab_categories.filter_subcategory', data: {filter: 'filter_subcategory'}}
     %option{ "dropdown" => true, ng: { repeat: 'subcategory in subcategories.categories'}, value: '{{subcategory.id}}', data: {filter: 'filter_subcategory'} } {{subcategory.name}}
 
   %select.ffe-filter__brand.dropdown{ data: { template: '#dropdown', id: 'ffe-filter__brand', classes: 'ffe-filter__brand'} }
-    %option{ value: '', data: {filter: 'filter_brand'}} Marke
+    %option{ value: '', translate: 'collections.navigation_tab_categories.filter_brand', data: {filter: 'filter_brand'}}
     %option{ "dropdown" => true, ng: { repeat: 'brand in brands'}, value: '{{brand.id}}', data: {filter: 'filter_brand'} } {{brand.name}}
 
   %select.ffe-filter__color.dropdown{ data: { template: '#dropdown', id: 'ffe-filter__color',classes: 'ffe-filter__color'} }
-    %option{ value: '', data: {filter: 'filter_color'}} Farbe
+    %option{ value: '', translate: 'collections.navigation_tab_categories.filter_color', data: {filter: 'filter_color'}}
     %option{ "dropdown" => true, ng: { repeat: 'color in colors'}, value: '{{color.hex}}', data: {filter: 'filter_color', style: 'background-color:{{color.hex}};'} }
 
   %select.ffe-filter__pricerange.dropdown{ data: { template: '#dropdown', id: 'ffe-filter__pricerange', classes: 'ffe-filter__pricerange'} }
-    %option{ value: '', data: {filter: 'filter_priceRange'}} Preis
+    %option{ value: '', translate: 'collections.navigation_tab_categories.filter_priceRange', data: {filter: 'filter_priceRange'}}
     %option{ "dropdown" => true, ng: { repeat: 'price in priceRanges'}, value: '{{price.range}}', data: {filter: 'filter_priceRange'} } {{price.range}}
 
 = render 'items'

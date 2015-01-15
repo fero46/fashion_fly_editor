@@ -117,8 +117,8 @@ class ActionsController
     $scope.collection = Collection
     $scope.form = {}
     $scope.collection.title = undefined
-    $scope.title = "Kollektion speichern"
-    $scope.body  = "Nur noch wenige Schritte."
+    $scope.title = window.translations.information.save_collection
+    $scope.body  = window.translations.information.easy_steps
 
     $scope.presaveCollection = ->
       if $.map(Item.all(), (n, i) -> return i).length > 0
@@ -134,7 +134,7 @@ class ActionsController
         # TODO: add route and template
         ngDialog.open
           controller: 'ActionsController'
-          template: 'Bitte fügen Sie mindestens ein Element der Kollektion hinzu.'
+          template:  window.translations.information.at_least_one_product
           className: 'ngdialog-theme-plain miyagi'
           plain: true
 
@@ -150,7 +150,7 @@ class ActionsController
 
     # called if creation fails
     $scope.collectionErrorCallback = (data, status) ->
-      $scope.body = "Kollektion konnte nicht gespeichert werden."
+      $scope.body = window.translations.information.could_not_saved
       $scope.failure(data)
       $('.miyagi #information').hide();
       $('.miyagi #formular').show()
@@ -347,6 +347,9 @@ class MainController
       items = Item.all()
       # think not supported in ie8
       Object.keys(items).length
+
+    $scope.getCountingInformation = ->
+      window.translations.collections.editor.counting
 
 angular.module("ffe.controllers", [])
 .controller("MainController", ["$scope", "Search", "Category", "Collection", "Item", MainController])

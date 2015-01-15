@@ -1,13 +1,15 @@
 .ffe-editor.ffe-clear{ 'ng-controller' => 'MainController'}
   .ffe-editor__meta
     .ffe-editor__collection_price{ 'ng-show' => 'collectionMetaInformation()' }
-      Der Preis für die gesamte Kollektion beträgt {{ collectionMetaInformation() }}€
-      %ng-pluralize{ count: "collectionItemCount()", 'when' => "{0: '', 'one': '(1 Produkt)', 'other': '({} Produkte)'}"} foo
+      %span{translate: 'collections.editor.meta_information'}
+      %span {{ collectionMetaInformation() }}
+      %span{translate: 'collections.currency'}
+      %ng-pluralize{ count: "collectionItemCount()", 'when' => 'getCountingInformation()'}
       %span.ffe-editor__collection_selected_item
         {{ selectedItem() }}
-        %span.item__curency{'ng-show' => 'selectedItem()'}€
+        %span.item__curency{translate: 'collections.currency', 'ng-show' => 'selectedItem()'}
     .ffe-editor__collection_add_element{ 'ng-show' => '!collectionMetaInformation()' }
-      Füge Produkte zur Kollektion hinzu.
+      %span{translate: 'collections.editor.add_product'}
   .ffe-editor__wrapper{ 'droppable' => true , 'highest_index' => 0}
     .ffe-editor__canvas
 
