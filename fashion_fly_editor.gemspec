@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency "haml"
   s.add_dependency 'i18n'
   s.add_dependency "coffee-rails", "~> 4.0.0"
-  s.add_dependency "sass-rails", "~> 4.0.0"
+  s.add_dependency "sass-rails", "~> 5.0.3"
   s.add_dependency "jquery-ui-rails", '~> 4.0.0'
   s.add_dependency 'carrierwave', '0.9.0'
   s.add_dependency 'rmagick', '2.13.2'
