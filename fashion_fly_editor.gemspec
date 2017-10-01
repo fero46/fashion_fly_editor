@@ -16,15 +16,15 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
 
-  s.add_dependency "rails", "~> 4.2.0"
+  s.add_dependency "rails", "~> 5.1.4"
   s.add_dependency "haml"
   s.add_dependency 'i18n'
-  s.add_dependency "coffee-rails", "~> 4.0.0"
-  s.add_dependency "sass-rails", "~> 5.0.3"
-  s.add_dependency "jquery-ui-rails", '~> 4.0.0'
-  s.add_dependency 'carrierwave', '0.9.0'
-  s.add_dependency 'rmagick', '2.13.2'
-  
+  s.add_dependency "coffee-rails"
+  s.add_dependency "sass-rails"
+  s.add_dependency "jquery-ui-rails"
+  s.add_dependency 'carrierwave'
+  s.add_dependency 'rmagick'
+
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "pry"
