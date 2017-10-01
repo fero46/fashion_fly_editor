@@ -4,7 +4,7 @@ module FashionFlyEditor
   class CollectionsController < FashionFlyEditorController
 
     before_action :prepare_data, only: [:create]
-    skip_before_action :verify_authenticity_token, -> { Rails.env.development? }
+    skip_before_action :verify_authenticity_token, if: :rails_development?
 
     def editor
     end
@@ -96,6 +96,10 @@ module FashionFlyEditor
       end
 
       categories
+    end
+
+    def rails_development?
+      Rails.env.development?
     end
 
   end
