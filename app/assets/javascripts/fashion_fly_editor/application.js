@@ -1,4 +1,4 @@
-//= require jquery.ui.all
+//= require jquery-ui
 //= require fashion_fly_editor/tools
 //= require fashion_fly_editor/vendor/jquery.ui.rotatable
 //= require fashion_fly_editor/vendor/angular
@@ -8,4 +8,3 @@
 //= require fashion_fly_editor/vendor/dot
 //= require fashion_fly_editor/vendor/dropdown
 //= require_tree ./angular
-
